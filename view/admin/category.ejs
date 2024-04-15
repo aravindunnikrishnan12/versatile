@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/stylesheet/admin/category.css">
+    <script src="https://kit.fontawesome.com/197a2eac2f.js" crossorigin="anonymous"></script>
+    <!-- <script>
+        function openEditPopup() {
+            var popup = document.getElementById('editPopup');
+            popup.style.display = 'block';
+        }
+    
+        function closeEditPopup() {
+            var popup = document.getElementById('editPopup');
+            popup.style.display = 'none';
+        }
+    </script> -->
+    <style>
+      /* Style for the modal */
+      #confirmationModal {
+          display: none;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: #fff;
+          padding: 20px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+          z-index: 1000;
+      }
+
+      
+
+    .panel {
+        flex-grow: 1; /* Take up remaining space */
+        text-align: center; /* Center align text */
+        position:absolute;
+  left: 690px;
+    }
+    
+    .search-bar {
+        display: flex;
+        align-items: center;
+        margin-left: 20px;
+    }
+    
+    .search-input {
+        padding: 8px 12px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        outline: none;
+    }
+    
+    .search-button {
+        background-color: #31473A;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 12px;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+ /* Your existing styles here */
+ .sidebar {
+    text-decoration: none;
+    position: fixed;
+    top: 75px; /* Height of the navbar */
+    left: -250px; /* Initially hidden off-canvas */
+    bottom: 0;
+    width: 250px;
+    background-color: #31473A; /* Same as navbar color */
+    color: #fff; /* Text color */
+    transition: left 0.3s ease; /* Smooth transition for opening and closing */
+    z-index: 1000; /* Ensure sidebar is above other content */
+}
+
+.sidebar.show {
+    left: 0; /* Show sidebar when .show class is added */
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding-left: 30px;
+}
+
+.sidebar li {
+    margin-bottom: 40px;
+}
+
+.sidebar a {
+    background-color: rgb(255, 255, 255);
+    display: block;
+    padding: 10px;
+    color: #000000;
+    text-decoration: none;
+    border-radius: 20px;
+    width: 210px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.sidebar a:hover {
+    background-color: rgba(200, 200, 200, 0.5);
+    text-decoration: none;
+    color: #fff;
+}
+.custom-btn {
+    background-color: #4d4f52; /* Button background color */
+    color: #fff; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.custom-btn:hover {
+    background-color: #000000; /* Hover background color */
+}
+
+
+  </style>
+</head>
+
+
+<body>
+  <div class="navbar">
+    <nav class="main-nav">
+      <div>
+        <button id="sidebar-toggle" class="sidebar-toggle-btn custom-btn"><i class="fas fa-bars"></i></button>
+      </div>
+      <div class="sidebar">
+        <div id="accordion">
+            <ul>
+                <li><a href="/Insite" data-tag="dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+                <li><a href="/UserManage" data-tag="dashboard"><i class="fas fa-tachometer-alt"></i>user manage</a></li>
+                <li><a href="/category" data-tag="category"><i class="fas fa-address-book"></i>Category Details</a></li>
+                <li><a href="/products" data-tag="product"><i class="fas fa-clone"></i>Product Details</a></li>
+                <li><a href="/order" data-tag="order"><i class="fas fa-calendar"></i>Order & Payment</a></li>
+                <li><a href="/getsalesReport" data-tag="sales"><i class="fas fa-chart-bar"></i>Sales Report</a></li>
+                <li><a href="#" data-tag="sales"><i class="fas fa-chart-bar"></i>offers</a></li>
+                <li><a href="/couponmanageadmin" data-tag="coupon"><i class="fas fa-copy"></i>Coupon</a></li>
+            </ul>
+        </div>
+      </div>
+        <div>
+            <h1>Versatile</h1>
+        </div>
+        <div class="search-bar">
+          <input type="text" placeholder="Search..." class="search-input">
+          <button type="button" class="search-button"><i class="fas fa-search"></i></button>
+      </div>
+
+ 
+        <ul class="menu">
+         
+            <li><a href="/adminLogin">Logout</a></li>
+        </ul>
+    </nav>
+</div>
+
+    <div class="container">
+        <div class="header">
+            <h1>All Category</h1>
+            <a href="/addCategory"><button>Add Category</button></a>
+        </div>
+
+        <div class="categories">
+            <div class="navbars">
+                <a href="#"class="acte">Si.No</a>
+                <a href="#" class="act">Category</a>
+                <!-- <a href="#"class="actee">Description</a> -->
+                <a href="#" class="act">Action</a>
+            </div>
+
+<!-- 
+           <button class="update-category-btn">Update Category</button> -->
+
+    </form>
+
+    <ul class="category-list">
+      <%categoryData.forEach((item,index) => { %>
+        <li class="category-item">
+          <span><%= index + 1 %></span>
+          <span class="cat"><%= item.categoryName %></span>
+          <!-- <span><%= item.descrption %></span> -->
+    
+          <form method="GET" action="/editcategory/<%= item._id %>">
+            <button class="edit-btn">Edit</button>
+          </form>&nbsp;          
+
+          
+         
+
+          <form id="deleteForm<%= index %>" method="POST" action="/deleteCategory/<%= item._id %>">
+        <button type="button" onclick="openModal(`<%= index %>`)")">Delete</button>
+      </form>
+      &nbsp;      &nbsp;          
+      <form action="/visiblep/<%= item._id %>" method="POST">
+        <button type="submit" class="toggle-button <%= item.isvisible ? 'unblocked-user' : 'blocked-user' %>">
+          <% if (item.isvisible) { %>
+           none
+          <% } else { %>
+            list
+          <% } %>
+        </button>
+      </form>&nbsp;
+    </li>
+  <% }) %>
+</ul>
+
+
+<div id="confirmationModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <p>Are you sure you want to delete this product?</p>
+    <button id="confirmDeleteButton" class="confirm-btn">Confirm</button>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function openModal(index) {
+    document.getElementById('confirmationModal').style.display = 'block';
+    // Pass the index to the confirmDelete function
+    document.getElementById('confirmDeleteButton').onclick = function () {
+      confirmDelete(index);
+    };
+  }
+
+  function closeModal() {
+    document.getElementById('confirmationModal').style.display = 'none';
+  }
+
+  function confirmDelete(index) {
+    // Get the form dynamically using the index
+    document.getElementById('deleteForm' + index).submit();
+  }
+</script>
+<script>
+  $(document).ready(function () {
+      $('#sidebar-toggle').click(function () {
+          $('.sidebar').toggleClass('show'); // Toggle .show class on sidebar
+      });
+  });
+</script>
+</body>
+</html>

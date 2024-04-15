@@ -1,0 +1,567 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
+
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800&display=swap");
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-decoration: none;
+    transition: 0.3s;
+}
+section{
+    margin: 100px 0;
+}
+.contnaier{
+    width: 85%;
+    margin: auto;
+}
+.btn{
+    padding: 15px 35px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 1.3px;
+    border: 2px solid #ee2761;
+}
+.btn:hover{
+    background-color: transparent;
+    color: #000000;
+}
+.boxs{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.boxs .box{
+    width: 30%;
+}
+.top-sec{
+    text-align: center;
+    padding: 0 0 100px;
+}
+.top-sec h3{
+    font-size: 40px;
+    padding-bottom: 20px;
+    color: #111;
+    position: relative;
+}
+.top-sec h3::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background-color: #000000;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+/* start hero */ 
+
+.hero{
+    margin-bottom: 0;
+    width: 100%;
+    height: calc(100vh - 100px);
+    background: url(/img/main\ 7.jpg);
+    background-size: cover;
+    background-position: right;
+}
+.hero .contnaier{
+    position: relative;
+    height: 100%;
+}
+.hero .content{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    color: #000000;
+}
+.hero .content p{
+    color: #ffffff;
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+.hero .content h1{
+    color: #111;
+    font-size: 80px;
+    text-transform: capitalize;
+    margin: 20px 0;
+}
+.hero .content h1 span{
+    color: #000000;
+}
+.hero .content p.last-p{
+    margin-bottom: 50px;
+    color: #000000;
+}
+.hero .content .btn{
+    font-size: 20px;
+    color: #000000;
+}
+.gradient-custom {
+    /* fallback for old browsers */
+    color: #000000;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgb(0, 0, 0), rgb(255, 255, 255));
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgb(255, 255, 255), rgb(255, 255, 255))
+    }
+
+
+.plusB.btn-primary {
+    background-color: black; 
+  }
+  
+  .btn-custom:hover {
+    background-color: #000000; 
+  }
+    .card {
+        border-radius: 10%; 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+      }
+
+
+
+
+
+      
+/* Style the minus button */
+.btn-primary i.fas.fa-minus,
+.btn-primary.btn-custom-black {
+    height: 40px;
+  color: rgb(255, 255, 255); 
+}
+
+/* Style the quantity input box and label */
+.form-outline input.form-control,
+.form-outline label.form-label {
+  color: black;
+  border-color: black; 
+}
+
+
+.plusB.btn-primary i.fas.fa-plus,
+.plusB.btn-custom-black {
+    border-radius: 5px;
+    height: 30px;
+  color: rgb(255, 255, 255); /* Change the color to black */
+  background-color:#6b3e4b; /* Change the background color to black */
+  
+}
+
+
+.plusB.btn-custom-black{
+    height: 40px;
+}
+/* Optional: Style the plus button hover effect for better user interaction */
+.plusB.btn-custom-black:hover {
+    background-color: rgba(197, 64, 100, 0.819);/* Change the background color on hover */
+}
+
+      .bg-image {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px; 
+        width: 250px;
+        height:200px;/* Adjust the border radius as needed */
+    }
+    
+    .bg-image img {
+        display: block;
+        max-width:50%;
+        height: auto;
+    }
+    
+   
+    
+    
+    
+    .mask {
+        background-color: rgba(251, 251, 251, 0.2); /* Move the background color style here */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 40%;
+        height: 100%;
+        display: none; /* Adjust visibility as needed */
+    }
+    
+    
+.confirm-btn {
+    background-color: #000000; /* Change this color to your desired color */
+    color: rgb(255, 255, 255);
+    border-radius: 10px;
+    width: 50px;
+  }
+  
+  .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 30px;
+  
+  }
+  
+  .close {
+    color: #050505;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+   
+  }
+
+
+
+  
+
+
+
+  /* navbar  new*/
+
+  
+  .search-icon i {
+    position: absolute;
+    top: 30%;
+    left: 190px;
+    transform: translateY(-50%);
+    color: #000000; /* Adjust the color as needed */
+    font-size: 18px; /* Adjust the font size as needed */
+}
+.search-input {
+    padding-left: 30px; /* Add padding to the left of the input to make space for the icon */
+    border: 1px solid #ccc; /* Example border style */
+    border-radius: 25px; /* Border radius to create rounded corners */
+    height: 30px; /* Example height */
+    width: 200px; /* Example width */
+    box-sizing: border-box; /* Include padding and border in the element's total width/height */
+    background-color: transparent; /* Set background color to transparent */
+    outline: none; /* Remove default input focus outline */
+}
+
+
+
+
+
+/**************menu part start*****************/
+/* line 2, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+.main_menu {
+    background-color: #ff0000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+  }
+  
+  /* line 9, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu .navbar-brand {
+    padding-top: 0rem;
+    padding-bottom: 0px;
+  }
+  
+  /* line 14, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu .navbar {
+    padding: 0px;
+  }
+  
+  /* line 20, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu .main-menu-item ul li .nav-link {
+    color: #000;
+    font-size: 15px;
+    padding: 36px 23px;
+    font-family: "Poppins", sans-serif;
+    text-transform: capitalize;
+    line-height: 12px;
+    font-weight: 400;
+  }
+  
+  /* line 29, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu .main-menu-item ul li .nav-link:hover {
+    color: #000;
+  }
+  
+  @media only screen and (min-width: 992px) and (max-width: 1200px) {
+    /* line 20, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .main_menu .main-menu-item ul li .nav-link {
+      padding: 35px 20px;
+    }
+  }
+  
+  /* line 41, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu #search_1 i {
+    color: #000;
+  }
+  
+  /* line 46, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  
+  
+  /* line 60, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu #search_input_box ::placeholder {
+    color: #fff;
+  }
+  
+  @media (max-width: 991px) {
+    /* line 46, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .main_menu #search_input_box {
+      margin-top: 15px;
+    }
+  }
+  
+  /* line 70, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu #search_input_box .form-control {
+    background:red;
+    border: 0;
+    color: #ffffff;
+    font-weight: 400;
+    font-size: 15px;
+    padding: 0;
+  }
+  
+  /* line 79, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu #search_input_box .btn {
+    width: 0;
+    height: 0;
+    padding: 0;
+    border: 0;
+  }
+  
+  /* line 86, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu #search_input_box .ti-close {
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 10px;
+    padding-right: 0;
+  }
+  
+  /* line 95, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu .search-inner {
+    padding: 5px 5px;
+  }
+  
+  /* line 99, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu .form-control:focus {
+    box-shadow: none;
+  }
+  
+  /* line 103, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu .active_color {
+    color: #f5790b !important;
+  }
+  
+  /* line 107, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu a i {
+    color: #000;
+    position: relative;
+    z-index: 1;
+    font-size: 15px;
+    margin-left: 30px;
+  }
+  
+  /* line 116, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu .cart .dropdown-toggle::after {
+    display: inline-block;
+    margin-left: .255em;
+    vertical-align: .255em;
+    content: "";
+    border: 0px solid transparent;
+  }
+  
+  /* line 124, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu .cart i {
+    color: #000;
+    position: relative;
+    z-index: 1;
+    font-size: 15px;
+  }
+  
+  /* line 130, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .main_menu .cart i:after {
+    position: absolute;
+    border-radius: 50%;
+    background-color: #f13d80;
+    width: 14px;
+    height: 14px;
+    right: -8px;
+    top: -8px;
+   
+    text-align: center;
+    line-height: 15px;
+    font-size: 10px;
+    color: #fff;
+  }
+  
+  /* line 151, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .menu_fixed {
+    position: fixed;
+    z-index: 9999 !important;
+    width: 100%;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.05);
+    top: 0;
+    background-color: #ff3368;
+  }
+  
+  /* line 159, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .menu_fixed .active_color {
+    color: #ff3368 !important;
+  }
+  
+  /* line 165, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .dropdown .dropdown-menu {
+    transition: all 0.5s;
+    overflow: hidden;
+    transform-origin: top center;
+    transform: scale(1, 0);
+    display: block;
+    border: 0px solid transparent;
+    background-color: #ff3368;
+  }
+  
+  /* line 174, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .dropdown .dropdown-menu .dropdown-item {
+    font-size: 14px;
+    padding: 8px 20px !important;
+    color: #fff !important;
+    background-color: #ff3368;
+    text-transform: capitalize;
+  }
+  
+  /* line 185, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .dropdown:hover .dropdown-menu {
+    transform: scale(1);
+  }
+  
+  @media (max-width: 991px) {
+    /* line 194, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .main_menu {
+      padding: 26px 0px;
+    }
+    /* line 198, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .home_menu .main-menu-item {
+      padding-left: 0px;
+    }
+    /* line 202, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .main_menu .main-menu-item {
+      text-align: left !important;
+    }
+    /* line 205, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .main_menu .main-menu-item .nav-item {
+      padding: 10px 15px !important;
+    }
+    /* line 208, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .main_menu .main-menu-item .nav-item .nav-link {
+      padding: 5px 15px !important;
+      color: #000;
+    }
+    /* line 215, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .navbar-collapse {
+      z-index: 9999 !important;
+      position: absolute;
+      left: 0;
+      top: 50px;
+      width: 100%;
+      background-color: #000000;
+      text-align: center !important;
+    }
+    /* line 226, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .dropdown .dropdown-menu {
+      transform: scale(1, 0);
+      display: none;
+      margin-top: 10px;
+    }
+    /* line 233, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .dropdown:hover .dropdown-menu {
+      transform: scale(1);
+      display: block;
+      color: #ff3368;
+    }
+    /* line 240, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .dropdown .dropdown-item:hover {
+      color: #ff3368 !important;
+    }
+    /* line 245, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .navbar-brand img {
+      max-width: 100px;
+      margin: 0 auto;
+      position: absolute;
+      left: 0;
+      right: 0;
+      display: inline-block;
+      top: 0;
+    }
+    /* line 255, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .navbar-light .navbar-toggler {
+      border-color: transparent;
+      position: absolute;
+      left: 0;
+    }
+    /* line 262, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .menu_icon i {
+      color: #000;
+    }
+    /* line 267, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .main_menu a i {
+      margin-left: 13px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    /* line 273, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .main_menu {
+      padding: 20px 0px;
+    }
+  }
+  
+  @media only screen and (min-width: 576px) and (max-width: 767px) {
+    /* line 279, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+    .main_menu {
+      padding: 20px 0px;
+    }
+  }
+  
+  /* line 284, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .dropdown-menu {
+    border: 0px solid rgba(0, 0, 0, 0.15) !important;
+    background-color: #fafafa;
+  }
+  
+  /* line 290, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  /* line 297, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .home_menu .menu_btn:hover a {
+    color: #fff !important;
+  }
+  
+  /* line 302, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .home_menu .main-menu-item {
+    justify-content: center !important;
+  }
+  
+  /* line 308, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .single_page_menu .main-menu-item {
+    justify-content: flex-end;
+  }
+  
+  /* line 313, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
+  .single_page_menu .main-menu-item ul li .nav-link:hover {
+    color: #ff3368 !important;
+  }
+  
+  

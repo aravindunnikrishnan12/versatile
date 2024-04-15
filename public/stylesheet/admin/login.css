@@ -1,0 +1,123 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+   
+    font-size: 10%;
+    background-image: url('/img/admin\ login.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center; 
+    font-family:  'Arial', sans-serif;
+    background-attachment: fixed;
+}
+
+
+.wrapper {
+    width: 400px;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    /* background-color: rgba(255, 255, 255, 0.8); */
+    box-shadow: 0 0 10px rgba(218, 204, 204, 0.1);    ;
+    border: 2px solid #e69595;
+  
+
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    /* border-radius: 80px; */
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #2a2727;
+}
+
+.input-field {
+    position: relative;
+    border-bottom: 2px solid #333;
+    margin: 15px 0;
+    font-size: 30px;
+ 
+    
+
+}
+
+.input-field label {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    color: #000000;
+    font-size: 90%;
+    pointer-events: none;
+    transition: 0.15s ease;
+    
+    
+}
+
+.input-field input {
+    width: 100%;
+    height: 40px;
+    /* background: transparent; */
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #333;
+    border-radius:1rem;
+}
+
+.input-field input:focus~label,
+.input-field input:valid~label {
+    font-size: 1rem;
+    top: 5px;
+    transform: translateY(-120%);  
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  
+    
+}
+
+.forget {
+    margin: 15px 0;
+    color: #555;
+    font-size: 20px;
+}
+
+.wrapper a {
+    color: #b4bcc2;
+    text-decoration: none;
+}
+
+.wrapper a:hover {
+    text-decoration: underline;
+}
+
+button {
+    background: #0c0c0c;
+    color: #fcecec;
+    font-weight: 600;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background: #c9cfd2;
+}

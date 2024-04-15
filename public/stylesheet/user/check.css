@@ -1,0 +1,676 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800&display=swap");
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Inter;
+}
+
+:root {
+    --active-black: #667185;
+    --slash-color: #98a2b3;
+    --pri-color: #000000;
+    --border-color: #a58f8f;
+    --border-radius: 13px;
+    --heading-black-1: #101928;
+    --heading-black-2: #344054;
+    --paragraph-black-1: #475367;
+    --pink-bg-black: #667185;
+    --pink-card: #fff8f5;
+    --white: #ffffff;
+    --font-weight-SemiBold: 600;
+    --font-weight-medium: 500;
+    --font-weight-regular: 400;
+    --form-grey-fill: #f9fafb;
+    
+}
+
+
+
+
+
+  /* navbar  new*/
+
+  
+  .search-icon i {
+    position: absolute;
+    top: 30%;
+    left: -130px;
+    transform: translateY(-50%);
+    color: #000000; /* Adjust the color as needed */
+    font-size: 18px; /* Adjust the font size as needed */
+}
+.search-input {
+    padding-left: 30px; /* Add padding to the left of the input to make space for the icon */
+    border: 1px solid #ccc; /* Example border style */
+    border-radius: 25px; /* Border radius to create rounded corners */
+    height: 30px; /* Example height */
+    width: 200px; /* Example width */
+    box-sizing: border-box; /* Include padding and border in the element's total width/height */
+    background-color: transparent; /* Set background color to transparent */
+    outline: none; /* Remove default input focus outline */
+}
+
+
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.contanier{
+  width: 100%;
+  height: 100vh;
+ 
+}
+
+nav{
+  position: fixed;
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 85px;
+  background-color: red; /* Changed the background color to red */
+}
+
+nav .logo{
+  display: flex;
+  align-items: center;
+}
+
+nav .logo i{
+  color: #000000;
+  font-size: 28px;
+}
+
+nav .logo h1{
+  position: fixed;
+  color: #000000;
+  left: 190px;
+  font-size: 40px;
+
+  font-weight:500;
+}
+
+nav ul{
+margin-left: 11px;
+  display: flex;
+  justify-content: center; 
+  list-style-type: none;
+}
+
+nav ul li {
+  position: fixed;
+  display: inline-block;
+  margin-left: 50px;
+  margin-right: 20px; /* Add margin-right to create space between items */
+  height: 80px;
+  position: relative;
+  line-height: 100px;
+  cursor: pointer;
+}
+
+
+nav ul li a {
+  position: relative;
+  margin-top: 1px;
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #000000;
+  text-transform: capitalize;
+  text-decoration: none;
+}
+/* Style for the dropdown menu */
+.dropdown-menu {
+  text-decoration: none;
+  display: none;
+  position: absolute;
+  top: 80px;
+  left: 1%;
+  color: white;
+  background-color:#f53e54;
+  padding: 5px; /* Reduced padding for a smaller dropdown */
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  opacity: -5; /* Initially set opacity to 0 for smooth opening */
+  transition: opacity 1s ease; /* Smooth transition for opacity */
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-menu {
+  display: block;
+  opacity: 1; /* Set opacity to 1 to make the dropdown visible */
+}
+.dropdown-menu a {
+ height: 50px;
+  color: white; /* Set the font color inside the dropdown to white */
+  margin-bottom: 50px;
+  padding: -50px; /* Adjust padding for links inside dropdown */
+ 
+  border-radius: 3px; /* Add border radius for rounded corners */
+  transition: background-color 1s ease; /* Smooth transition for background color */
+}
+
+
+
+  
+
+ 
+.containers {
+    margin: 41px 112px;
+    margin-top: 120px;
+} 
+
+hr {
+   border: 0.5px solid var(--border-color);
+   margin-block-end: 24px;
+   margin-block-start: 24px;
+}
+
+input {
+    padding: 16px;
+    margin-block-end: 10px;
+    margin-block-start: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    accent-color: var(--pri-color);
+}
+
+input:focus{
+    outline: 1px solid #FA9874;
+    border: none;
+}
+
+#Cards:focus, #Delivery:focus {
+    outline:none;
+}
+
+label {
+    font-weight: var(--font-weight-medium);
+    color: var(--paragraph-black-2);
+    font-size: 14px;
+}
+
+.nav {
+    margin-block-end: 28px;
+}
+
+ul {
+    display: flex;
+    gap: 10px;
+}
+
+.nav li {
+    list-style: none;
+    font-weight: var(--font-weight-medium);
+}
+
+.nav li:first-of-type,  .nav li:nth-of-type(3) {
+    color: var(--pri-color);
+    cursor: pointer;
+}
+
+.nav li:nth-of-type(2), .nav li:nth-of-type(4) {
+    color: var(--slash-color);
+}
+
+.nav li:last-of-type {
+    color: var(--pink-bg-black);
+    cursor: pointer;
+}
+
+.bodice {
+    display: flex;
+    gap: 20px;
+}
+
+.main {
+    width: 60%;
+    height: auto;
+}
+
+.header {
+    background-color: #6b3e4b;
+    padding: 10px;
+    text-align: right;
+}
+
+.add-address-btn {
+    color: white;
+    background-color: black;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 300px;
+}
+
+.content {
+    padding: 20px;
+}
+
+.details__user {
+    width: 100%; /* Make the select element 100% width */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* modal */
+
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-header {
+    background-color: #ff3368; /* Header background color */
+    color: #fff; /* Header text color */
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .modal-title {
+    font-size: 1.25rem;
+    color: white;
+  }
+  
+  .modal-body {
+    padding: 20px;
+  }
+  .close {
+    color: #000000; /* Close button color */
+  }
+  
+  .close:hover {
+    color: #b6adad; /* Close button color on hover */
+  }
+  
+  /* Form styles */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  /* Button styles */
+  .btn-primary {
+    background-color: #727272; /* Button background color */
+    border-color: #000000; /* Button border color */
+  }
+  
+  .btn-primary:hover {
+    background-color: #ff3368; /* Button background color on hover */
+    border-color: #ff3368; /* Button border color on hover */
+  }
+  
+  /* Optional: Add transitions for smoother effects */
+  .modal-content, .btn-primary, .close {
+    transition: 0.3s;
+  }
+  
+  /* Optional: Center modal vertically on the page */
+  .modal-dialog {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - 1rem);
+  }
+  
+  /* Optional: Customize scrollbar (for modal body overflow) */
+  .modal-body {
+    overflow-y: auto;
+  }
+  
+  /* Optional: Add padding to modal body when scrollbar is present */
+  .modal-scrollbar-measure {
+    margin-right: 16px;
+  }
+  .modal-dialog-slideout {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin-right: 0;
+    margin-left: -100%;
+    width: 100%;
+    transition: transform 0.5s ease;
+}
+
+.modal.fade:not(.show) .modal-dialog-slideout {
+    transform: translateX(-100%);
+}
+
+.modal.show .modal-dialog-slideout {
+    transform: translateX(0);
+}
+.order-summary {
+    border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 32px;
+  margin-block-end: 20px;
+  overflow-y: auto;
+  height: 400px;
+  /* Add box shadow for 3D effect */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Adjust values as needed */
+  transition: box-shadow 0.3s ease;
+}
+.order-summary::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+.order-smry {
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    
+}
+
+.order-smry h3 {
+    margin-block-end: 20px;
+    font-weight: var(--font-weight-SemiBold);
+    font-size: 24px;
+    color: var(--heading-black-1);
+}
+
+.order-smry span {
+    background-color: var(--pri-color);
+    color: var(--white);
+    border-radius: 50%;
+    padding: 5px 10px;
+    margin-inline-start: 10px;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    margin: 20px 0px;
+}
+
+.price ul {
+    flex-direction: column;
+    padding-inline-start: 20px;
+    margin-block-start: 20px;
+    list-style: none;
+}
+
+.price ul h4 {
+    width: 291px;
+    color: var(--heading-black-1);
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -1px;
+}
+
+.price ul li {
+    font-weight: var(--font-weight-regular);
+    color: var(--paragraph-black-1);
+
+}
+
+.price span {
+    font-weight: var(--font-weight-SemiBold);
+    color: var(--heading-black-1);
+    margin-inline-start: 100px;
+}
+
+.delivery-info {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Adjust values as needed */
+    transition: box-shadow 0.3s ease; /* Add transition for smoother effect */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+   
+    padding: 32px;
+}
+
+.delivery-info .head-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block-end: 20px;
+}
+.head-box svg {
+    cursor: pointer;
+}
+
+.contact-card h4 {
+    font-weight: var(--font-weight-SemiBold);
+    color: var(--heading-black-2);
+    margin-block-end: 20px;
+    
+
+}
+.contact-card {
+    border: 1px solid #ddd; /* Add any desired border styling */
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+   background-color: #e9eaeb;
+}
+
+
+.address {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-block-end: 20px;
+    color: var(--pink-bg-black);
+
+}
+
+
+.aside {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Adjust values as needed */
+  transition: box-shadow 0.3s ease; /* Add transition for smoother effect */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    width: 40%;
+    height: auto;
+    padding: 32px;
+}
+
+.aside h3 {
+    margin-block-end: 32px;
+    font-weight: var(--font-weight-SemiBold);
+    font-size: 24px;
+    color: var(--heading-black-1);
+}
+
+
+form h4 {
+    font-weight: var(--font-weight-SemiBold);
+    color: var(--heading-black-1);
+    margin-block-end: 20px;
+    font-size: 16px;
+}
+
+.discount {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    margin-block-end: 20px;
+    /* border: 1px solid var(--border-color);
+    border-radius: var(--border-radius); */
+}
+
+.discount input {
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    padding: 18px 16px;
+    width: 242px;
+}
+
+.discount button {
+    background-color: var(--pri-color);
+    color: var(--white);
+    border-radius: 30px;
+    padding: 18px 16px;
+    border: none;
+    font-weight: var(--font-weight-SemiBold);
+    cursor: pointer;
+    width: 102px;
+
+}
+
+
+.pay-with label {
+    font-size: 16px;
+}
+
+.info input {
+    width: 100%;
+}
+
+
+.cvv {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    width: 100%;
+    margin-block-end: 20px;
+}
+
+.cvv1 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.cvv1 label {
+    margin-block-end: -20px;
+}
+
+.cvv svg {
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 42px;
+}
+
+.cost {
+    display: flex;
+    justify-content: space-between;
+    color: var(--heading-black-2);
+    margin-block-end: 16px;
+}
+
+#total:first-child {
+    font-weight: var(--font-weight-medium);
+    color: var(--heading-black-2);
+}
+
+#total:nth-child(2) {
+    font-weight: var(--font-weight-SemiBold);
+    color: #1d2739;
+}
+
+.pay-button {
+    background-color: var(--pri-color);
+    color: var(--white);
+    border-radius: 30px;
+    padding: 18px 16px;
+    border: none;
+    font-weight: var(--font-weight-SemiBold);
+    cursor: pointer;
+    width: 100%;
+    margin-block-start: 28px;
+}
+
+@media screen and (max-width: 1200px) {
+    .container {
+      margin: 0px;
+      width: 100%;
+      padding: 0;
+    }
+    .nav {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .bodice {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .main {
+        width: 50%;
+        margin: 0px;
+        padding: 0;
+        margin-block-start: 20px;
+    }
+
+    .price {
+        flex-direction: column;
+    }
+
+    .price span {
+        margin-block-start: 10px;
+        margin-inline-start: -210px;
+    }
+
+    .aside {
+        width: 50%;
+        margin-block-start: 20px;
+    }
+    
+}
+
+@media screen and (max-width: 800px) {
+    .container {
+      margin: 0px;
+      width: 100%;
+      padding: 0;
+    }
+
+    .nav {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .bodice {
+        flex-direction: column;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        
+    }
+
+    .main {
+        width: 100%;
+        margin: 0px;
+        padding: 0;
+        margin-block-start: 20px;
+
+    }
+
+    .price {
+        flex-direction: column;
+    }
+
+    .price span {
+        margin-block-start: 10px;
+        margin-inline-start: -210px;
+    }
+
+    .aside {
+        width: 100%;
+        padding: 20px;
+        margin-block-start: 20px;
+
+    }
+
+    }
+    

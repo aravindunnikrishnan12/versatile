@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&family=Poppins:wght@300;400;500;600;700&display=swap");
+
+* {
+  font-family: "Poppins", "sans-sarif";
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.navbar {
+    background-color: rgb(12, 12, 12);
+    color: white;
+    height: 95px;
+    font-family: "Poppins", "sans-sarif"; 
+  }
+  
+  .main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .main-nav h1 {
+    
+    margin-left: 85px;
+    margin-top: 13px;
+    font-size:34PX;
+    font-weight:500;
+    color: rgb(244, 244, 244);
+    /* font-family: 'Roboto Condensed', sans-serif; */
+  }
+  
+  menu ul li{
+    display: inline-block;
+    margin-left: 50px;
+    height: 80px;
+    position: relative;
+    line-height: 80px;
+    cursor: pointer;
+    
+    
+  }
+  menu ul li::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #668ea2;
+    width: 0%;
+    height: 3px;
+    transition: 0.3s;
+  }
+  nav ul li:hover::after,
+  nav ul li.active::after{
+    width: 100%;
+  }
+  .menu {
+    
+    font-family: "Poppins", "sans-sarif"; 
+    list-style: none;
+    margin: 0;
+    
+    padding: 0;
+    display: flex;
+   position: relative;
+   right: 6rem;
+   top: 5px;
+  }
+  
+  .menu li {
+    margin-left: 18px;
+    /* margin-top: 15PX; */
+  font-weight: 500;
+ 
+   
+  }
+  .menu li :hover  {
+    margin-left: -14px;
+    /* margin-top: 15PX; */
+  font-weight: 500;
+  background-color: rgb(246, 246, 246);
+   border-radius:16px;
+   padding: 6px;
+   color: black;
+  
+  }
+  
+  
+  .menu a {
+    text-decoration: none;
+    color: rgb(239, 239, 239);
+
+  }
+  
+
+  
+
+  
+
+  
+</style>
+<body>
+    <div class="navbar">
+        <nav class="main-nav">
+            <div>
+                <h1>
+                  Versatile
+                </h1>
+            </div>
+            <ul class="menu">
+                <li><a href="/Insite">Dashboard</a></li>
+               
+                
+             <li><a href="/adminLogin">Logout</a></li>
+    
+            </ul>
+        </nav>
+    </div>

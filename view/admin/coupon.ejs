@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/stylesheet/admin/coupon.css">
+    <script src="https://kit.fontawesome.com/197a2eac2f.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- DataTable HEADER-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+
+    <style>
+         body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+        .background-color {
+            margin-top: 0px; 
+            background-color:rgb(255, 255, 255); 
+            height: 100%;
+            width: 100%;
+            padding: 1px;
+        }
+     
+         .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #b3aeae;
+            background-color:#ffffffdc;
+            border-radius: 20px;
+            /* box-shadow: 0 0 10px rgba(163, 163, 155, 0.247); */
+            overflow-x: auto;
+            position: relative;
+            left: 8%;
+            overflow: hidden;
+            margin-top: 30px;
+            margin-left: -50px;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 800;
+            
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        tbody{
+            border-bottom: 1px solid rgb(227, 227, 227);
+        }
+
+        th{
+            border: none;
+            font-weight: 500;
+           
+        }
+
+         td {
+            padding: 12px;
+            text-align: left;
+            border: none;
+            font-size: 14px;
+        }
+        tr{
+           border: none;
+        }
+       
+        tr:hover {
+            background-color: #000000;
+        }
+
+        .black-button {
+            background-color: #31473A;
+            color: white;
+            border-radius: 20px;
+            padding: 8px 22px;
+            border: none;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .black-button:hover {
+            background-color: #333;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px; /* Adjust as needed */
+        }
+        .price-filter button {
+        background-color: rgb(238, 0, 0);
+        color: #fff;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .price-filter button:hover {
+        background-color: #333;
+    }
+    .price-filter button {
+        background-color:#31473A;
+        padding: 10px;
+        border-radius: 20px;
+        border: none;
+        margin-right: 5px;
+        font-size: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .search-bar {
+        display: flex;
+        align-items: center;
+        margin-left: 20px;
+    }
+    
+    .search-input {
+        padding: 8px 12px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        outline: none;
+    }
+    
+    .search-button {
+        background-color: #31473A;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 12px;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    .sidebar {
+    text-decoration: none;
+    position: fixed;
+    top: 75px; /* Height of the navbar */
+    left: -250px; /* Initially hidden off-canvas */
+    bottom: 0;
+    width: 250px;
+    background-color: #31473A; /* Same as navbar color */
+    color: #fff; /* Text color */
+    transition: left 0.3s ease; /* Smooth transition for opening and closing */
+    z-index: 1000; /* Ensure sidebar is above other content */
+}
+
+.sidebar.show {
+    left: 0; /* Show sidebar when .show class is added */
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding-left: 30px;
+}
+
+.sidebar li {
+    margin-bottom: 40px;
+}
+
+.sidebar a {
+    background-color: rgb(255, 255, 255);
+    display: block;
+    padding: 10px;
+    color: #000000;
+    text-decoration: none;
+    border-radius: 20px;
+    width: 210px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.sidebar a:hover {
+    background-color: rgba(200, 200, 200, 0.5);
+    text-decoration: none;
+    color: #fff;
+}
+.custom-btn {
+    background-color: #4d4f52; /* Button background color */
+    color: #fff; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.custom-btn:hover {
+    background-color: #000000; /* Hover background color */
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <nav class="main-nav">
+            <div>
+                <button id="sidebar-toggle" class="sidebar-toggle-btn custom-btn"><i class="fas fa-bars"></i></button>
+              </div>
+              <div class="sidebar">
+                <div id="accordion">
+                    <ul>
+                        <li><a href="/Insite" data-tag="dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+                        <li><a href="/UserManage" data-tag="dashboard"><i class="fas fa-tachometer-alt"></i>user manage</a></li>
+                        <li><a href="/category" data-tag="category"><i class="fas fa-address-book"></i>Category Details</a></li>
+                        <li><a href="/products" data-tag="product"><i class="fas fa-clone"></i>Product Details</a></li>
+                        <li><a href="/order" data-tag="order"><i class="fas fa-calendar"></i>Order & Payment</a></li>
+                        <li><a href="/getsalesReport" data-tag="sales"><i class="fas fa-chart-bar"></i>Sales Report</a></li>
+                        <li><a href="#" data-tag="sales"><i class="fas fa-chart-bar"></i>offers</a></li>
+                        <li><a href="/couponmanageadmin" data-tag="coupon"><i class="fas fa-copy"></i>Coupon</a></li>
+                    </ul>
+                </div>
+              </div>
+            <div>
+                <h1>Versatile</h1>
+            </div>
+            <div class="search-bar">
+              <input type="text" placeholder="Search..." class="search-input">
+              <button type="button" class="search-button"><i class="fas fa-search"></i></button>
+          </div>
+      
+          
+            <ul class="menu">
+             
+                <li><a href="/adminLogin">Logout</a></li>
+            </ul>
+        </nav>
+      </div>
+<div class="background-color">
+    <div class="container">
+        <div class="price-filter">
+         
+                <a href="/getaddcoupon" class="add-link"><button>ADD COUPON</button></a>
+
+        </div>
+        <h1 class="headline">Coupon Management</h1>
+        <table id="example" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Couponcode</th>
+                    <th>Discount</th>
+                    <th>Expirydate</th>
+                    <th>MaxAmount</th>
+                    <th>minAmount</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% coupondata.forEach((coupon, index) => { %>
+                    <tr class="order-row">
+                        <td><%= index + 1 %></td>
+                        <td><%= coupon.couponCode %></td>
+                        <td><%= coupon.discount %></td>
+                        <td><%= new Date(coupon.expiryDate).toLocaleDateString() %> <%= new Date(coupon.expiryDate).toLocaleTimeString() %></td>
+
+                        <td><%= coupon.maxAmount %></td>
+                        <td><%= coupon.minAmount %></td>
+                        <td class="action-buttons">
+                          
+                                <form action="/geteditcoupon/<%= coupon._id%>" method="GET">
+                                <button class="black-button">Edit</button>
+                            </form>
+                             
+                          
+                            <form action="/deletecoupon/<%= coupon._id%>"  method="POST">
+                                <button class="black-button">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+           
+        </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#sidebar-toggle').click(function () {
+            $('.sidebar').toggleClass('show'); // Toggle .show class on sidebar
+        });
+    });
+</script>
+<!-- DATATABLE  SCRIPT-->
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdn.datatables.net/v/bs5/dt-1.13.8/datatables.min.js"></script>  
+<script>
+new DataTable('#example');
+</script>
+</body>
+</html>

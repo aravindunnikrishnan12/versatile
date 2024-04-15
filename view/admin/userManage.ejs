@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/stylesheet/admin/user.css">
+    <script src="https://kit.fontawesome.com/197a2eac2f.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-BiVPcbB6SEt7Uizk4KthYl0IiIqK+k8TbHhZRHGp7v9GgDyDvR9CSy3Kb5ip1es5" crossorigin="anonymous">
+
+</head>
+<style>
+
+
+
+/* CSS for the modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  
+}
+
+.modal-content {
+  border-radius: 20px;
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.modal-buttons button {
+  border-radius: 15px;
+  margin: 10px;
+  background-color: #d9d3d3;
+}
+
+/* Show the modal when active */
+.modal.active {
+  display: block;
+}
+
+  /* Your existing styles here */
+.sidebar {
+    text-decoration: none;
+    position: fixed;
+    top: 75px; /* Height of the navbar */
+    left: -250px; /* Initially hidden off-canvas */
+    bottom: 0;
+    width: 250px;
+    background-color: #31473A; /* Same as navbar color */
+    color: #fff; /* Text color */
+    transition: left 0.3s ease; /* Smooth transition for opening and closing */
+    z-index: 1000; /* Ensure sidebar is above other content */
+}
+
+.sidebar.show {
+    left: 0; /* Show sidebar when .show class is added */
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding-left: 30px;
+}
+
+.sidebar li {
+    margin-bottom: 40px;
+}
+
+.sidebar a {
+    background-color: rgb(255, 255, 255);
+    display: block;
+    padding: 10px;
+    color: #000000;
+    text-decoration: none;
+    border-radius: 20px;
+    width: 210px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.sidebar a:hover {
+    background-color: rgba(200, 200, 200, 0.5);
+    text-decoration: none;
+    color: #fff;
+}
+.custom-btn {
+    background-color: #4d4f52; /* Button background color */
+    color: #fff; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.custom-btn:hover {
+    background-color: #000000; /* Hover background color */
+}
+
+</style>
+<body>
+ 
+    
+
+    
+  
+  <div class="navbar">
+    <nav class="main-nav">
+      <div>
+        <button id="sidebar-toggle" class="sidebar-toggle-btn custom-btn"><i class="fas fa-bars"></i></button>
+      </div>
+      <div class="sidebar">
+        <div id="accordion">
+            <ul>
+                <li><a href="/Insite" data-tag="dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+                <li><a href="/UserManage" data-tag="dashboard"><i class="fas fa-tachometer-alt"></i>user manage</a></li>
+                <li><a href="/category" data-tag="category"><i class="fas fa-address-book"></i>Category Details</a></li>
+                <li><a href="/products" data-tag="product"><i class="fas fa-clone"></i>Product Details</a></li>
+                <li><a href="/order" data-tag="order"><i class="fas fa-calendar"></i>Order & Payment</a></li>
+                <li><a href="/getsalesReport" data-tag="sales"><i class="fas fa-chart-bar"></i>Sales Report</a></li>
+                <li><a href="#" data-tag="sales"><i class="fas fa-chart-bar"></i>offers</a></li>
+          
+                <li><a href="/couponmanageadmin" data-tag="coupon"><i class="fas fa-copy"></i>Coupon</a></li>
+            </ul>
+        </div>
+      </div>
+        <div>
+
+            <h1>Versatile</h1>
+        </div>
+        <div class="search-bar">
+          <input type="text" placeholder="Search..." class="search-input">
+          <button type="button" class="search-button"><i class="fas fa-search"></i></button>
+      </div>
+
+      
+        <ul class="menu">
+         
+            <li><a href="/adminLogin">Logout</a></li>
+        </ul>
+    </nav>
+</div>
+
+      <form id="userManagementForm" action="/userAdmin" method="post"></form>
+      <section class="user-management">
+        <h2 class="salesreportHeading">User Manage</h2>
+        <ul class="user-list">
+            <!-- User 1 -->
+            <li class="user-item">
+              <span class="column1">No</span>
+                <span class="column">Name</span>
+                <span class="column">Email ID</span>
+                <span class="column">Block/Unblock</span>
+                <!-- <span class="column">Actions</span> -->
+            </li>
+            <% userFind.forEach((userFin,index) => { %>
+            <li class="user-item">
+              <span class="column1"> <%= index + 1 %></span>
+                <span class="column"> <%= userFin.name %></span>
+                <span class="column"><%= userFin.email %></span>
+                <span class="column">
+                  <button class="toggle-button <%= userFin.isBlocked ? 'unblocked-user' : 'blocked-user' %>" data-user-id="<%= userFin._id %>" data-is-blocked="<%= userFin.isBlocked %>">
+                    <% if (userFin.isBlocked) { %>UNBLOCK<% } else { %>BLOCK<% } %>
+                  </button>
+                </span>
+              
+            </li>
+          <% }); %>  
+            <!-- Add more users as needed -->
+        </ul>
+       </section>
+      </form>
+      <!-- Modal for confirmation -->
+<div id="confirmationModal" class="modal">
+  <div class="modal-content">
+    <p>Are you sure you want to block this user?</p>
+    <div class="modal-buttons">
+      <button id="confirmBlock">Yes, Block</button>
+      <button id="cancelBlock">Cancel</button>
+    </div>
+  </div>
+</div>
+
+      <!-- Modal for unblock confirmation -->
+<div id="unblockConfirmationModal" class="modal">
+  <div class="modal-content">
+    <p>Are you sure you want to unblock this user?</p>
+    <div class="modal-buttons">
+      <button id="confirmUnblock">Yes, Unblock</button>
+      <button id="cancelUnblock">Cancel</button>
+    </div>
+  </div>
+</div>
+
+    
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#sidebar-toggle').click(function () {
+            $('.sidebar').toggleClass('show'); // Toggle .show class on sidebar
+        });
+    });
+</script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleButtons = document.querySelectorAll('.toggle-button');
+  const confirmationModal = document.getElementById('confirmationModal');
+  const confirmBlockBtn = document.getElementById('confirmBlock');
+  const cancelBlockBtn = document.getElementById('cancelBlock');
+  const unblockConfirmationModal = document.getElementById('unblockConfirmationModal');
+  const confirmUnblockBtn = document.getElementById('confirmUnblock');
+  const cancelUnblockBtn = document.getElementById('cancelUnblock');
+
+  let activeButton = null;
+
+  toggleButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+      const userId = button.getAttribute('data-user-id');
+      const isBlocked = button.getAttribute('data-is-blocked') === 'true';
+      activeButton = button;
+
+      if (!isBlocked) {
+        confirmationModal.classList.add('active');
+      } else {
+        unblockConfirmationModal.classList.add('active');
+      }
+    });
+  });
+
+  confirmBlockBtn.addEventListener('click', () => {
+    if (activeButton) {
+      const userId = activeButton.getAttribute('data-user-id');
+      toggleUserBlock(userId, true);
+      confirmationModal.classList.remove('active');
+    }
+  });
+
+  cancelBlockBtn.addEventListener('click', () => {
+    confirmationModal.classList.remove('active');
+  });
+
+  confirmUnblockBtn.addEventListener('click', () => {
+    if (activeButton) {
+      const userId = activeButton.getAttribute('data-user-id');
+      toggleUserBlock(userId, false);
+      unblockConfirmationModal.classList.remove('active');
+    }
+  });
+
+  cancelUnblockBtn.addEventListener('click', () => {
+    unblockConfirmationModal.classList.remove('active');
+  });
+
+  async function toggleUserBlock(userId, isBlocked) {
+    try {
+      const response = await fetch(`/blockUser/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ isBlocked }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update user status.');
+      }
+
+      const data = await response.json();
+      activeButton.textContent = data.isBlocked ? 'UNBLOCK' : 'BLOCK';
+      activeButton.classList.toggle('unblocked-user', data.isBlocked);
+      activeButton.classList.toggle('blocked-user', !data.isBlocked);
+      activeButton.setAttribute('data-is-blocked', data.isBlocked);
+
+      if (data.isBlocked) {
+        activeButton.closest('.user-item').classList.add('directly-blocked');
+      } else {
+        activeButton.closest('.user-item').classList.remove('directly-blocked');
+      }
+    } catch (error) {
+      console.error('Error updating user status:', error);
+    }
+  }
+});
+
+</script>
+</body>
+</html>

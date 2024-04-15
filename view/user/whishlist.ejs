@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <link rel="stylesheet" href="/stylesheet/user/whishlist.css">
+</head>
+<body>
+    
+    <div class="wrap cf">
+        <h1 class="projTitle">Wishlist</h1>
+        <div class="heading cf">
+          <a href="/books" class="continue" style="background-color: #6b3e4b; border-radius: 20px;">Continue Shopping</a>
+        </div>
+        <div class="cart">
+          <ul class="cartWrap">
+            <% if (wishlistItems && wishlistItems.length > 0) { %>
+              <% wishlistItems.forEach(item => { %>
+                <li class="items">
+                  <div class="infoWrap"> 
+                  <h4>1</h4>
+                    <div class="cartSection">
+                      <img src="<%= item.productImage[0] %>" alt="" class="itemImg" />
+                      <p class="itemNumber">1</p>
+                      <h3><%= item.productName %></h3>
+                      <p class="stockStatus">Stock Available</p>
+                    </div>
+                    <div class="prodTotal cartSection">
+                      <p>Price: $<%= item.price %></p>
+                    </div>
+                   
+                    <!-- Add to Cart button -->
+  <div class="cartSection">
+    <form action="/wish-addcart/<%=item.productId%>" method="POST">
+      <input type="hidden" name="productId" value="<%= item.productId %>">
+      <button type="submit" class="btn addToCart"  style="background-color: #6b3e4b; border-radius: 20px;">AddtoCart</button>
+    </form>
+  </div>
+<div>&nbsp;&nbsp;</div>
+
+  <div class="cartSection removeWrap">
+    <form action="/removeFromWishlist/<%=item._id%>" method="POST">
+      <input type="hidden" name="productId" value="<%= item._id %>">
+      <button type="submit" class="remove">x</button>
+    </form>
+  </div>
+                  </div>
+                </li>
+              <% }) %>
+            <% } else { %>
+              <li class="items">No items in wishlist</li>
+            <% } %>
+          </ul>
+        </div>
+       
+
+
+      </div>
+    
+      
+</body>
+</html>

@@ -1,0 +1,170 @@
+/* Reset some default styles */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header styles */
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Breadcrumb styles */
+nav h6 {
+    margin-bottom: 0;
+}
+
+/* Content section styles */
+section {
+    padding: 20px 0;
+}
+
+/* Main image and thumbnails styles */
+aside {
+    order: 2; /* Move aside to the right */
+}
+
+/* aside .rounded-4 {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: 100vh;
+    margin: auto;
+} */
+.rounded-4 {
+    width: 5px;
+    height: 10px;
+    
+    max-height: 10vh;
+    margin: auto;
+    display: block;
+    margin-left: 0; /* Center on the left */
+    margin-right: auto;
+}
+
+.item-thumb {
+    margin: 0 5px;
+}
+
+/* Main content styles */
+main {
+    order: 1; /* Move main content to the left */
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.text-warning {
+    color: #ffc107;
+}
+
+/* Price styles */
+h5 {
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* Additional details styles */
+.row {
+    margin-bottom: 10px;
+}
+
+/* Size and Quantity styles */
+select, input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+/* Button styles */
+.btn {
+    margin-right: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    aside,
+    main {
+        order: initial; /* Reset order for small screens */
+    }
+
+    .item-thumb {
+        margin: 10px 0;
+    }
+}
+.row {
+    display: flex;
+}
+
+/* Left side (image) */
+aside {
+    flex: 1; /* Take up 50% of the width */
+    order: 1; /* Move aside to the left */
+}
+
+aside .rounded-4 {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: 100vh;
+    margin: auto;
+    display: block;
+}
+
+/* Right side (content) */
+main {
+    flex: 1; /* Take up 50% of the width */
+    order: 2; /* Move main content to the right */
+    padding-left: 20px; /* Add some padding for better spacing */
+}
+/* styles.css */
+
+/* Center the flex container vertically and horizontally */
+.d-flex-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Style for the main image */
+  .item-thumb {
+    margin-bottom: 10px;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: 100vh;
+    margin: auto;
+    display: block;
+  }
+  
+  /* Style for the smaller images */
+  .d-flex-images {
+    display: flex;
+  }
+  
+  /* Add some spacing between the smaller images */
+  .d-flex-images .border {
+    margin: 0 5px;
+  }
+  

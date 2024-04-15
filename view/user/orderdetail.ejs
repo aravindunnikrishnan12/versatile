@@ -1,0 +1,524 @@
+<!--
+-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title> Order confirmation </title>
+<meta name="robots" content="noindex,nofollow" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0;" />
+
+<link rel="stylesheet" href="stylesheet/user/orderdetails.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  
+<!-- Add Font Awesome CSS for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+ @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #ff0000;
+  font-family: 'Open Sans', sans-serif; /* Add font-family for the entire document */
+}
+
+/* Resetting styles for elements */
+div, p, a, li, td {
+  -webkit-text-size-adjust: none;
+}
+
+.ReadMsgBody, .ExternalClass {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #ff0000;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  width: 100%;
+}
+
+p {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.visibleMobile {
+  display: none;
+}
+
+.hiddenMobile {
+  display: block;
+}
+
+/* Media queries for responsive styles */
+@media only screen and (max-width: 600px) {
+  body {
+    width: 100px !important;
+  }
+  table[class=fullTable] {
+    width: 96% !important;
+    clear: both;
+  }
+  table[class=fullPadding] {
+    width: 85% !important;
+    clear: both;
+  }
+  table[class=col] {
+    width: 55% !important;
+  }
+  .erase {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  table[class=fullTable] {
+    width: 100% !important;
+    clear: both;
+  }
+  table[class=fullPadding] {
+    width: 85% !important;
+    clear: both;
+  }
+  table[class=col] {
+    width: 100% !important;
+    clear: both;
+  }
+  table[class=col] td {
+    text-align: left !important;
+  }
+  .erase {
+    display: none;
+    font-size: 0;
+    max-height: 0;
+    line-height: 0;
+    padding: 0;
+  }
+  .visibleMobile {
+    display: block !important;
+  }
+  .hiddenMobile {
+    display: none !important;
+  }
+}
+
+/* Additional styles for specific elements */
+
+/* Example: Adding background color and border-radius to a specific element */
+table.fullPadding {
+  background-color: #ffffff; /* Change the background color as needed */
+  border-radius: 20px; /* Add border-radius for rounded corners */
+}
+
+</style>
+
+
+
+    <!--::header part start::-->
+    <header class="main_menu home_menu">
+      <div class="container">
+          <div class="row align-items-center">
+              <div class="col-lg-12">
+                  <nav class="navbar navbar-expand-lg navbar-light">
+                      <i class="fa-solid fa-book fa-2x"></i> <!-- This will make the icon 3 times larger -->
+               &nbsp;&nbsp;
+                      <a class="navbar-brand" href=""> <h1>Versatile</h1></a>
+                      <button class="navbar-toggler" type="button" data-toggle="collapse"
+                          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                          aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="menu_icon"><i class="fas fa-bars"></i></span>
+                      </button>
+
+                      <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
+                          <ul class="navbar-nav">
+                              <li class="nav-item">
+                                  <a class="nav-link" href="/home">Home</a>
+                              </li>
+                              <li class="nav-item dropdown">
+                                  <a class="nav-link dropdown-toggle" href="" id="navbarDropdown_1"
+                                      role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Shop
+                                  </a>
+                                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+                                      <a class="dropdown-item" href="/books">Book</a>
+                                      
+                                      
+                                  </div>
+                              </li>
+                              <li class="nav-item dropdown">
+                                  <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
+                                      role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      pages
+                                  </a>
+                                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+                                      <a class="dropdown-item" href="/cartdisplay">Cart</a>
+                                      <a class="dropdown-item" href="/wishlist">Wishlist</a>
+                                      <!-- <a class="dropdown-item" href="">product checkout</a>
+                                      <a class="dropdown-item" href="">shopping cart</a>
+                                      <a class="dropdown-item" href="">confirmation</a>
+                                      <a class="dropdown-item" href="">elements</a> -->
+                                  </div>
+                              </li>
+                              <li class="nav-item dropdown">
+                                  <a class="nav-link dropdown-toggle" href="" id="navbarDropdown_2"
+                                      role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Account
+                                  </a>
+                                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+                                      <a class="dropdown-item" href="/logout">Log out</a>
+                                     
+                                  </div>
+                              </li>
+                              
+                              <li class="nav-item">
+                                  <a class="nav-link" href="/profile">Profile</a>
+                              </li>
+                          </ul>
+                      </div>
+                     
+
+<form action="/search" method="GET" class="search-form">
+  <a href="#" class="search-icon"></a>
+  <input type="text" name="q" placeholder="Search..." class="search-input">
+  <button type="submit"><i class="fas fa-search"></i></button>
+</a>
+</form>
+
+                      </div>
+                      
+                  </nav>
+              </div>
+          </div>
+      </div>
+     
+  </header>
+  <!-- Header part end-->
+
+<!-- Header -->
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#e1e1e1">
+  <tr>
+    <td height="20"></td>
+  </tr>
+  <tr>
+    <td>
+      <table width="700" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#ffffff" style="border-radius: 10px 10px 0 0;">
+        <tr class="hiddenMobile">
+          <td height="40"></td>
+        </tr>
+        <tr class="visibleMobile">
+          <td height="30"></td>
+        </tr>
+
+        <tr>
+          <td>
+            <table width="580" border="0" cellpadding="0" cellspacing="0" align="center" class="fullPadding">
+              <tbody>
+                <tr>
+                  <td>
+                    <table width="520" border="0" cellpadding="0" cellspacing="0" align="left" class="col">
+                      <tbody>
+                       
+                        <tr class="hiddenMobile">
+                          <td height="40"></td>
+                        </tr>
+                        <tr class="visibleMobile">
+                          <td height="20"></td>
+                        </tr>
+                        <tr>
+                          <td style="font-size: 12px; color: #5b5b5b; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: left;">
+                            Hello, .
+                            <br> Thank for your purchase .
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table width="520" border="0" cellpadding="0" cellspacing="0" align="right" class="col">
+                      <tbody>
+                        <tr class="visibleMobile">
+                          <td height="20"></td>
+                        </tr>
+                        <tr>
+                          <td height="5"></td>
+                        </tr>
+                        <tr>
+                          <td style="font-size: 21px; color: #efc729; letter-spacing: -1px; font-family: 'Open Sans', sans-serif; line-height: 1; vertical-align: top; text-align: right;">
+                            details
+                          </td>
+                        </tr>
+                        <tr>
+                        <tr class="hiddenMobile">
+                          <td height="50"></td>
+                        </tr>
+                        <tr class="visibleMobile">
+                          <td height="20"></td>
+                        </tr>
+                        <tr>
+                          <td style="font-size: 12px; color: #5b5b5b; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
+                            <small>ORDER</small> <%= orderDetails[0].orderNumber %><br />
+                            <small><%= new Date(orderDetails[0].orderDate).toLocaleString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %></small>
+ 
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- /Header -->
+<!-- Order Details -->
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#e1e1e1">
+  <tbody>
+    <tr>
+      <td>
+        <table width="700" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#ffffff">
+          <tbody>
+            <tr>
+            <tr class="hiddenMobile">
+              <td height="60"></td>
+            </tr>
+            <tr class="visibleMobile">
+              <td height="40"></td>
+            </tr>
+            <tr>
+              <td>
+                <% if (orderDetails && orderDetails.length > 0) { %>
+                    <table width="580" border="0" cellpadding="0" cellspacing="0" align="center" class="fullPadding">
+                      <thead>
+                        <tr>
+                          <th style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; font-weight: normal; line-height: 1; vertical-align: top; padding: 0 10px 7px 0;" width="52%" align="left">
+                            Product Name
+                          </th>
+                          <th style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; font-weight: normal; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center">
+                            Quantity
+                          </th>
+                          <th style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="right">
+                            Total
+                          </th>
+                        </tr>
+                        <% orderDetails[0].orderedDetails.forEach(product => { %>
+                          <tr>
+                            <td height="1" style="background: #bebebe;" colspan="3"></td>
+                          </tr>
+                          <tr>
+                            <td height="10" colspan="3"></td>
+                          </tr>
+                          <tr>
+                            <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #efc729; line-height: 18px; vertical-align: top; padding: 10px 0;" class="article">
+                              <%= product.productName %>
+                            </td>
+                            <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 18px; vertical-align: top; padding: 10px 0;" align="center">
+                              <%= product.quantity %>
+                            </td>
+                            <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #1e2b33; line-height: 18px; vertical-align: top; padding: 10px 0;" align="right">
+                              <% if (product.discountPrice) { %>
+                              <%= product.discountedprice %>
+                              <% } else { %>
+                                <strong>₹<%= product.price %></strong> <!-- Normal price -->
+                              <% } %>
+
+                            </td>
+                          </tr>
+                        <% }); %>
+                      </thead>
+                    </table>
+                  <% } %>
+                  
+              </td>
+            </tr>
+            <tr>
+              <td height="20"></td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!-- /Order Details -->
+<!-- Total -->
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#e1e1e1">
+  <tbody>
+    <tr>
+      <td>
+        <table width="700" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#ffffff">
+          <tbody>
+            <tr>
+              <td>
+
+                <!-- Table Total -->
+                <table width="580" border="0" cellpadding="0" cellspacing="0" align="center" class="fullPadding">
+                  <tbody>
+                    <tr>
+                      <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right; ">
+                        Subtotal
+                      </td>
+                      <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right; white-space:nowrap;" width="80">
+                        <%= orderDetails[0].totalPrice %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right; ">
+                        Shipping &amp; Handling
+                      </td>
+                      <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right; ">
+                        Nil
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #000; line-height: 22px; vertical-align: top; text-align:right; ">
+                        <strong> Total price </strong>
+                      </td>
+                      <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #000; line-height: 22px; vertical-align: top; text-align:right; ">
+                        <strong>₹<%= orderDetails[0].totalPrice %></strong>
+                      </td> 
+                       </tr>
+                       <tr>
+                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #000; line-height: 22px; vertical-align: top; text-align:right; ">
+                          <strong>discounted price </strong>
+                        </td>
+                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #000; line-height: 22px; vertical-align: top; text-align:right; ">
+                          <strong><%= orderDetails[0].discountPrice %></strong>
+                        </td>
+                         </tr>
+                    <tr>
+                      
+                    </tr>
+                    <tr>
+                      <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #b0b0b0; line-height: 22px; vertical-align: top; text-align:right; "><small></small></td>
+                      <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #b0b0b0; line-height: 22px; vertical-align: top; text-align:right; ">
+                        <small></small>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- /Table Total -->
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!-- /Total -->
+<!-- Information -->
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#e1e1e1">
+  <tbody>
+    <tr>
+      <td>
+        <table width="700" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#ffffff">
+          <tbody>
+            <tr>
+          
+            <tr>
+              <td>
+                <table width="580" border="0" cellpadding="0" cellspacing="0" align="center" class="fullPadding">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <table width="220" border="0" cellpadding="0" cellspacing="0" align="left" class="col">
+
+                          <tbody>
+                            <tr>
+                              <td style="font-size: 11px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; line-height: 1; vertical-align: top; ">
+                                <strong>BILLING INFORMATION</strong>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td width="100%" height="10"></td>
+                            </tr>
+                            <tr>
+                              <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; line-height: 20px; vertical-align: top; ">
+                                <%= orderDetails[0].address.phone %> <br> 
+                                <%= orderDetails[0].address.name %>
+                <br><%= orderDetails[0].address.address1 %>
+                <br><%= orderDetails[0].address.street %>
+                <br><%= orderDetails[0].address.country %>
+                <br><%= orderDetails[0].address.pincode %>
+                <br><%= orderDetails[0].address.additionalInfo%>
+                              </td>
+                          
+                            </tr>
+                          </tbody>
+                        </table>
+
+
+                        <table width="320" border="0" cellpadding="0" cellspacing="0" align="right" class="col">
+                          <tbody>
+                            <tr class="visibleMobile">
+                              <td height="20"></td>
+                            </tr>
+                            <tr>
+                              <td style="font-size: 11px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; line-height: 1; vertical-align: top; ">
+                                <strong>PAYMENT METHOD</strong>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td width="100%" height="10"></td>
+                            </tr>
+                            <tr>
+                              <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; line-height: 20px; vertical-align: top; ">
+                                <%= orderDetails[0].paymentMethod %><br> <br><a href="#" 
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                
+
+
+                    
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            <tr class="hiddenMobile">
+              <td height="60"></td>
+            </tr>
+            <tr class="visibleMobile">
+              <td height="30"></td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!-- /Information -->
+
+    </td>
+  </tr>
+  <tr>
+    <td height="20"></td>
+  </tr>
+</table>

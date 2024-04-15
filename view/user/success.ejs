@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @supports (animation: grow .5s cubic-bezier(.25, .25, .25, 1) forwards) {
+     .tick {
+        stroke-opacity: 0;
+        stroke-dasharray: 29px;
+        stroke-dashoffset: 29px;
+        animation: draw .5s cubic-bezier(.25, .25, .25, 1) forwards;
+        animation-delay: .6s;
+      
+   
+    }
+
+    .circle {
+        fill-opacity: 0;
+        stroke: #ff0000;
+        stroke-width: 16px;
+        transform-origin: center;
+        transform: scale(0);
+        animation: grow 1s cubic-bezier(.25, .25, .25, 1.25) forwards; 
+        position: absolute;
+        left: 16rem;
+}
+
+@keyframes grow {
+    60% {
+        transform: scale(.8);
+        stroke-width: 4px;
+        fill-opacity: 0;
+    }
+    100% {
+        transform: scale(.9);
+        stroke-width: 8px;
+        fill-opacity: 1;
+        fill: #f80b0be9;
+    }
+}
+
+@keyframes draw {
+    0%, 100% { stroke-opacity: 1; }
+    100% { stroke-dashoffset: 0; }
+}
+
+:root {
+  --theme-color: var(--color-purple);
+}
+
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+        .success-message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #000000;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px;
+            background-color:  #6b3e4b;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        } 
+      
+        svg{
+            position: absolute;
+            left: 42.5rem;
+            bottom: 26rem;
+        }}
+    </style>
+
+</head>
+<body>
+    <div class="svg-container">    
+        <svg class="ft-green-tick" xmlns="http://www.w3.org/2000/svg" height="100" width="100" viewBox="0 0 48 48" aria-hidden="true">
+            <circle class="circle" fill="#5bb543" cx="24" cy="24" r="22"/>
+            <path class="tick" fill="none" stroke="#FFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M13 25l7 7 15-15"/>
+        </svg>
+    
+    
+    <div class="success-message">
+        Success! Your order has been processed.
+    </div>
+    
+    <div class="button-container">
+        <a href="/home">
+            <button>Back to Home</button>
+        </a>
+        <a href="/orderdetails">
+            <button>Order Details</button>
+        </a>
+    </div>
+</div>
+</body>
+</html>

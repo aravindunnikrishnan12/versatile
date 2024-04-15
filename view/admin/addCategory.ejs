@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/stylesheet/admin/insight.css">
+    <script src="https://kit.fontawesome.com/197a2eac2f.js" crossorigin="anonymous"></script>
+</head>
+<style>
+
+
+  main {
+      text-align: center;
+  }
+
+  .panel.product-details {
+    border: 1px solid #b8b8b8;
+            background-color:#ffffffdc;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
+      margin-left: 470px;
+    margin-top: 130px;
+  }
+
+  .custom-link {
+      text-decoration: none;
+      color: #333;
+      font-size: 24px;
+      margin-right: 20px;
+      top: 10px;
+       margin-right:500px ;  
+  }
+
+  .admin-container {
+      margin: 0 auto;
+  }
+  .main-content{
+    background-color: white;
+  }
+
+  .Errormsg {
+      background-color: #ffcccc;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+  }
+
+  .admin-title {
+      color: #303b34;
+      
+  }
+
+  .admin-form {
+      margin-top: 20px;
+  }
+
+  .admin-label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+  }
+
+  .admin-input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 12 20 10px rgba(218, 204, 204, 0.1);
+  }
+
+  .admin-button {
+    background-color:#31473A;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+  }
+  overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+    }
+
+    /* Modal styling */
+    .modal {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      position: relative;
+      max-width: 400px;
+      width: 100%;
+      margin-top: -470px;
+      margin-left: 520px;
+
+    }
+
+    /* Error message styling */
+    .error-message {
+      color: #ff0000;
+      font-size: 14px;
+      margin-top: 50px;
+    }
+
+    /* Close button styling */
+    .close-btn {
+      cursor: pointer;
+      font-size: 18px;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+    #myModal {
+  display: none;
+  align-items: center;
+  justify-content: flex-start;
+  position: fixed;
+  top: 0;
+  left: 50px;
+  width: 100%;
+  height: 100%;
+
+}
+</style>
+<body>
+     
+    
+  <div class="navbar">
+    <nav class="main-nav">
+        <div>
+            <h1>Versatile</h1>
+        </div>
+        <ul class="menu">
+            <li><a href="/Insite">Dashboard</a></li>
+            <li><a href="/adminLogin">Logout</a></li>
+        </ul>
+    </nav>
+</div>
+
+      <main>
+        <div class="panel product-details">
+          <a href="/category" class="custom-link"><i class="fa-solid fa-arrow-left"></i></a>
+            <div class="admin-container">    
+             
+
+                <h1 class="admin-title">ADD CATEGORY</h1><br>
+                <% if (typeof message !== 'undefined') { %>
+                  <div class="Errormsg">
+                    <h3><%= message %></h3>
+                  </div>
+                <% } %>
+                <form class="admin-form" action="/category" method="POST" onsubmit="return validateForm()">
+                    <label class="admin-label" for="categoryName">Category Name:</label>
+                    <input class="admin-input" type="text" id="categoryName" name="categoryName">
+                 
+                   <!-- <form method="POST" action="/"> -->
+                    <button class="admin-button" type="submit">Add Category</button>
+                   <!-- </form> -->
+                </form>
+            </div>
+        </div>
+      </main>
+
+
+
+
+      <div id="myModal" class="overlay">
+        <div class="modal">
+          <span class="close-btn" onclick="closeModal()">&times;</span>
+          <p id="modalContent"></p>
+        </div>
+      </div>
+
+
+
+      
+  </div>
+
+
+  
+  <script>
+    function validateForm() {
+      var categoryName = document.getElementById("categoryName").value;
+    
+      // Check if categoryName contains spaces, small letters, or numbers
+      if (categoryName.trim() === '' ||  !/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(categoryName.value)  || /\d/.test(categoryName)|| categoryName.length > 10) {
+        displayModal("Category Name should not contain spaces, small letters");
+        return false; // Prevent form submission
+      }
+  
+      return true; // Allow form submission
+    }
+  
+    function displayModal(message) {
+      var modal = document.getElementById("myModal");
+      var modalContent = modal.querySelector('#modalContent');
+      modalContent.innerText = message;
+      modal.style.display = "flex";
+    }
+  
+    function closeModal() {
+      var modal = document.getElementById("myModal");
+      modal.style.display = "none";
+    }
+  </script>
+  
+</body>
+</html>

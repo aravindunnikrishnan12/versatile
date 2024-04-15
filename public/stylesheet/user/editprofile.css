@@ -1,0 +1,320 @@
+
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+     background-color: white;
+     
+     font-family: Arial, Helvetica, sans-serif;
+     overflow: hidden;
+     
+    font-weight: bolder;
+
+
+}
+
+
+    .background-container {
+        background-color: #f5f2f2; /* Grey background color */
+        height: 540px; /* Full height of the viewport */
+        width: 1080px;
+      margin-left: 200px;
+      border-radius: 10px;
+     position: relative;
+     bottom: 150px;
+     overflow-y:visible;
+     overflow-x: hidden;
+   
+      
+    }
+
+
+
+main{
+
+    width: 100%;
+    height: auto;
+}
+
+.sideSection{
+    width: 200px;
+    margin-left: 100px;
+    margin-top: 30px;
+    
+ 
+     /* Set the background color to black */
+  
+}
+
+ /* zoom*/
+
+
+  
+
+
+
+
+
+
+
+
+
+.contanier{
+    width: 100%;
+    height: 100vh;
+    padding: 0 15px 15px;
+    
+}
+.contanier nav{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    height: 80px;
+}
+nav h1{
+    
+    position: relative;
+    color: #dc0000;
+}
+nav .logo{
+    display: flex;
+    align-items: center;
+    background-color: #000000;
+    height: 100px;
+   
+}
+.logo h1{
+ color: #dc0000;
+}
+nav .logo i{
+    color: #79bccf;
+    font-size: 28px;
+}
+nav .logo h1{
+    color: #ffffff;
+    font-size: 28px;
+    margin-left: 50px;
+}
+.ver{
+    position: relative;
+    bottom: 137px;
+    left: 1100px;
+}
+nav ul li{
+    display: inline-block;
+    margin-left: 50px;
+    height: 80px;
+    position: relative;
+    margin-bottom: 20px;
+    line-height: 80px;
+    cursor: pointer;
+    
+   
+}
+nav ul li::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #79bccf;
+    width: 0%;
+    height: 3px;
+    transition: 0.3s;
+    
+}
+nav ul li:hover::after,
+nav ul li.active::after{
+    width: 100%;
+}
+nav ul li a{
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 15px;
+    transition: 0.3s;
+   
+}
+nav ul li a:hover,
+nav ul li.active a{
+    color: #79bccf;
+}
+
+
+
+
+footer {
+            background-color: #000000;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .btn-cart {
+            background-color: #000000;
+            color: #ffffff;
+            border: 1px solid #ccc; /* Optional: Add a border for better visibility */
+            padding: 10px 20px; /* Adjust padding as needed */
+            border-radius: 5px; /* Optional: Add rounded corners */
+            display: flex;
+            align-items: center;
+            
+          }
+          
+          .btn-cart i {
+            margin-right: 10px; /* Optional: Add space between icon and text */
+          }
+
+
+
+          /* edit profile  */
+
+
+
+          .background-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow-y: scroll;
+            margin-left: 250px;
+        }
+        
+        .profile {
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 600px;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        fieldset {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        
+        .grid-35 {
+            width: 35%;
+            display: inline-block;
+        }
+        
+        .grid-65 {
+            width: 65%;
+            display: inline-block;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        
+        .Btn {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .Btn.cancel {
+            background-color: #ccc;
+            margin-right: 10px;
+        }
+        
+        .Btn:hover {
+            background-color: #45a049;
+        }
+        
+.content {
+    text-align: center; /* Center the content within the profile section */
+  }
+  
+  fieldset {
+    margin-bottom: 15px; /* Add some space between fieldsets */
+  }
+  
+  label {
+    display: block; /* Display labels as blocks for proper spacing */
+    font-weight: bold; /* Make labels bold for emphasis */
+    margin-bottom: 5px; /* Add some space below labels */
+  }
+  
+  input {
+    width: 100%; /* Make input fields take up 100% of the width */
+    padding: 8px; /* Add padding to input fields for better appearance */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  }
+  
+  .Btn {
+    padding: 10px 20px; /* Add padding to buttons */
+    cursor: pointer; /* Change cursor to pointer on hover for buttons */
+  }
+  
+  .cancel {
+    background-color: #ccc; /* Set a background color for the cancel button */
+  }
+  
+
+  
+  .background-container {
+    background-color: #f0f0f0; /* Set the background color of the container */
+    min-height: 100%; /* Set the minimum height of the container to 100% of the viewport height */
+    overflow-y: scroll; /* Enable vertical scrolling if the content overflows the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    padding-bottom: 60px; /* Set padding at the bottom to accommodate the footer */
+  }
+  
+  .profile {
+    max-width: 600px; /* Set the maximum width of the profile section */
+    margin: 20px auto; /* Center the profile section with some margin */
+    padding: 20px; /* Add padding to the profile section */
+    background-color: #fff; /* Set the background color of the profile section */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
+  }
+  
+  footer {
+    position: fixed; /* Fix the footer at the bottom of the viewport */
+    width: 200%; /* Set the width of the footer to 100% of the viewport width */
+    background-color: #333; /* Set the background color of the footer */
+    color: #fff; /* Set the text color of the footer */
+    text-align: center; /* Center the text within the footer */
+    padding: 10px 0; /* Add padding to the top and bottom of the footer */
+    bottom: 0; /* Position the footer at the bottom of the viewport */
+  }
+
+  

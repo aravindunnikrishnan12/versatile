@@ -1,0 +1,92 @@
+
+<script>
+let orderId;
+      let price = document.getElementById('price')
+      let orderprice = price.getAttribute('data-totalprice')
+
+      $(document).ready(function () {
+        console.log('here ajax');
+        var settings = {
+          "url": "/create/orderId",
+          "method": "POST",
+          "timeout": 0,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "data": JSON.stringify({
+            "amount": orderprice
+          }),
+        };
+
+       
+        $.ajax(settings).done(function (response) {
+          orderId = response.orderId;
+          orderprice = response.orderprice; 
+          ordresignature = response.signature
+          console.log(orderId);
+          $("#razorpayBtn").show();
+        });
+      });
+
+      document.querySelector('form').addEventListener('submit', function (e) {
+  e.preventDefault(); 
+
+  var selectedPaymentMethod = document.getElementById('paymentMethod').value;
+  var address = document.getElementById("addressDropdown").value;
+  let price = document.getElementById('price')
+      let orderprice = price.getAttribute('data-totalprice')
+
+  if (selectedPaymentMethod === 'Razorpay') {
+    var options = {
+      "key": "rzp_test_RqFlEd2XkYKxVa",
+      "amount": orderprice * 100, 
+      "currency": "INR",
+      "name": "versatile",
+      "description": "Payment",
+      "image": "",
+      "order_id": orderId,
+      "handler": function (response) {
+        var form = document.createElement('form');
+        form.method = 'post';
+        form.action = '/order2ForRazorPay';
+
+
+        
+        var paymentIdInput = document.createElement('input');
+        paymentIdInput.type = 'hidden';
+        paymentIdInput.name = 'razorpay_payment_id';
+        paymentIdInput.value = response.razorpay_payment_id;
+        form.appendChild(paymentIdInput);
+
+        // Create a hidden input field for the address
+        var addressInput = document.createElement('input');
+        addressInput.type = 'hidden';
+        addressInput.name = 'addressId'; // Use the correct field name for address ID
+        addressInput.value = address;
+        form.appendChild(addressInput);
+
+
+
+           // Create a hidden input field for the discount price
+           var discountPriceInput = document.createElement('input');
+                    discountPriceInput.type = 'hidden';
+                    discountPriceInput.name = 'discountprice';
+                    discountPriceInput.value = orderprice;
+                    form.appendChild(discountPriceInput);
+
+
+        document.body.appendChild(form);
+        form.submit();
+      }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response) {
+      alert(response.error.code);
+      alert(response.error.description);
+    });
+    rzp1.open();
+  } else {
+    this.submit(); 
+  }
+});
+</script>

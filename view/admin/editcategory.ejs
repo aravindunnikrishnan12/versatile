@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/stylesheet/admin/editcategory.css">
+    <script src="https://kit.fontawesome.com/197a2eac2f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <div class="navbar">
+    <nav class="main-nav">
+        <div>
+            <h1>Versatile</h1>
+        </div>
+        <ul class="menu">
+            <li><a href="/Insite">Dashboard</a></li>
+            <li><a href="/adminLogin">Logout</a></li>
+        </ul>
+    </nav>
+</div>
+      
+      <div class="background-container">
+        <div class="panel product-details">
+          <a href="/Category" class="custom-link" style="color: black;"><i class="fa-solid fa-arrow-left"></i></a>
+          
+          <div class="admin-container">
+            <h1 class="admin-title">Edit CATEGORY</h1><br>
+                    
+            <% if (typeof message !== 'undefined') { %>
+              <div class="Errormsg">
+                <h3><%= message %></h3>
+              </div>
+            <% } %>
+            <form class="admin-form" action="/editcategory/<%=id%>" method="POST">
+              <label class="admin-label" for="categoryName">New Category Name:</label>
+              <input class="admin-input" type="text" id="categoryName" name="categoryName" value="<%= name %>">
+
+              <button class="admin-button" type="submit">Update Category</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+
+
+
+
+  </div>
+    
+</body>
+</html>

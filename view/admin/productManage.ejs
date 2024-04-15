@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- DataTable HEADER-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <script src="https://kit.fontawesome.com/197a2eac2f.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- DataTable HEADER-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+
+
+
+    <link rel="stylesheet" href="/stylesheet/admin/productmanage.css">
+    <script src="https://kit.fontawesome.com/197a2eac2f.js" crossorigin="anonymous"></script>
+</head>
+<style>
+ 
+
+ .panel {
+        flex-grow: 1; /* Take up remaining space */
+        text-align: center; /* Center align text */
+        position:absolute;
+  left: 690px;
+    }
+    
+    .search-bar {
+        display: flex;
+        align-items: center;
+        margin-left: 20px;
+    }
+    
+    .search-input {
+        padding: 8px 12px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        outline: none;
+    }
+    
+    .search-button {
+        background-color: #31473A;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 12px;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+  /* Your existing styles here */
+  .sidebar {
+    text-decoration: none;
+    position: fixed;
+    top: 75px; /* Height of the navbar */
+    left: -250px; /* Initially hidden off-canvas */
+    bottom: 0;
+    width: 250px;
+    background-color: #31473A; /* Same as navbar color */
+    color: #fff; /* Text color */
+    transition: left 0.3s ease; /* Smooth transition for opening and closing */
+    z-index: 1000; /* Ensure sidebar is above other content */
+}
+
+.sidebar.show {
+    left: 0; /* Show sidebar when .show class is added */
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding-left: 30px;
+}
+
+.sidebar li {
+    margin-bottom: 40px;
+}
+
+.sidebar a {
+    background-color: rgb(255, 255, 255);
+    display: block;
+    padding: 10px;
+    color: #000000;
+    text-decoration: none;
+    border-radius: 20px;
+    width: 210px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.sidebar a:hover {
+    background-color: rgba(200, 200, 200, 0.5);
+    text-decoration: none;
+    color: #fff;
+}
+.custom-btn {
+    background-color: #4d4f52; /* Button background color */
+    color: #fff; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.custom-btn:hover {
+    background-color: #000000; /* Hover background color */
+}
+.addbutton{
+  position:absolute;
+right: 100px;
+}
+
+</style>
+<div class="navbar">
+  <nav class="main-nav">
+    <div>
+      <button id="sidebar-toggle" class="sidebar-toggle-btn custom-btn"><i class="fas fa-bars"></i></button>
+    </div>
+    <div class="sidebar">
+      <div id="accordion">
+          <ul>
+              <li><a href="/Insite" data-tag="dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+              <li><a href="/UserManage" data-tag="dashboard"><i class="fas fa-tachometer-alt"></i>user manage</a></li>
+              <li><a href="/category" data-tag="category"><i class="fas fa-address-book"></i>Category Details</a></li>
+              <li><a href="/products" data-tag="product"><i class="fas fa-clone"></i>Product Details</a></li>
+              <li><a href="/order" data-tag="order"><i class="fas fa-calendar"></i>Order & Payment</a></li>
+              <li><a href="/getsalesReport" data-tag="sales"><i class="fas fa-chart-bar"></i>Sales Report</a></li>
+              <li><a href="#" data-tag="sales"><i class="fas fa-chart-bar"></i>offers</a></li>
+              <li><a href="/couponmanageadmin" data-tag="coupon"><i class="fas fa-copy"></i>Coupon</a></li>
+          </ul>
+      </div>
+    </div>
+      <div>
+          <h1>Versatile</h1>
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Search..." class="search-input">
+        <button type="button" class="search-button"><i class="fas fa-search"></i></button>
+    </div>
+
+    
+      <ul class="menu">
+       
+          <li><a href="/adminLogin">Logout</a></li>
+      </ul>
+  </nav>
+</div>
+
+
+<div class="background-color">
+  <div class="container">
+    <div class="price-filter">
+      <a href="/addproduct" class="add-link"><button class="addbutton">ADD Product</button></a>
+<div>
+  <form action="/products" method="GET">
+    <select name="category" onchange="this.form.submit()">
+        <option value="All">All Categories</option>
+        <% productCategories.forEach(category => { %>
+            <option value="<%= category %>" <%= category === selectedCategory ? 'selected' : '' %>><%= category %></option>
+        <% }); %>
+    </select>
+    <button type="submit">Filter</button>
+</form>
+</div>
+      
+
+
+  </div>
+      <h1 class="headline">product Management</h1>
+      <h5>Selected Category: <%= selectedCategory %></h5>
+      <table id="example" class="table table-striped" style="width:100%">
+
+          <thead>
+              <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th >Category</th>
+                  <th >Description</th>
+                  <th>Image</th>
+                  <th>Stock</th>
+                  <th>Price</th>
+                  <th>productOffer</th>
+                  <th >Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              <% product.forEach((items, index) => { %>
+                  <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= items.productName %></td>
+                    <td><%= items.productCategory %></td>
+                    <td><%= items.productDescription %></td>
+                      <td>
+                        <% if (items.productImages && items.productImages.length > 0) { %>
+                          <% items.productImages.forEach((img,index)=>{%>
+                            <img src="<%=items.productImages[index]%>" alt="productImages" style="width: 5vh;">
+                            <%});%>
+                        <% } else { %>
+                          <p>No images available</p>
+                        <% } %>
+                    </td>
+
+                  <td> <span><%= items.StockCount%></span></td>
+                      <td>Rs<%= items.productPrice %></td>
+
+                      <td> <% if (items.productOffer) { %>
+                        <%= items.productOffer %>
+                    <% } else { %>
+                        No offer
+                    <% } %>
+                      </td>
+                      <td class="action-buttons">
+                          <form method="GET" action="/editproduct/<%= items._id %>">
+                              <button class="black-button">Edit</button>
+                          </form>
+                             
+                          <form action="/visible/<%= items._id %>" method="POST">
+                              <button type="submit" class="toggle-button <%= items.isvisible ? 'unblocked-user' : 'blocked-user' %>">
+                                  <% if (items.isvisible) { %>
+                                        X
+                                  <% } else { %>  
+                                      list
+                                  <% } %>
+                              </button>
+                          </form>
+                        
+                  <form id="deleteForm<%= index %>" method="POST" action="/deleteproduct/<%= items._id %>" onsubmit="return false;">
+                      <button class="black-button" type="button" onclick="openModal(`<%= index %>`)">
+                          <i class="fa-solid fa-trash"></i> 
+                      </button>
+                  </form>
+                         
+                      </td>
+                  </tr>
+              <% }); %>
+          </tbody>
+         
+      </table>
+  </div>
+</div>
+
+
+  <div id="confirmationModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <p>Are you sure you want to delete this product?</p>
+      <button id="confirmDeleteButton" class="confirm-btn">Confirm</button>
+    </div>
+  </div>
+  
+
+
+      
+  <script>
+    function openModal(index) {
+      document.getElementById('confirmationModal').style.display = 'block';
+      // Pass the index to the confirmDelete function
+      document.getElementById('confirmDeleteButton').onclick = function () {
+        confirmDelete(index);
+      };
+    }
+  
+    function closeModal() {
+      document.getElementById('confirmationModal').style.display = 'none';
+    }
+  
+    function confirmDelete(index) {
+      // Get the form dynamically using the index
+      document.getElementById('deleteForm' + index).submit();
+    }
+  </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#sidebar-toggle').click(function () {
+            $('.sidebar').toggleClass('show'); // Toggle .show class on sidebar
+        });
+    });
+</script>
+<script>
+  new DataTable('#example');
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "paging": true, // Enable pagination
+            "pageLength": 6, // Display 7 rows per page
+        });
+
+        // Handle click event on the edit button
+        $('#example tbody').on('click', '.edit-button', function () {
+            // Get the data of the clicked row
+            var rowData = $('#example').DataTable().row($(this).parents('tr')).data();
+
+            // Assuming you have a function to handle editing with the rowData
+            handleEdit(rowData);
+        });
+    });
+
+    function handleEdit(rowData) {
+        // Implement your edit logic here using the rowData
+        // For example, you can open a modal with the data for editing
+        console.log(rowData);
+        // Open edit modal or perform other editing actions
+    }
+</script>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdn.datatables.net/v/bs5/dt-1.13.8/datatables.min.js"></script>  
+
+</body>
+</html>

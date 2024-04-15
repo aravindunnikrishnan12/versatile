@@ -1,0 +1,229 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+.contanier{
+    width: 100%;
+    height: 100vh;
+   
+}
+
+nav{
+    position: fixed;
+    font-family: "Poppins", sans-serif;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 85px;
+    background-color: red; /* Changed the background color to red */
+}
+
+nav .logo{
+    display: flex;
+    align-items: center;
+}
+
+nav .logo i{
+    color: #000000;
+    font-size: 28px;
+}
+
+nav .logo h1{
+    position: fixed;
+    color: #000000;
+    left: 190px;
+    font-size: 40px;
+
+    font-weight:500;
+}
+
+nav ul{
+margin-left: -111px;
+    display: flex;
+    justify-content: center; 
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-left: 50px;
+    margin-right: 20px; /* Add margin-right to create space between items */
+    height: 80px;
+    position: relative;
+    line-height: 100px;
+    cursor: pointer;
+}
+
+
+nav ul li a {
+    position: relative;
+    margin-top: 1px;
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #000000;
+    text-transform: capitalize;
+    text-decoration: none;
+}
+/* Style for the dropdown menu */
+.dropdown-menu {
+    text-decoration: none;
+    display: none;
+    position: absolute;
+    top: 80px;
+    left: 1%;
+    color: white;
+    background-color:#f53e54;
+    padding: 5px; /* Reduced padding for a smaller dropdown */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: -5; /* Initially set opacity to 0 for smooth opening */
+    transition: opacity 1s ease; /* Smooth transition for opacity */
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1; /* Set opacity to 1 to make the dropdown visible */
+}
+.dropdown-menu a {
+   height: 50px;
+    color: white; /* Set the font color inside the dropdown to white */
+    margin-bottom: 50px;
+    padding: -50px; /* Adjust padding for links inside dropdown */
+   
+    border-radius: 3px; /* Add border radius for rounded corners */
+    transition: background-color 1s ease; /* Smooth transition for background color */
+}
+
+
+
+
+
+
+
+
+.contanier .content{
+    width: 100%;
+    height: 750px;
+    background: linear-gradient(130deg, #ff0000ea, #eaa2b2);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+}
+
+.content .div-text{
+    margin-left: 70px;
+    margin-top: 200px;
+}
+.content .div-text span{
+  position: absolute;
+  margin-top: -40px;
+  margin-left: 140px;
+    color: #fff;
+    font-size: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    font-weight:200;
+}
+.content .div-text h3{
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    font-size: 50px;
+    font-weight: normal;
+    margin: 20px 0 8px;
+    color: #444;
+}
+.content .div-text h1{
+    font-size: 68px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: #ffffff;
+    margin-bottom: 25px;
+}
+.content .div-text p{
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 1.8;
+    letter-spacing: 1.3px;
+    margin-bottom: 55px;
+}
+.content .div-text .btn{
+
+    padding: 15px 35px;
+    background-color: #ffffff;
+    color: #000000;
+    text-transform: uppercase;
+    font-weight:300;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: 0.3s;
+    margin-top: -10px;
+    margin-left: 190px;
+}
+.content .div-text .btn:hover{
+    color: #000000;
+    box-shadow: #000000;
+    background-color: rgba(121, 188, 207, 0); /* Transparent background color */
+}
+
+
+.content .div-img img{
+    width: 350px;
+}
+.content .small-img{
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 80px;
+}
+.content .small-img img{
+    width: 80px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+.content .small-img img:hover{
+    transform: scale(1.2);
+}
+
+
+
+
+.search-icon {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .search-icon i {
+    position: absolute;
+    top: 20%;
+ 
+    transform: translateY(-50%);
+    color: #000000; /* Adjust the color as needed */
+    font-size: 18px; /* Adjust the font size as needed */
+  }
+  .search-input {
+    line-height: 10%;
+    margin-top: -70px;
+    margin-left: -400px;
+    padding-left: 30px; /* Add padding to the left of the input to make space for the icon */
+    border: 1px solid #ccc; /* Example border style */
+    border-radius: 25px; /* Border radius to create rounded corners */
+    height: 30px; /* Example height */
+    width: 200px; /* Example width */
+    box-sizing: border-box; /* Include padding and border in the element's total width/height */
+    background-color: transparent; /* Set background color to transparent */
+    outline: none; /* Remove default input focus outline */
+  }
+  
+

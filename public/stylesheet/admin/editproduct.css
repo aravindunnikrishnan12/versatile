@@ -1,0 +1,251 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,800&family=Nova+Square&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+* {
+  font-family: "Poppins", "sans-sarif";
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+
+}
+
+
+.navbar {
+   
+    background-color:#31473A;
+    color: rgb(255, 255, 255);
+    height: 75px;
+  }
+  
+  .main-nav {
+   
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .main-nav h1 {
+    margin: 0;
+    margin-left: 85px;
+    margin-top: -10px;
+    font-size:35PX;
+    font-family: "Playfair Display", serif;
+    letter-spacing: 2px;
+    font-weight: 700;
+    /* font-family: 'Roboto Condensed', sans-serif; */
+  }
+  
+  menu ul li{
+    display: inline-block;
+    margin-left: 50px;
+    height: 80px;
+    position: relative;
+    line-height: 80px;
+    cursor: pointer;
+    
+    
+  }
+  menu ul li::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #000000;
+    width: 0%;
+    height: 3px;
+    transition: 0.3s;
+  }
+  nav ul li:hover::after,
+  nav ul li.active::after{
+    width: 100%;
+  }
+  .menu {
+    font-family: 'Roboto Condensed', sans-serif;
+  
+    list-style: none;
+    margin: 0;
+    margin-top: 1px;
+    padding: 0;
+    display: flex;
+    margin-left: 950px;
+  }
+  
+  .menu li {
+    margin-left: 35px;
+    /* margin-top: 15PX; */
+   font-weight: 500;
+    
+  }
+  
+  
+  .menu a {
+    text-decoration: none;
+    color: white;
+
+  }
+  
+  .menu li :hover  {
+    margin-left: -14px;
+    /* margin-top: 15PX; */
+  font-weight: 500;
+  background-color: rgb(246, 246, 246);
+   border-radius:16px;
+   padding: 6px;
+   color: black;
+  
+  }
+  
+  
+  .menu a {
+    text-decoration: none;
+    color: rgb(239, 239, 239);
+
+  }
+
+  
+.background-container {
+  border: 1px solid #b8b8b8;
+  background-color:#ffffffdc;   
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(1, 2, 3, 1.1);
+    padding: 18px;
+    max-width: 700px;
+    width: 100%;
+    margin-left: 395px;
+    margin-top: 10px;
+    height: 901px;
+}
+
+.back-button {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    background-color: #333;
+    padding: 1px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    width: 50px;
+    margin-left: 0px;
+
+}
+
+.back-button:hover {
+    color: #8f8888;
+}
+
+.background-container form {
+    max-width: 600px;
+  
+    margin: 0 auto;
+    margin-bottom: -90px;
+   
+   
+    margin: -60px auto;
+
+}
+.heading{
+  color: #555957;
+}
+
+.background-container h1 {
+    text-align: center;
+    margin: 1px; /* Remove margin */
+    padding: -10px ; 
+    position: relative;
+    bottom: 60px;/* Add padding top and bottom *//* Remove the default margin */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #3b3838;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 450px;
+}
+
+button:hover {
+    background-color: #372d2d;
+}
+.image-preview-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.image-preview {
+  max-width: 100px; /* Adjust the maximum width as needed */
+  margin-right: 10px;
+}
+
+.delete-button-container {
+  margin-left: auto; /* Push the delete button to the right */
+}
+
+.delete-button {
+  background-color: #3c3636; /* Red background color */
+  color: #ffffff; /* White text color */
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  size: 10px;
+  margin-left: 10px;
+  
+}
+
+.delete-button:hover {
+  background-color: #cc0000; /* Darker red color on hover */
+}
+.form-container {
+  max-height: 725px; /* Set a maximum height for the form container */
+  overflow-y: auto; /* Enable vertical scrolling when content exceeds the height */
+  padding: 20px; /* Add padding for better appearance */
+}
+/* .image-preview-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.image-preview {
+  max-width: 100px; 
+  margin-right: 10px;
+}
+
+#imagePreviewContainer{
+  max-width: 40px;
+  margin-bottom: 20px;
+}
+
+#imageContainer {
+      max-width: 40px;
+      margin-bottom: 20px;
+    }
+
+    #editedImage {
+      max-width: 10%;
+      height: 10px;
+    } */
+    /* Add this to your CSS file or style section */
+.image-preview {
+  max-width: 100px;
+  max-height: 100px;
+}

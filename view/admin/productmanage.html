@@ -1,0 +1,70 @@
+
+/* Your existing styles here */
+.sidebar {
+    text-decoration: none;
+    position: fixed;
+    top: 75px; /* Height of the navbar */
+    left: 0;
+    bottom: 0;
+    width: 250px; /* Adjust as needed */
+    background-color: #31473A; /* Same as navbar color */
+    color: #fff; /* Text color */
+    padding-top: 50px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding-left: 30px;
+}
+
+.sidebar li {
+    margin-bottom: 40px; /* Increased margin between list items */
+}
+
+.sidebar a {
+    background-color: rgb(255, 255, 255);
+    display: block;
+    padding: 10px;
+    color: #000000;
+    text-decoration: none;
+    border-radius: 20px;
+    width: 210px;
+}
+
+.sidebar a:hover {
+    background-color: rgba(200, 200, 200, 0.5); /* Lighter hover background color */
+    text-decoration: none; /* Remove underline on hover */
+    color: #fff; /* Text color on hover */
+}
+<div class="navbar">
+  <nav class="main-nav">
+      <div>
+          <h1>Versatile</h1>
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Search..." class="search-input">
+        <button type="button" class="search-button"><i class="fas fa-search"></i></button>
+    </div>
+
+    <div  class="panel"> 
+      <h3>Admin Panel</h3>
+    </div>
+      <ul class="menu">
+       
+          <li><a href="/adminLogin">Logout</a></li>
+      </ul>
+  </nav>
+</div>
+<div class="content-container">
+<div class="sidebar">
+<div id="accordion">
+    <ul>
+        <li><a href="/Insite" data-tag="dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+        <li><a href="/UserManage" data-tag="dashboard"><i class="fas fa-tachometer-alt"></i>user manage</a></li>
+        <li><a href="/category" data-tag="category"><i class="fas fa-address-book"></i>Category Details</a></li>
+        <li><a href="/products" data-tag="product"><i class="fas fa-clone"></i>Product Details</a></li>
+        <li><a href="/order" data-tag="order"><i class="fas fa-calendar"></i>Order & Payment</a></li>
+        <li><a href="/getsalesReport" data-tag="sales"><i class="fas fa-chart-bar"></i>Sales Report</a></li>
+        <li><a href="/couponmanageadmin" data-tag="coupon"><i class="fas fa-copy"></i>Coupon</a></li>
+    </ul>
+</div>

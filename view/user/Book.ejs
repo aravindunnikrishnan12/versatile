@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="zxx">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Versatile book</title>
+    <link rel="icon" href="img/favicon.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- animate CSS -->
+    <link rel="stylesheet" href="css/animate.css">
+    <!-- owl carousel CSS -->
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="css/all.css">
+    <!-- flaticon CSS -->
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <!-- swiper CSS -->
+    <link rel="stylesheet" href="css/slick.css">
+    <!-- style CSS -->
+    <link rel="stylesheet" href="/stylesheet/user/product.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+
+    <style>
+    .filter-section select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        padding: 8px 12px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #6a676700;
+        background-image: linear-gradient(45deg, transparent 50%, #ccc 50%);
+        background-position: right 8px top 50%;
+        background-size: 8px 8px;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        width: 200px; /* Adjust as needed */
+        max-width: 100%; /* Ensures it doesn't overflow its container */
+    }
+
+    .filter-section select:focus {
+        outline: none;
+        border-color: #555;
+    }
+
+    /* Optional: Style the dropdown arrow */
+    .filter-section select::-ms-expand {
+        display: none;
+    }
+
+    /* Optional: Style selected option */
+    .filter-section select option[selected] {
+        background-color: #dddddd00;
+    }
+
+    .section_tittle h2 {
+        position:absolute;
+        top:850px;
+        left:600px;
+        font-size: 32px; /* Increase font size */
+        font-weight: bold; /* Make the text bold */
+        color: #333; /* Change text color */
+        text-transform: uppercase; /* Convert text to uppercase */
+        letter-spacing: 2px; /* Add letter spacing */
+    }
+    .pagination-section {
+        text-align: center;
+    }
+
+    .pagination {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+    }
+
+    .pagination li {
+        display: inline;
+        margin-right: 5px;
+    }
+
+    .pagination li a {
+        color: #333;
+        text-decoration: none;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    .pagination li.active a {
+        background-color: #007bff;
+        color: #fff;
+        border-color: #007bff;
+    }
+</style>
+<body>
+
+
+    <!--::header part start::-->
+    <header class="main_menu home_menu">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <i class="fa-solid fa-book fa-2x"></i> <!-- This will make the icon 3 times larger -->
+                        &nbsp;&nbsp;
+                        <a class="navbar-brand" href="">
+                            <h1>Versatile</h1>
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="menu_icon"><i class="fas fa-bars"></i></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/home">Home</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown_1" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        shop
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+
+                                        <a class="dropdown-item" href="/books">book</a>
+                                    </div>
+
+
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        pages
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+                                        <a class="dropdown-item" href="/cartdisplay">Cart</a>
+                                        <a class="dropdown-item" href="/wishlist">Wishlist</a>
+
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown_2" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Account
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+                                        <a class="dropdown-item" href="/logout">Log out</a>
+
+                                    </div>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/profile">Profile</a>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <form action="/search" method="GET" class="search-form">
+                            <a href="#" class="search-icon"></a>
+                            <input type="text" name="q" placeholder="Search..." class="search-input">
+                            <button type="submit"><i class="fas fa-search"></i></button>
+                            </a>
+                        </form>
+
+                </div>
+
+                </nav>
+            </div>
+        </div>
+        </div>
+
+    </header>
+    <!-- Header part end-->
+
+
+
+
+
+
+
+
+    <!-- start banner Area -->
+    <section class="banner-area" id="home">
+        <div class="container">
+            <div class="row fullscreen d-flex align-items-center justify-content-start">
+                <div class="banner-content col-lg-7">
+                    <h5 class="text-white text-uppercase">Author: Aldous Huxley</h5>
+                    <h1 class="text-uppercase">
+                        Brave New World
+                    </h1>
+                    <p class="text-white pt-20 pb-20">
+                        A dystopian novel that imagines a future society where people are engineered <br> and
+                        conditioned for conformity
+                        , exploring themes of technology, social control .
+                    </p>
+                    <a href="#" class="primary-btn text-uppercase">Buy Now for 9.99</a>
+                </div>
+                <div class="col-lg-5 banner-right">
+                    <img class="img-fluid mainimg" src="/img/book2.png" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End banner Area -->
+
+
+    <!-- product_list start-->
+
+    <section class="product_list section_padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                   
+                </div>
+            </div>
+            <div class="section_tittle text-center">
+                <h2 class="collection" style="color: #333;">Book Collections</h2>
+            </div>
+
+            <!-- ctegory filteriing -->
+            <div class="filter-section">
+                <form action="/books" method="GET">
+                    <select name="category" onchange="this.form.submit()">
+                        <option value="All" <%= selectedCategory === 'All' ? 'selected' : '' %>>All Categories</option>
+                        <% productCategories.forEach(category => { %>
+                            <option value="<%= category %>" <%= category === selectedCategory ? 'selected' : '' %>><%= category %></option>
+                        <% }); %>
+                    </select>
+                   
+                </form>
+            </div>
+            
+            <div class="custom-dropdown">
+                <button class="custom-button" onclick="toggleDropdown()">filter</button>
+                <div class="custom-dropdown-content" id="dropdown-content">
+                    <a href="/sortproduct/popularity">Popularity</a>
+                    <a href="/sortproduct/priceLowToHigh">Price: Low to High</a>
+                    <a href="/sortproduct/priceHighToLow">Price: High to Low</a>
+                    <!-- <a href="/sortproduct/averageRatings">Average Ratings</a> -->
+                    <!-- <a href="/sortproduct/featured">Featured</a> -->
+                    <a href="/sortproduct/newArrivals">New Arrivals</a>
+                    <a href="/sortproduct/aAZ">aA - zZ</a>
+                    <a href="/sortproduct/zZA">zZ - aA</a>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <% products.forEach((product, index)=> { %>
+                    <% if (index % 4===0) { %>
+            </div>
+            <div class="row">
+                <% } %>
+                    <div class="col-lg-3 col-sm-6 productlisting">
+                        <div class="single_product_item">
+                            <a href="/display/<%= product.id %>">
+                                <img src="<%= product.productImages[0] %>" alt="<%= product.productName %>"
+                                    class="product-image">
+                            </a>
+                            <div class="single_product_text">
+                                <strong><%= product.productName %></strong>
+                                <% if (product.productOffer) { %>
+                                    <del>
+                                        <h3 style="font-weight: bold;">₹<%= product.productPrice %>
+                                        </h3>
+                                    </del>
+                                    <h3 style="font-weight: bold;">₹<%= product.productPrice - (product.productPrice *
+                                            (product.productOffer / 100)) %> &nbsp;&nbsp; &nbsp;&nbsp;&darr;
+                                            <%=product.productOffer%>%</h3>
+
+
+                                    <% } else { %>
+                                        <h3 style="font-weight: bold;">₹<%= product.productPrice %>
+                                        </h3>
+                                        <% } %>
+
+                                            <h3><a href="#" class="add-to-wishlist"
+                                                    data-product-id="<%= product.id %>"><i
+                                                        class="fa-regular fa-heart"></i></a></h3>
+                                            <a href="#" class="add-to-cart" data-product-id="<%= product.id %>"><i
+                                                    class="fa-solid fa-cart-shopping"> &nbsp;&nbsp;</i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+            </div>
+
+        </div>
+        <!-- Pagination -->
+ <!-- Pagination -->
+ <div class="pagination-section text-center">
+    <ul class="pagination">
+        <% if (page > 1) { %>
+            <li><a href="/books?page=<%= page - 1 %>">Previous</a></li>
+        <% } %>
+        <% for (let i = 1; i <= totalPages; i++) { %>
+            <li class="<%= i === page ? 'active' : '' %>">
+                <a href="/books?page=<%= i %>"><%= i %></a>
+            </li>
+        <% } %>
+        <% if (page < totalPages) { %>
+            <li><a href="/books?page=<%= page + 1 %>">Next</a></li>
+        <% } %>
+    </ul>
+</div>
+
+    </section>
+
+
+
+    <!-- product_list part start-->
+
+
+
+
+
+
+    <!--::footer_part start::-->
+    <footer class="footer_part">
+
+        <div class="copyright_part">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="copyright_text">
+                            <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved <a
+                                    href="https://colorlib.com" target="_blank">Versatile</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </P>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="footer_icon social_icon">
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="single_social_icon"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#" class="single_social_icon"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#" class="single_social_icon"><i class="fas fa-globe"></i></a></li>
+                                <li><a href="#" class="single_social_icon"><i class="fab fa-behance"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+   <script>
+    
+   </script>
+    <script>
+
+    </script>
+    <!--::footer_part end::-->
+    <script src="/path/to/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        function toggleDropdown() {
+            var dropdownContent = document.getElementById("dropdown-content");
+            dropdownContent.classList.toggle("show");
+        }
+    </script>
+
+    <script>// Get all elements with the class "add-to-cart"
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+        // Loop through each button and attach a click event listener
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent the default behavior of the anchor tag
+
+                const productId = button.dataset.productId; // Get the product ID from the data attribute
+
+                // Send AJAX request to add product to cart
+                addToCart(productId);
+            });
+        });
+
+        // Function to add product to cart
+        function addToCart(productId) {
+
+            fetch(`/add-to-cart/${productId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId: productId })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Show success alert
+                        showAlert(productId);
+                    } else {
+                        // Show error alert
+                        showErrorAlert();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error adding to cart:', error);
+                    // Show error alert
+                    showErrorAlert();
+                });
+        }
+
+        function showAlert(productId) {
+            Swal.fire({
+                title: 'Product Added!',
+                text: `added to the cart.`,
+                icon: 'success',
+                confirmButtonText: 'OK',
+                width: '290px', // Adjust the width as needed
+
+                customClass: {
+                    container: 'alert-container',
+                    title: 'alert-title',
+                    content: 'alert-content',
+                    confirmButton: 'alert-confirm-button',
+                }
+            });
+        }
+
+        // Function to show error alert
+        function showErrorAlert() {
+            Swal.fire({
+                title: 'Error!',
+                text: 'An error occurred while adding the product to the cart. Please try again later.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+                customClass: {
+                    container: 'alert-container',
+                    title: 'alert-title',
+                    content: 'alert-content',
+                    confirmButton: 'alert-confirm-button',
+                }
+            });
+        }
+    </script>
+    <script>document.addEventListener('DOMContentLoaded', () => {
+            const addToWishlistButtons = document.querySelectorAll('.add-to-wishlist');
+
+            addToWishlistButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    const productId = button.dataset.productId;
+
+                    whishlist(productId);
+                });
+            });
+
+            function whishlist(productId) {
+                fetch('/wishlist-add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ productId: productId })
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Error adding the product to the wishlist');
+                        }
+                    })
+                    .then(data => {
+                        if (data.message === 'Product already in wishlist') {
+                            showAlert(data.message);
+                        } else {
+                            showAlert('Product added to wishlist successfully');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error adding to wishlist:', error);
+                        showErrorAlert('An error occurred while adding the product to the wishlist');
+                    });
+            }
+
+            function showAlert(message) {
+                Swal.fire({
+                    title: 'Info',
+                    text: message,
+                    icon: 'info',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        container: 'alert-container',
+                        title: 'alert-title',
+                        content: 'alert-content',
+                        confirmButton: 'alert-confirm-button',
+                    }
+                });
+            }
+
+            function showErrorAlert(message) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: message,
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        container: 'alert-container',
+                        title: 'alert-title',
+                        content: 'alert-content',
+                        confirmButton: 'alert-confirm-button',
+                    }
+                });
+            }
+        });
+    </script>
+    <!-- jquery plugins here-->
+    <script src="js/jquery-1.12.1.min.js"></script>
+    <!-- popper js -->
+    <script src="js/popper.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- easing js -->
+    <script src="js/jquery.magnific-popup.js"></script>
+    <!-- swiper js -->
+    <script src="js/swiper.min.js"></script>
+    <!-- swiper js -->
+    <script src="js/masonry.pkgd.js"></script>
+    <!-- particles js -->
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <!-- slick js -->
+    <script src="js/slick.min.js"></script>
+    <script src="js/jquery.counterup.min.js"></script>
+    <script src="js/waypoints.min.js"></script>
+    <script src="js/contact.js"></script>
+    <script src="js/jquery.ajaxchimp.min.js"></script>
+    <script src="js/jquery.form.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/mail-script.js"></script>
+    <!-- custom js -->
+    <script src="js/custom.js"></script>
+</body>
+
+</html>

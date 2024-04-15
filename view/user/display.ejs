@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Display</title>
+  <link rel="stylesheet" href="/stylesheet/user/trail.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zoom.css/1.1.3/zoom.css">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zoom.js/1.7.2/zoom.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  
+<!-- Add Font Awesome CSS for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+  big {
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .MsterImage {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+  }
+
+  .btn-cart {
+        background-color: #b82727;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+    /* Custom styles for the cart logo */
+    .cart-logo {
+        color: #007bff;
+        font-size: 24px;
+    }
+</style>
+</head>
+<body>
+ 
+
+
+    <!--::header part start::-->
+    <header class="main_menu home_menu">
+      <div class="container">
+          <div class="row align-items-center">
+              <div class="col-lg-12">
+                  <nav class="navbar navbar-expand-lg navbar-light">
+                      <i class="fa-solid fa-book fa-2x"></i> <!-- This will make the icon 3 times larger -->
+               &nbsp;&nbsp;
+                      <a class="navbar-brand" href=""> <h1>Versatile</h1></a>
+                      <button class="navbar-toggler" type="button" data-toggle="collapse"
+                          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                          aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="menu_icon"><i class="fas fa-bars"></i></span>
+                      </button>
+
+                      <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
+                          <ul class="navbar-nav">
+                              <li class="nav-item">
+                                  <a class="nav-link" href="/home">Home</a>
+                              </li>
+                              <li class="nav-item dropdown">
+                                  <a class="nav-link dropdown-toggle" href="" id="navbarDropdown_1"
+                                      role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Shop
+                                  </a>
+                                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+                                      <a class="dropdown-item" href="/books">Book</a>
+                                      
+                                      
+                                  </div>
+                              </li>
+                              <li class="nav-item dropdown">
+                                  <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
+                                      role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      pages
+                                  </a>
+                                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+                                      <a class="dropdown-item" href="/cartdisplay">Cart</a>
+                                      <a class="dropdown-item" href="/wishlist">Wishlist</a>
+                                      <!-- <a class="dropdown-item" href="">product checkout</a>
+                                      <a class="dropdown-item" href="">shopping cart</a>
+                                      <a class="dropdown-item" href="">confirmation</a>
+                                      <a class="dropdown-item" href="">elements</a> -->
+                                  </div>
+                              </li>
+                              <li class="nav-item dropdown">
+                                  <a class="nav-link dropdown-toggle" href="" id="navbarDropdown_2"
+                                      role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Account
+                                  </a>
+                                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+                                      <a class="dropdown-item" href="/logout">Log out</a>
+                                     
+                                  </div>
+                              </li>
+                              
+                              <li class="nav-item">
+                                  <a class="nav-link" href="/profile">Profile</a>
+                              </li>
+                          </ul>
+                      </div>
+                     
+
+<form action="/search" method="GET" class="search-form">
+  <a href="#" class="search-icon"></a>
+  <input type="text" name="q" placeholder="Search..." class="search-input">
+  <button type="submit"><i class="fas fa-search"></i></button>
+</a>
+</form>
+
+                      </div>
+                      
+                  </nav>
+              </div>
+          </div>
+      </div>
+     
+  </header>
+  <!-- Header part end-->
+
+  <!--  -->
+
+  <section aria-label="Main content" role="main" class="product-detail">
+    <div itemscope itemtype="">
+     
+      <div class="shadow">
+        <div class="_cont detail-top">
+          <div class="cols">
+            <div class="left-col">
+              <div class="thumbs">
+                <a class="thumb-image" href="" data-index="0">
+                  <span><img src="<%= products.productImages[1] %>" alt=""></span>
+                </a>
+                <a class="thumb-image" href="" data-index="1">
+                  <span><img src="<%= products.productImages[2] %>" alt=""></span>
+                </a>
+              </div>
+              
+              
+                <div class="big">
+                    
+                    <div class="MsterImage zoom" id="container">
+                      
+                      <img src="<%= products.productImages[0] %>" alt="">
+
+                    </div>
+                  </div>        
+            </div>
+            <div class="right-col">
+              <h1 itemprop="name"><%= products.productName%></h1>
+              <div itemprop="offers" itemscope itemtype="">
+                <meta itemprop="priceCurrency" content="USD">
+                <link itemprop="availability" href="">
+                <div class="price-shipping">
+                  <div class="price" id="price-preview" quickbeam="price" quickbeam-price="00">
+                   
+                    <% if (products.productOffer) { %>
+                      <del><h3 style="font-weight: bold;">₹<%= products.productPrice %></h3></del>
+                      <h3 style="font-weight: bold;">₹<%= products.productPrice - (products.productPrice * (products.productOffer / 100)) %> &nbsp;&nbsp; &nbsp;&nbsp;&darr;<%=products.productOffer%>%</h3>
+
+                     
+                  <% } else { %>
+                      <h3 style="font-weight: bold;">₹<%= products.productPrice %></h3>
+                  <% } %>
+                    
+                  </div>
+                  
+                </div>
+                <div class="swatches">
+                  <div class="swatch clearfix" data-option-index="0">
+                    <div class="header">DESCRIPTION: <%= products.productDescription%></div>
+                    <br>Considered one of the foundational works of science fiction,in, a young scientist who creates a living being from dead body parts. The creature, rejected and tormented by society, grapples with its own identity and seeks revenge on its creator. Through this tale of hubris, ambition, and the consequences of playing god, Shelley explores themes of humanity
+                    <div data-value="M" class="swatch-element plain m available">
+                     
+                       
+                      </label>
+                    </div>
+                    <div data-value="L" class="swatch-element plain l available">
+                    
+                       
+                      </label>
+                    </div>
+                    <div data-value="XL" class="swatch-element plain xl available">
+                    
+                       
+                      </label>
+                    </div>
+                    <div data-value="XXL" class="swatch-element plain xxl available">
+                      
+                        
+                        
+                      </label>
+                    </div>
+                  </div>
+                  
+                  
+                </div>
+            
+
+                <form action="/cart/<%= products._id %>" method="POST">
+                  <button class="btn btn-round btn-cart" type="submit" data-product-id="<%= products.productId %>"  style="background-color: #6b3e4b; border-radius: 20px;">
+                    <i class="fas fa-shopping-cart"></i>     Add to Cart
+                  </button>
+              </form>
+                <div class="social-sharing-btn-wrapper">
+                  <span id="social_sharing_btn">Share</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="related">
+        <div class="_cont">
+          <h2>same categorie related products</h2>
+          <div class="collection-list cols-4" id="collection-list" data-products-per-page="4">
+            <a class="product-box">
+              <span class="img">
+                <span style="background-image: url('/img/BOOK19-removebg-preview.png')" class="i first"></span>
+               
+              </span>
+              <span class="text">
+                <strong>whiskey</strong>
+                <span>
+                  ₹120
+                </span>
+               
+              </span>
+            </a>
+            <a class="product-box">
+              <span class="img">
+                <span style="background-image: url('/img/BOOK17-removebg-preview.png')" class="i first"></span>
+              </span>
+              <span class="text">
+                <strong>paris syndrome </strong>
+                <span>
+                  ₹150
+                </span>
+              
+              </span>
+            
+            </a>
+            <a href="" class="product-box">
+              <span class="img">
+                <span style="background-image: url('/img/BOOK12-removebg-preview.png')" class="i first"></span>
+              </span>
+              <span class="text">
+                <strong>your exist</strong>
+                <span>
+                  ₹160
+                </span>
+               
+              </span>
+            </a>
+            <a class="product-box">
+              <span class="img">
+                <span style="background-image: url('/img/BOOK10-removebg-preview.png')" class="i first"></span>
+              <span class="text">
+                <strong>period power</strong>
+                <span>
+                  ₹100
+                </span>
+                
+              </span>
+            </a>
+           
+           
+          
+        </div>
+      </aside>
+    </div>
+  
+  </section>
+  <footer role="contentinfo" aria-label="Footer">
+    <div class="_cont">
+      <div class="socials">
+        <strong>follow us:</strong>
+        <ul>
+        
+          <li><a  title="html-koder / test on Facebook" class="fb" target="_blank">Facebook</a></li>
+        
+        </ul>
+      </div>
+      <div class="top">
+        <div class="right">
+          <form method="post" action="/contact" class="contact-form" accept-charset="UTF-8">
+            <input type="hidden" value="customer" name="form_type" /><input type="hidden" name="utf8" value="✓" />
+            <div>
+              <input type="hidden" id="contact_tags" name="contact[tags]" value="newsletter"/>
+              <input type="text" id="contact_email" name="contact[email]" placeholder="Submit e-mail for special offers...">
+              <button type="submit" title="Newsletter Signup">OK</button>
+            </div>
+          </form>
+        </div>
+        <div class="left">
+          <span class="phone">66565656565</span>
+          <a class="mail" href="mailto:email.from@settings.com">aravindunnisree</a>
+        </div>
+      </div>
+      <div class="bottom">
+        <div class="left">
+          <nav role="navigation" aria-label="Service menu">
+            <ul>
+              <li><a >VERSATILE</a></li>
+              <li><a >About Us</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Quickbeam cart-->
+  
+  <div id="quick-cart" quickbeam="cart">
+    <a id="quick-cart-pay" quickbeam="cart-pay" class="cart-ico">
+      <span>
+        <strong class="quick-cart-text">Pay<br></strong>
+        <span id="quick-cart-price">0</span>
+        <span id="quick-cart-pay-total-count">0</span>
+      </span>
+    </a>
+  </div>
+
+  <!-- Add Bootstrap JS for functionality -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+  <script>
+    const containers = document.querySelectorAll(".MsterImage");
+
+containers.forEach((container) => {
+  const img = container.querySelector("img");
+
+  container.addEventListener("mousemove", (e) => {
+    const x = e.clientX - container.offsetLeft;
+    const y = e.clientY - container.offsetTop;
+
+    const xOffset = (x / container.offsetWidth) * 100;
+    const yOffset = (y / container.offsetHeight) * 100;
+    const zOffset = 10;
+
+    img.style.transformOrigin = `${xOffset}% ${yOffset}%`; // Corrected line
+
+    img.style.transform = `scale(2) translateZ(${zOffset}px)`;
+  });
+
+  container.addEventListener("mouseleave", () => {
+    img.style.transformOrigin = 'center center';
+    img.style.transform = 'scale(1)';
+  });
+});
+  </script>
+  <!-- Quickbeam cart end -->
+</body>
+</html>

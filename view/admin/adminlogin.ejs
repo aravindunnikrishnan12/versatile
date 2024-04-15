@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
+    <link rel="stylesheet" href="/stylesheet/admin/login.css" />
+    
+</head>
+<body>
+   
+    <div class="wrapper">
+        
+            <form name="adminloginForm" id="form" action="/adminlogin" method="POST" onsubmit="return validateForm()">
+                <h2>Admin Login</h2>
+                <% if (typeof message !== 'undefined') { %>
+                    <div class="Errormsg">
+                      <h2><%= message %></h2>
+                    </div>
+                  <% } %>
+                <div class="input-field">
+                    <input type="email" placeholder="Email" name="email" id="email">
+                    <span id="email_valid" style="color: #b92b27;"></span>
+                </div>
+                <br>
+                <div class="input-field">
+                    <input type="password" placeholder="Password" name="password" id="password">
+                    <span id="pass_error" class="pass_error" style="color: #b92b27;"></span>
+                </div>
+                <div class="forget">
+                    <a href="#">Forgot password?</a>
+                </div>
+            
+                <button type="submit">Log In</button>
+            </form>
+       
+    </div>
+    <script>
+        const email = document.getElementById('email');
+       const password = document.getElementById('password');
+       const form = document.getElementById('form');
+       const emailValid = document.getElementById('email_valid');
+       const passError = document.getElementById('pass_error');
+   
+       form.addEventListener('submit', (e) => {
+           let isValid = true;
+   
+           // Clear previous error messages
+          
+           emailValid.innerHTML = "";
+           passError.innerHTML = "";
+    // Validation checks for email 
+    const emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+           if (!email.value.match(emailCheck)) {
+               e.preventDefault();
+               emailValid.innerHTML = "Email is not valid";
+               isValid = false;
+           }
+   
+           // Validation checks for password
+           if (password.value.length < 6) {
+               e.preventDefault();
+               passError.innerHTML = "Password must be more than 6 characters";
+               isValid = false;
+           }
+   
+           // Submit the form only if all validation checks pass
+           if (isValid) {
+               form.submit();
+           }
+       });
+       document.addEventListener("DOMContentLoaded", function () {
+   // Clear the message when the page loads
+   document.getElementById("email_valid").innerText = "";
+   document.getElementById("pass_error").innerText = "";
+});
+
+ 
+   </script>
+</body>
+</html>

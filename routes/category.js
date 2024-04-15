@@ -1,0 +1,53 @@
+
+const express = require('express');
+const router = express.Router();
+
+//get
+
+
+
+const { 
+    getCategorys,
+    getaddCategory,
+    getEditCategory,
+    
+
+} = require("../controller/categorycontroller");
+
+router.get("/category", getCategorys);
+
+
+router.get("/addCategory",getaddCategory)
+
+
+router.get("/editCategory/:id",getEditCategory);
+
+
+
+///////
+
+
+
+
+
+
+//post
+
+
+const {
+    postEditCategory,
+    postAddCategory,
+    deleteCategory,
+    visiblepost,
+}= require("../controller/categorycontroller");
+
+router.post("/visiblep/:id",visiblepost);
+
+router.post("/category", postAddCategory);
+router.post("/editCategory/:id",postEditCategory);
+router.post("/deleteCategory/:categoryId", deleteCategory);
+
+
+
+
+module.exports = router;

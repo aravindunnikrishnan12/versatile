@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/stylesheet/admin/editproduct.css" />
+    <script
+      src="https://kit.fontawesome.com/197a2eac2f.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <div class="navbar">
+      <nav class="main-nav">
+        <div>
+          <h1>Versatile</h1>
+        </div>
+        <ul class="menu">
+          <li><a href="/Insite">Dashboard</a></li>
+          <li><a href="/adminLogin">Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- form -->
+    <div class="form-container">
+      <div class="background-container">
+        <a href="/products" class="back-button">Back</a>
+
+        <h1 class="heading">edit Product</h1>
+        <br />
+        <% if (typeof message !=='undefined' ) { %>
+        <div class="Errormsg">
+          <h3><%= message %></h3>
+        </div>
+        <% } %>
+
+        <form
+          id="form"
+          action="/editproduct/<%= items._id %>"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <!-- Product Name -->
+
+          <label for="productName">Product Name:</label>
+
+          <input
+            type="text"
+            id="productName"
+            name="productName"
+            value="<%=items.productName%>"
+            required
+          /><br />
+          <span id="product_error" style="color: red; margin-top: 5px"></span>
+
+          <!-- Product Description -->
+          <label for="productDescription">Product Description:</label>
+          <textarea
+            id="productDescription"
+            name="productDescription"
+            rows="2"
+            required
+          >
+<%=items.productDescription%></textarea
+          ><br />
+          <span
+            id="productDescription_error"
+            style="color: red; margin-top: 5px"
+          ></span>
+
+          <!-- Product Category -->
+          <!-- Product Category -->
+          <label for="productCategory">Product Category:</label>
+          <select id="productCategory" name="productCategory">
+            <% categories.forEach((category)=> { %>
+            <option><%= category.categoryName %></option>
+            <% }); %>
+            <!-- Add more categories as needed --></select
+          ><br />
+
+          <!-- Product Price -->
+          <label for="productPrice">Product Price:</label>
+          <input
+            type="number"
+            id="productPrice"
+            name="productPrice"
+            value="<%=items.productPrice%>"
+            required
+            min="0"
+            step="0.01"
+          /><br />
+          <span
+            id="productPrice_error"
+            style="color: red; margin-top: 5px"
+          ></span>
+          <!-- <label for="productRating">Product Rating:</label>
+  <input type="number" id="productRating" name="productRating" value="<%=items.productRating%>"  required min="0" max="10" step="0.1"  ><br> -->
+
+          <!-- Product Stock -->
+          <label for="productStock">Product Stock:</label>
+          <input
+            type="number"
+            id="productStock"
+            name="StockCount"
+            value="<%=items.StockCount%>"
+            required
+            min="0"
+          /><br />
+          <span
+            id="StockCount_error"
+            style="color: red; margin-top: 5px"
+          ></span>
+
+          <label for="productOffer">Product offer:</label>
+          <input
+            type="number"
+            id="productOffer"
+            name="productOffer"
+            value="<%=items.productOffer%>"
+            min="-110"
+            step="1"
+          /><br />
+          <span
+            id="productOffer_error"
+            style="color: red; margin-top: 5px"
+          ></span>
+
+          <label for="productImage">Product Image:</label>
+          <input
+            type="file"
+            id="productImage"
+            name="productImages"
+            accept="image/*"
+            multiple
+            onchange="previewImages()"
+          />
+          <input
+            type="hidden"
+            name="existingImages"
+            value="<%= JSON.stringify(items.productImages) %>"
+          /><br />
+
+         <!-- Image Preview -->
+
+<!-- Image Preview -->
+
+<div id="imagePreviewContainer" class="image-preview-container">
+  <% if (items.productImages && items.productImages.length > 0) { %>
+    <% items.productImages.forEach((image, index) => { %>
+      <div class="preview-container" data-index="<%= index %>">
+        <img src="<%= image %>" alt="productImages" class="image-preview" />
+        <!-- Change the span to a button with the class delete-button -->
+        <button class="delete-button" onclick="deleteImage('<%= items._id %>', '<%= index %>')">&#10006;</button>
+      </div>
+    <% }); %>
+  <% } %>
+</div>
+
+
+          <!-- Add Product Button -->
+          <button class="addp" type="submit">update</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+   async function deleteImage(itemsid, index) {
+  console.log("deleteImage function called with itemsid:", itemsid, "and index:", index);
+  
+  const imageItem = document.querySelector('.preview-container[data-index="' + index + '"]');
+  console.log("Image item to delete:", imageItem); // Log the image item to be deleted
+  
+  try {
+    const response = await fetch('/deleteImage/' + itemsid, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ index }), // Send the index of the image to delete
+    });
+    
+    console.log("Response from server:", response); // Log the response from the server
+    
+    if (response.ok) {
+      // If the server successfully deleted the image, remove it from the DOM
+      imageItem.remove();
+      console.log("Image removed from DOM"); // Log the removal of the image from the DOM
+      location.reload(); // Reload the page
+    } else {
+      console.error('Failed to delete image from the server');
+    }
+  } catch (error) {
+    console.error('Error deleting image:', error);
+  }
+}
+
+     </script>
+     
+    
+    
+    <script>
+      let selectedFiles = []; // Keep track of selected files
+
+      function previewImages() {
+        const input = document.getElementById("productImage");
+        const container = document.getElementById("imagePreviewContainer");
+        container.innerHTML = ""; // Clear previous previews
+
+        if (input.files) {
+          for (const file of input.files) {
+            selectedFiles.push(file); // Add file to selectedFiles array
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+              const imgContainer = document.createElement("div");
+              imgContainer.className = "preview-container";
+
+              const img = document.createElement("img");
+              img.src = e.target.result;
+              img.alt = "Product Image";
+              img.style.maxWidth = "100px"; // Adjust the maximum width as needed
+
+              const deleteButton = document.createElement("button");
+              deleteButton.innerText = "Delete";
+              deleteButton.type = "button";
+              deleteButton.className = "delete-button"; // Apply the CSS class
+              deleteButton.onclick = function () {
+                container.removeChild(imgContainer);
+                input.value = ""; // Remove the corresponding file from the input
+                removeFileFromArray(file); // Remove file from selectedFiles array
+              };
+
+              imgContainer.appendChild(img);
+              imgContainer.appendChild(deleteButton);
+              container.appendChild(imgContainer);
+            };
+
+            reader.readAsDataURL(file);
+          }
+        }
+      }
+
+      function removeFileFromArray(fileToRemove) {
+        selectedFiles = selectedFiles.filter((file) => file !== fileToRemove);
+      }
+
+      function submitForm() {
+        const form = document.getElementById("yourFormId");
+        const formData = new FormData(form);
+
+        // Append selectedFiles to formData
+        for (const file of selectedFiles) {
+          formData.append("uploadedImages", file);
+        }
+      }
+    </script>
+
+    <script>
+      const productName = document.getElementById("productName");
+      const productDescription = document.getElementById("productDescription");
+      const productCategory = document.getElementById("productCategory");
+      const productPrice = document.getElementById("productPrice");
+      const productStock = document.getElementById("productStock");
+      const productImage = document.getElementById("productImage");
+      const form = document.getElementById("form");
+      const product_error = document.getElementById("product_error");
+      const productDescriptionError = document.getElementById(
+        "productDescription_error"
+      );
+      const productPriceError = document.getElementById("productPrice_error");
+      const stockCountError = document.getElementById("StockCount_error");
+
+      form.addEventListener("submit", (e) => {
+        let isValid = true;
+
+        // Clear previous error messages
+        product_error.innerHTML = "";
+        productDescriptionError.innerHTML = "";
+        productPriceError.innerHTML = "";
+        stockCountError.innerHTML = "";
+
+        // Product Name Validation
+        if (
+          productName.value.trim() === "" ||
+          productName.value === null ||
+          !/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(productName.value.trim())
+        ) {
+          product_error.textContent = "Product Name is required";
+          isValid = false;
+        } else {
+          product_error.textContent = "";
+        }
+
+        // Product Description Validation
+        if (
+          productDescription.value.trim() === "" ||
+          productDescription.value === null ||
+          !/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(
+            productDescription.value.trim()
+          )
+        ) {
+          productDescriptionError.textContent =
+            "Product Description is required";
+          isValid = false;
+        } else {
+          productDescriptionError.textContent = "";
+        }
+
+        // Product Price Validation
+        if (isNaN(productPrice.value) || parseFloat(productPrice.value) < 0) {
+          productPriceError.textContent = "Invalid Product Price";
+          isValid = false;
+        } else {
+          productPriceError.textContent = "";
+        }
+
+        // Product Stock Validation
+        if (isNaN(productStock.value) || parseInt(productStock.value) < 0) {
+          stockCountError.textContent = "Invalid Stock Count";
+          isValid = false;
+        } else {
+          stockCountError.textContent = "";
+        }
+
+        // You can add more validations for other fields as needed
+
+        // If any validation fails, prevent the form submission
+        if (!isValid) {
+          e.preventDefault();
+        }
+      });
+    </script>
+  </body>
+</html>

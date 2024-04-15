@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/stylesheet/admin/ordermanage.css">
+    <script src="https://kit.fontawesome.com/197a2eac2f.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- DataTable HEADER-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+<!-- Bootstrap CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+         .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #b8b8b8;
+            background-color:#ffffffdc;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(1, 2, 3, 1.1);
+      
+            position: relative;
+            left: 8%;
+            height: 590px;
+            margin-top: 30px;
+            margin-left: -50px;
+
+        }
+     
+        h1 {
+            font-size: 28px;
+            margin-bottom: 40px;
+            text-align: center;
+        
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        th {
+            background-color: #4d4545;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .status-confirmed {
+            color: rgb(0, 0, 0);
+        }
+
+        .status-dispatched {
+            color: blue;
+        }
+
+        .status-out-for-delivery {
+            color: rgb(141, 133, 118);
+        }
+
+        @media only screen and (max-width: 768px) {
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            th, td {
+                display: block;
+                width: 100%;
+            }
+        }
+
+        tr:hover {
+            background-color: #fff3e1;
+        }
+
+      
+
+        .price-filter input[type="number"],
+    .price-filter button {
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        margin-right: 5px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .price-filter input[type="number"] {
+        width: 100px;
+    }
+
+    .price-filter button {
+        background-color: #000;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .price-filter button:hover {
+        background-color: #333;
+    }
+        .price-filter {
+           
+            position: absolute;
+            top: 30px; /* Adjust the top position as needed */
+            left: 70%;
+        }
+
+
+        .black-button {
+    background-color: rgb(92, 84, 84);
+    color: white;
+    border-radius: 5px;
+}
+.search-bar {
+        display: flex;
+        align-items: center;
+        margin-left: 20px;
+    }
+    
+    .search-input {
+        padding: 8px 12px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        outline: none;
+    }
+    
+    .search-button {
+        background-color: #31473A;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 12px;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+  /* Your existing styles here */
+  .sidebar {
+    text-decoration: none;
+    position: fixed;
+    top: 75px; /* Height of the navbar */
+    left: -250px; /* Initially hidden off-canvas */
+    bottom: 0;
+    width: 250px;
+    background-color: #31473A; /* Same as navbar color */
+    color: #fff; /* Text color */
+    transition: left 0.3s ease; /* Smooth transition for opening and closing */
+    z-index: 1000; /* Ensure sidebar is above other content */
+}
+
+.sidebar.show {
+    left: 0; /* Show sidebar when .show class is added */
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding-left: 30px;
+}
+
+.sidebar li {
+    margin-bottom: 40px;
+}
+
+.sidebar a {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: rgb(255, 255, 255);
+    display: block;
+    padding: 10px;
+    color: #000000;
+    text-decoration: none;
+    border-radius: 20px;
+    width: 210px;
+}
+
+.sidebar a:hover {
+    background-color: rgba(200, 200, 200, 0.5);
+    text-decoration: none;
+    color: #fff;
+}
+.custom-btn {
+    background-color: #4d4f52; /* Button background color */
+    color: #fff; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.custom-btn:hover {
+    background-color: #000000; /* Hover background color */
+}
+#paginationContainer {
+  margin-top: 10px;
+}
+
+#paginationContainer button {
+  margin-right: 5px;
+}
+#paginationContainer {
+        text-align: right;
+    }
+
+    #prevPageBtn,
+    #nextPageBtn {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        margin-left: 5px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #prevPageBtn[disabled],
+    #nextPageBtn[disabled] {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+    }
+    thead {
+      
+        color: white;
+    }
+
+    </style>
+</head>
+<body>
+    
+    
+
+    
+   
+    <div class="navbar">
+        <nav class="main-nav">
+            <div>
+                <button id="sidebar-toggle" class="sidebar-toggle-btn custom-btn"><i class="fas fa-bars"></i></button>
+              </div>
+              <div class="sidebar">
+                <div id="accordion">
+                    <ul>
+                        <li><a href="/Insite" data-tag="dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+                        <li><a href="/UserManage" data-tag="dashboard"><i class="fas fa-tachometer-alt"></i>user manage</a></li>
+                        <li><a href="/category" data-tag="category"><i class="fas fa-address-book"></i>Category Details</a></li>
+                        <li><a href="/products" data-tag="product"><i class="fas fa-clone"></i>Product Details</a></li>
+                        <li><a href="/order" data-tag="order"><i class="fas fa-calendar"></i>Order & Payment</a></li>
+                        <li><a href="/getsalesReport" data-tag="sales"><i class="fas fa-chart-bar"></i>Sales Report</a></li>
+                        <li><a href="#" data-tag="sales"><i class="fas fa-chart-bar"></i>offers</a></li>
+                        <li><a href="/couponmanageadmin" data-tag="coupon"><i class="fas fa-copy"></i>Coupon</a></li>
+                    </ul>
+                </div>
+              </div>
+            <div>
+                <h1>Versatile</h1>
+            </div>
+            <div class="search-bar">
+              <input type="text" placeholder="Search..." class="search-input">
+              <button type="button" class="search-button"><i class="fas fa-search"></i></button>
+          </div>
+    
+     
+            <ul class="menu">
+             
+                <li><a href="/adminLogin">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+  <div class="container">
+  
+
+    
+    
+  <bold>
+  <h1 style="font-weight: bold;">Order details</h1>
+    </bold>
+    <table id="example" style="width:100%">
+
+        <thead>
+            <tr>
+                <th>Order name</th>
+                <th>User Id</th>
+                <th>Address</th>
+                <th>quantity</th>
+                
+                <th>Total Price</th>
+                <th>Date & Time</th>
+                <th>Payment Method</th>
+               
+                <th>Status</th>
+                <th>details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% orders.forEach(order => { 
+                order.products.forEach(product => { %>
+                    <tr class="order-row">
+                        
+                        <td><%= product.productName %></td>
+                        <td><%= order.user ? order.user.name : 'User not found' %></td> 
+                        <td><%= order.address.address1 %>, <%= order.address.street %>, <%= order.address.country %>, <%= order.address.pincode %></td>
+                        <td><%= product.quantity %></td>
+                        <td><%= order.totalPrice %></td>
+                        <td><%= new Date(order.orderDate).toLocaleString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %></td>
+                        <td><%= order.paymentMethod %></td>
+                        <td>
+                            <% if (product.status === "Cancelled") { %>
+                              <button class="black-button" onclick="showCancellationReason('<%= product.reason %>')">Cancelled</button>
+                            <% } else if (product.status === "Returned") { %>
+                              <button class="black-button" onclick="showCancellationReason('<%= product.reason %>')">Returned</button>
+                            <% } else if (product.status === "failed") { %>
+                              <button class="black-button">Payment failed</button>
+                            <% } else { %>
+                              <select id="orderStatusDropdown" onchange="updateOrderStatus('<%= order._id %>', '<%= product.productId %>', event)">
+                                <option value="pending" <%= order.status === "Pending" ? 'selected' : '' %>>Pending</option>
+                                <option value="processing" <%= order.status === "Processing" ? 'selected' : '' %>>Processing</option>
+                                <option value="shipped" <%= order.status === "Shipped" ? 'selected' : '' %>>Shipped</option>
+                                <option value="delivered" <%= order.status === "Delivered" ? 'selected' : '' %>>Delivered</option>
+                                <option value="Cancelled" <%= order.status === "Cancelled" ? 'selected' : '' %>>Cancelled</option>
+                              </select>
+                            <% } %>
+                          </td>
+                          
+                        <td>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" onclick="showOrderDetails('<%= JSON.stringify(order) %>')">Details</button>
+
+                        </td>
+                        
+                        
+                        
+                    </tr>
+                <% }); 
+            }); %>
+        </tbody>
+    </table>
+    <div id="paginationContainer">
+        <button id="prevPageBtn" disabled>Previous</button>
+        <button id="nextPageBtn">Next</button>
+      </div>
+      
+</div>
+<!-- Modal -->
+<div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+      
+        </div>
+        <div class="modal-body">
+          <table id="orderDetailsTable" class="table table-striped">
+            <!-- Order details will be dynamically added here -->
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+  const table = document.getElementById('example');
+  const rows = table.getElementsByTagName('tr');
+  const rowsPerPage = 6;
+  let currentPage = 1;
+
+  function showPage(pageNumber) {
+    const startIndex = (pageNumber - 1) * rowsPerPage;
+    const endIndex = pageNumber * rowsPerPage;
+
+    for (let i = 0; i < rows.length; i++) {
+      if (i >= startIndex && i < endIndex) {
+        rows[i].style.display = '';
+      } else {
+        rows[i].style.display = 'none';
+      }
+    }
+  }
+
+  function updatePaginationButtons() {
+    const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+    document.getElementById('prevPageBtn').disabled = currentPage === 1;
+    document.getElementById('nextPageBtn').disabled = currentPage === totalPages;
+  }
+
+  function goToPrevPage() {
+    if (currentPage > 1) {
+      currentPage--;
+      showPage(currentPage);
+      updatePaginationButtons();
+    }
+  }
+
+  function goToNextPage() {
+    const totalPages = Math.ceil(rows.length / rowsPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      showPage(currentPage);
+      updatePaginationButtons();
+    }
+  }
+
+  document.getElementById('prevPageBtn').addEventListener('click', goToPrevPage);
+  document.getElementById('nextPageBtn').addEventListener('click', goToNextPage);
+
+  showPage(currentPage);
+  updatePaginationButtons();
+});
+
+</script>
+<script>
+function showOrderDetails(orderJson) {
+    const order = JSON.parse(orderJson);
+
+    const modalTitle = document.getElementById('orderDetailsModalLabel');
+    modalTitle.textContent = `Order Details - Order ID: ${order._id}`;
+
+    const orderDetailsTable = document.getElementById('orderDetailsTable');
+    orderDetailsTable.innerHTML = ''; // Clear previous content
+
+    const tbody = document.createElement('tbody');
+    
+    order.products.forEach(product => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><img src="${product.productImage[0]}" alt="${product.productName}" style="max-width: 100px;"></td>
+            <td>${product.productName}</td>
+            <td>${order.address.address1}, ${order.address.street}, ${order.address.country}, ${order.address.pincode}</td>
+            <td>${product.quantity}</td>
+            <td>${product.price}</td>
+            <td>${new Date(order.orderDate).toLocaleString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
+            <td>${order.paymentMethod}</td>
+            <td>${product.status}</td>
+            <td>${product.reason || ''}</td>
+            <td colspan="9">Order ID: ${order._id}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+    
+    orderDetailsTable.appendChild(tbody);
+
+    // Show the modal (larger size)
+    const orderDetailsModal = new bootstrap.Modal(document.getElementById('orderDetailsModal'), {
+        backdrop: 'static',
+        keyboard: false,
+        size: 'xl' // Extra large size
+    });
+    orderDetailsModal.show();
+
+    // Check if close button already exists, then don't add it again
+    if (!document.getElementById('closeModalBtn')) {
+        const closeModalBtn = document.createElement('button');
+        closeModalBtn.id = 'closeModalBtn';
+        closeModalBtn.type = 'button';
+        closeModalBtn.classList.add('btn', 'btn-secondary');
+        closeModalBtn.textContent = 'Close';
+        closeModalBtn.onclick = function() {
+            orderDetailsModal.hide();
+        };
+        orderDetailsTable.parentNode.insertBefore(closeModalBtn, orderDetailsTable.nextSibling);
+    }
+}
+
+</script>
+
+<!-- Bootstrap JS and dependencies (Popper.js and jQuery) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+
+function updateOrderStatus(orderId,productId,event) {
+  
+    const newStatus = event.target.value;
+    console.log("New status:", newStatus);
+    fetch('/updateOrderStatus', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderId: orderId,productId:productId, newStatus: newStatus }),
+    }).then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+    }).then(data => {
+        // Handle the response data as needed
+        console.log(data);
+        // Optionally, refresh the page or show a success message
+    }).catch(error => {
+        console.error('Error:', error);
+        // Handle error
+    });
+}
+
+
+
+function showCancellationReason(reason) {
+    // Display SweetAlert to show the cancellation reason
+    Swal.fire({
+        title: 'Reason',
+        text: reason,
+        icon: 'info'
+    });
+}
+
+
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#sidebar-toggle').click(function () {
+            $('.sidebar').toggleClass('show'); // Toggle .show class on sidebar
+        });
+    });
+</script>
+<script src="/path/to/sweetalert2.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+
+</body>
+</html>
