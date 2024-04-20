@@ -468,22 +468,33 @@ exports.getInsite = async (req, res) => {
 
         const productCategories = await Product.distinct('productCategory');
 
-        // Group products by sales count
         const productSalesMap = new Map();
+
         orders.forEach(order => {
             order.products.forEach(product => {
-                if (productSalesMap.has(product.productId.toString())) {
-                    productSalesMap.set(product.productId.toString(), productSalesMap.get(product.productId.toString()) + product.quantity);
+                // Check if product and productId are defined
+                if (product && product.productId && product.productId.toString) {
+                    const productIdString = product.productId.toString();
+                    if (productSalesMap.has(productIdString)) {
+                        productSalesMap.set(productIdString, productSalesMap.get(productIdString) + product.quantity);
+                    } else {
+                        productSalesMap.set(productIdString, product.quantity);
+                    }
                 } else {
-                    productSalesMap.set(product.productId.toString(), product.quantity);
+                    console.error('Encountered undefined product or productId:', product);
                 }
             });
         });
-
+        
         const sortedProducts = [...productSalesMap.entries()].sort((a, b) => b[1] - a[1]);
         const topProducts = sortedProducts.slice(0, 10);
-
+        
         const groupedProducts = topProducts.reduce((acc, [productId, salesCount]) => {
+            if (!productId) {
+                console.error('Undefined productId encountered:', productId);
+                return acc;
+            }
+        
             if (!acc[productId]) {
                 acc[productId] = { productId, salesCount, totalPrice: 0 };
             } else {
@@ -491,6 +502,7 @@ exports.getInsite = async (req, res) => {
             }
             return acc;
         }, {});
+                                                                                         
 
         const groupedTopProductDetails = await Promise.all(
             Object.values(groupedProducts).map(async ({ productId, salesCount }) => {

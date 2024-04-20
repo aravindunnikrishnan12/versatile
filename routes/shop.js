@@ -9,7 +9,6 @@ const userController=require("../middleware/sessioncntrl")
 
 const {
     filterproduct,
-    getwomen,
     getdisplay,
     sortProduct,
     searchmen,
@@ -23,12 +22,13 @@ getbook,
 } = require("../controller/shopcontroller");
 router.get('/filterproducts',filterproduct)
 router.get('/books', userController, getbook);
-router.get('/women',getwomen);
 router.get('/display/:id',getdisplay);
 
 router.get('/sortproduct/:sortBy',sortProduct)
 router.get('/search',searchmen)
 router.get('/wishlist',wishlist);
+
+
 
 
 router.post('/removeFromWishlist/:id',removewishlist)

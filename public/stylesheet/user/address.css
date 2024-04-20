@@ -66,6 +66,8 @@
   color: #b6adad; /* Close button color on hover */
 }
 
+
+
 /* Form styles */
 .form-group {
   margin-bottom: 15px;
@@ -124,17 +126,63 @@ label {
 
 
 
+/* Modal container */
 #confirmationModal {
-  display: none;
+  display: none; /* Hide the modal by default */
   position: fixed;
-  top: -251px;
-  left: 500px;
-  width: 500px;
-  
-border-radius: 20px;
-  padding: 1px;
-    z-index: 1000;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
 }
+
+/* Modal content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* Center modal on screen */
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 5px;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+}
+
+/* Close button */
+.close {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+}
+
+/* Confirm button */
+.confirm-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.confirm-btn:hover {
+  background-color: #45a049;
+}
+
 
 .button-group {
   display: flex;

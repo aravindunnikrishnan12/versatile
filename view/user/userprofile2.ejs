@@ -41,7 +41,18 @@
 </head>
   <!-- Include your custom CSS styles -->
   <style>
+.search-form button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
 
+    /* Style for the search icon inside the button */
+    .search-form button i {
+        color: #000; /* Change this color to the desired color for the icon */
+        font-size: 18px; /* Adjust the font size of the icon */
+    }
      /* Style for transaction item container */
      .transaction-item {
       width: 400px;
@@ -463,7 +474,7 @@ box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Add a box shadow on focus *
                                     <form id="addBalanceForm" action="/add-amount" method="POST">
                                       <label for="amount">Enter Amount:</label>
                                       <input type="text" id="amount" name="amount">
-                                      <button type="button" onclick="handlePayment()">Add Balance</button>
+                                      <button type="button" onclick="handlePayment()" class="btn btn-dark " style="background-color: #6b3e4b; border-radius: 5px;" >Add Balance</button>
                                     </form>
                                                                  
                                     

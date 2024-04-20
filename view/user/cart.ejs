@@ -19,6 +19,8 @@ log{
 	background-color: antiquewhite;
 }
 
+
+
 .remove-btn{
  
   position: absolute;
@@ -35,11 +37,15 @@ log{
   
 }
 .confirm-btn {
-  background-color: #e21313; /* Change this color to your desired color */
-  color: rgb(66, 58, 58); /* Text color, adjust as needed */
-  border-radius: 10px;
+  background-color: #e21313; /* Keep the same */
+  color: #fff; /* Change text color to white for contrast */
+  border: none; /* Remove border for a cleaner look */
+  padding: 10px 20px; /* Adjust padding for better button size */
+  font-weight: bold; /* Enhance text appearance */
+  cursor: pointer; /* Add pointer cursor for usability */
 }
 .modal-content {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   position: absolute;
   top: 70%;
   left: 47%;
@@ -56,9 +62,12 @@ log{
   float: right;
   font-size: 28px;
   font-weight: bold;
+  cursor: pointer; 
  
 }
-
+.confirm-btn:hover {
+  background-color: #c10909; /* Darken the color on hover */
+}
 
 
 .close:hover,
@@ -82,90 +91,25 @@ input[type="number"]::-webkit-outer-spin-button {
     font-weight: bold; /* Make the text bold */
     /* Add any additional styling you want for the error message */
   }
+  .search-form button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    /* Style for the search icon inside the button */
+    .search-form button i {
+        color: #000; /* Change this color to the desired color for the icon */
+        font-size: 18px; /* Adjust the font size of the icon */
+    }
 </style>
 
 <body>
 
+  <%- include('navbar') %>
 
-    <!--::header part start::-->
-    <header class="main_menu home_menu">
-      <div class="container">
-          <div class="row align-items-center">
-              <div class="col-lg-12">
-                  <nav class="navbar navbar-expand-lg navbar-light">
-                      <i class="fa-solid fa-book fa-2x"></i> <!-- This will make the icon 3 times larger -->
-&nbsp;&nbsp;
-                      <a class="navbar-brand" href=""> <h1>Versatile</h1></a>
-                      <button class="navbar-toggler" type="button" data-toggle="collapse"
-                          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                          aria-expanded="false" aria-label="Toggle navigation">
-                          <span class="menu_icon"><i class="fas fa-bars"></i></span>
-                      </button>
 
-                      <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-                          <ul class="navbar-nav">
-                              <li class="nav-item">
-                                  <a class="nav-link" href="/home">Home</a>
-                              </li>
-                              <li class="nav-item dropdown">
-                                  <a class="nav-link dropdown-toggle" href="" id="navbarDropdown_1"
-                                      role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      Shop
-                                  </a>
-                                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                      <a class="dropdown-item" href="/books">Book</a>
-                                      
-                                      
-                                  </div>
-                              </li>
-                              <li class="nav-item dropdown">
-                                  <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
-                                      role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      pages
-                                  </a>
-                                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                      <a class="dropdown-item" href="/cartdisplay">Cart</a>
-                                      <a class="dropdown-item" href="/wishlist">Wishlist</a>
-                                      <!-- <a class="dropdown-item" href="">product checkout</a>
-                                      <a class="dropdown-item" href="">shopping cart</a>
-                                      <a class="dropdown-item" href="">confirmation</a>
-                                      <a class="dropdown-item" href="">elements</a> -->
-                                  </div>
-                              </li>
-                              <li class="nav-item dropdown">
-                                  <a class="nav-link dropdown-toggle" href="" id="navbarDropdown_2"
-                                      role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      Account
-                                  </a>
-                                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                      <a class="dropdown-item" href="/logout">Log out</a>
-                                     
-                                  </div>
-                              </li>
-                              
-                              <li class="nav-item">
-                                  <a class="nav-link" href="/profile">Profile</a>
-                              </li>
-                          </ul>
-                      </div>
-                     
-
-<form action="/search" method="GET" class="search-form">
-  <a href="#" class="search-icon"></a>
-  <input type="text" name="q" placeholder="Search..." class="search-input">
-  <button type="submit"><i class="fas fa-search"></i></button>
-</a>
-</form>
-
-                      </div>
-                      
-                  </nav>
-              </div>
-          </div>
-      </div>
-     
-  </header>
-  <!-- Header part end-->
 
  <section class="h-100 gradient-custom">
   <div class="container py-5">

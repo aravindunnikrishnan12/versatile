@@ -68,7 +68,10 @@ exports.postLogin = async (req, res) => {
       console.log("User Not Exists");
       return res.render("userlogin", { errorMessage: "User Not Exists" });
     }
-
+    if (user.isBlocked) {
+      console.log("User is blocked");
+      return res.render("userlogin", { errorMessage: "User is blocked" });
+    }
     // Compare the hashed password from the database with the provided password
     const passwordMatch = await bcrypt.compare(data.password, user.password);
 
@@ -92,7 +95,7 @@ exports.postLogin = async (req, res) => {
 
   exports.postSignup = async (req, res) => {
     const { name, email, password } = req.body;
-    console.log("details", name, email, password);
+  
   
     try {
       const existingUser = await collection.findOne({ email });
@@ -108,9 +111,7 @@ exports.postLogin = async (req, res) => {
         name,
         email,
         password: hashedPassword,
-      };
-  
-    
+      }; 
     
       const existingUserByEmail = await collection.findOne({ email: req.session.signupData.email });
   
@@ -118,7 +119,6 @@ exports.postLogin = async (req, res) => {
         res.send("This account already exists");
         return;
       }
- 
       mailsender(req.session.signupData);
   
       res.render("otp");
@@ -166,29 +166,24 @@ exports.postLogin = async (req, res) => {
   }
   // 
  exports.resendotp = (req,res)=>{
-    console.log('xxxxxxx')
     mailsender(req.session.signupData)
-    console.log('sadsadsd')
+   
   }
 // 
 
   exports.postOtp = async (req, res) => {
    
       try {
-        console.log('hizzz')
       const x = await otp.findOne({}).sort({ _id: -1 }).limit(1);
-      console.log(x);
+    
       const  otpvalue = req.body;
     
       console.log(otpvalue);
   
       if (x.otp == otpvalue.otp) {
-        console.log('zzzzzzz')
+    
         console.log(req.session.signupData);
         const newuser = await new collection(req.session.signupData).save();
-        console.log(newuser);
-  
-        console.log("hi");
         // Send success response
          res.json({ success: true, message: 'OTP verification successful' });
         

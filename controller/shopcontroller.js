@@ -15,51 +15,62 @@ const Wishlist = require('../model/whishlistmodel');
 const Category =require('../model/categoryModel')
 
 
-
-// exports.getbook= async(req,res)=>{
-
-//   try{
-//     const products = await productData.find({$and:[{isvisible:false},{productCategory:"MEN"}]});
-  
-//     console.log("produtcs in men ",products);
-//     res.render("book",{products});
-//   }
-//   catch(error){
-//     console.error(error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// res.render("book")
-
-
-// }
-
-
-
+//
+//object destructed
 
 exports.getbook = async (req, res) => {
   try {
-      const categoryFilter = req.query.category;
-      const currentPage = parseInt(req.query.page) || 1; // Parse the current page from the query parameters
-      const pageSize = 12; // Number of products per page
+    const { category: categoryFilter, page: currentPage = 1 } = req.query;
+    const pageSize = 12;
 
-      let productQuery;
-      if (categoryFilter && categoryFilter !== 'All') {
-          productQuery = Product.find({ productCategory: categoryFilter, isvisible: false });
-      } else {
-          productQuery = Product.find({ isvisible: false });
-      }
+    let productQuery;
+    if (categoryFilter && categoryFilter !== 'All') {
+      productQuery = Product.find({ productCategory: categoryFilter, isvisible: false });
+    } else {
+      productQuery = Product.find({ isvisible: false });
+    }
 
-      const totalProductsPromise = Product.countDocuments({ isvisible: false }); // Count total products in parallel
+    const [totalProducts, productCategories] = await Promise.all([
+      Product.countDocuments({ isvisible: false }),
+      Product.distinct('productCategory')
+    ]);
+    const totalPages = Math.ceil(totalProducts / pageSize);
 
-      const productCategories = await Product.distinct('productCategory');
-      const totalProducts = await totalProductsPromise;
-      const totalPages = Math.ceil(totalProducts / pageSize);
+    const products = await productQuery.skip((currentPage - 1) * pageSize).limit(pageSize).exec();
 
-      const products = await productQuery.skip((currentPage - 1) * pageSize).limit(pageSize).exec(); // Execute the query here
+    const selectedCategory = categoryFilter || 'All';
 
-      const selectedCategory = categoryFilter || 'All';
+    res.render("book", { products, productCategories, selectedCategory, page: currentPage, totalPages });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};
 
-      res.render("book", { products, productCategories, selectedCategory, page: currentPage, totalPages });
+
+
+//destrusted
+
+exports.filterproduct = async (req, res) => {
+  try {
+      const { query: { category } } = req; 
+
+      console.log("Category:", category);
+
+      const products = await Product.find({ isvisible: false }).populate('category');
+      console.log("products vdf:", products);
+
+      const categories = await Category.find({ isvisible: false });
+      console.log("categories vdf:", categories);
+
+      const filteredProducts = products.filter(product => {
+          const matchingCategory = categories.find(cat => cat.categoryName === product.category);
+          return matchingCategory;
+      });
+
+      console.log("filteredProducts vdf:", filteredProducts);
+
+      res.render("book", { products: filteredProducts, categories });
   } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
@@ -69,49 +80,8 @@ exports.getbook = async (req, res) => {
 
 
 
-  exports.filterproduct = async (req, res) => {
-    try {
-      const category = req.query.category;
-      console.log("Category:", category);
   
-      const products = await Product.find({ isvisible: false }).populate('category'); 
-      console.log("products vdf:", products);
-   const categories = await Category.find({ isvisible: false });
-   console.log("categories vdf:", categories);
 
-   const filteredProducts = products.filter(product => {
-    const matchingCategory = categories.find(category => category.categoryName === product.category);
-    return matchingCategory;
-
-    
-});
-console.log("filteredProducts vdf:", filteredProducts);
-
-res.render("book", { products:filteredProducts,categories});
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-    }
-  };
-
-
-
-
-  
-  exports.getwomen = async (req,res) =>{
-
-
-  try{
-    const products= await productData.find();
-    console.log("women products",products);
-     res.render("women",{products})
-  }
-  catch(error){
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-  }
-  
   
   
   
@@ -120,7 +90,7 @@ res.render("book", { products:filteredProducts,categories});
   
     try{
       const id = req.params.id;
-      console.log("dfdfd", id);
+   
   
       const products = await productData.findOne({ _id: id });
       
@@ -136,87 +106,78 @@ res.render("book", { products:filteredProducts,categories});
 
 
 
-
-   exports.sortProduct = async (req, res) => {
-    
+  exports.sortProduct = async (req, res) => {
     try {
- 
-         const userid = req.session.user;
-      
-        const sortBy = req.params.sortBy;
-        
+        const { user: userid } = req.session; // Using object destructuring for req.session.user
+        const { sortBy } = req.params; // Using object destructuring for req.params.sortBy
         let categories;
         let products;
+
         switch (sortBy) {
-
             case 'popularity':
-               
-            products = await productData.find().sort({ popularity: -1 }); 
+                products = await productData.find().sort({ popularity: -1 });
                 break;
-
             case 'priceLowToHigh':
-               
-            products = await productData.find().sort({ productPrice: 1 });
-            
+                products = await productData.find().sort({ productPrice: 1 });
                 break;
-        
             case 'priceHighToLow':
-              
-            products = await productData.find().sort({ productPrice: -1 }); 
+                products = await productData.find().sort({ productPrice: -1 });
                 break;
-
-             case 'newArrivals':
-               products = await productData.find().sort({ createdAt: -1 });
-               break;
-  
-           case 'aAZ':
-            products = await productData.find().sort({ productName: 1 });
-                  break;
-           case 'zZA':
-            products = await productData.find().sort({ productName: -1 });
-                  break;
-           
-            default: products = await productData.find();
-            break;
-
-             
-           return res.status(400).json({ message: 'Invalid sorting criteria' });
+            case 'newArrivals':
+                products = await productData.find().sort({ createdAt: -1 });
+                break;
+            case 'aAZ':
+                products = await productData.find().sort({ productName: 1 });
+                break;
+            case 'zZA':
+                products = await productData.find().sort({ productName: -1 });
+                break;
+            default:
+                products = await productData.find();
+                break;
         }
-       
-        res.render("Book",{products,categories});
-       
+
+        const productCategories = ['Category1', 'Category2', 'Category3']; // Sample categories
+        const currentPage = 1; // Sample current page
+        const totalPages = 10; // Sample total pages
+        const { category: selectedCategory = '' } = req.query; // Using object destructuring for req.query.category
+
+        res.render("Book", { products, categories, selectedCategory, productCategories, page: currentPage, totalPages });
     } catch (error) {
-        // Handle any errors that occur during the sorting process
         console.error("Error sorting products:", error);
         res.status(500).json({ message: 'An error occurred while sorting products.' });
     }
-}
+};
 
 
 exports.searchmen = async (req, res) => {
   console.log("Search is working in the men session");
   try {
-      const searchQuery = req.query.q;
-      let products;
+    const searchQuery = req.query.q;
+    let products;
 
-      if (searchQuery) {
-          // Perform the search if there's a search query
-          products = await productData.find({
-              productName: { $regex: new RegExp(searchQuery, 'i') }
-          });
-      } else {
-          // Fetch all products if there's no search query
-          products = await productData.find();
-      }
+    if (searchQuery) {
+      // Perform the search if there's a search query
+      products = await productData.find({
+        productName: { $regex: new RegExp(searchQuery, 'i') }
+      });
+    } else {
+      // Fetch all products if there's no search query
+      products = await productData.find();
+    }
 
-      // Render the view with the search results or all products
-      res.render("Book", { products });
+    const productCategories = ['Category1', 'Category2', 'Category3']; // Sample categories
+    const currentPage = 1; // Sample current page
+    const totalPages = 10; // Sample total pages
+    let selectedCategory = req.query.category || ''; // Assuming category is passed in the query string
+
+    // Render the view with the search results or all products
+    res.render("Book", { products, selectedCategory, productCategories, page: currentPage, totalPages });
   } catch (error) {
-      console.error("Error in search:", error);
-      res.status(500).json({ message: 'An error occurred in the search.' });
+    console.error("Error in search:", error);
+    res.status(500).json({ message: 'An error occurred in the search.' });
   }
 };
-
 
 // ADD TO CART 
 

@@ -19,6 +19,6 @@ const {
     updateOrderStatus,
 }=require("../controller/ordercontroller")
 
-router.post("/updateOrderStatus",updateOrderStatus);
+router.post("/OrderStatus",updateOrderStatus);
 
 module.exports = router;

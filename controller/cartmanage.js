@@ -23,79 +23,49 @@ const { validationResult } = require('express-validator');
 //get 
 
 //checkout
-
-
 exports.getcheckout = async (req, res) => {
   try {
-    const userId = req.session.user;
-    console.log("User ID:", userId); // Log the user ID
-    if (!userId) {
-      return res.status(400).json({ message: 'User ID is required' });
-    }
-
-    const cart = await Cart.find({ userid: userId });
-    console.log("Cart:", cart);
-
-    if (!cart || cart.length === 0) {
-      return res.status(404).json({ message: 'Cart not found or empty' });
-    }
-
-    console.log("Cart items: ", cart);
-
-    const useraddress = await address.find({ userId });
-    console.log("User address: ", useraddress);
-
-    let totalPrice = 0;
-    let discountedPrice = 0;
-    let realTotalPrice = 0; // Variable to accumulate real prices
-
-    for (const item of cart) {
-      const product = await Product.findById(item.productid);
-      console.log("Product:", product);
-
-      if (!product) {
-        console.log(`Product with id ${item.productid} not found`);
-        continue; // Skip this item and move to the next one
+      const userId = req.session.user;
+     
+      if (!userId) {
+          return res.status(400).json({ message: 'User ID is required' });
       }
 
-      let itemPrice = product.productPrice;
+      const cart = await Cart.find({ userid: userId });
 
-      realTotalPrice += itemPrice * item.quantity; // Accumulate real prices
-
-      if (product.productOffer) {
-        const discountPercentage = product.productOffer;
-        const discountAmount = (itemPrice * discountPercentage) / 100;
-        itemPrice -= discountAmount;
-        console.log("Discount Amount:", discountAmount);
-        item.discountedprice = itemPrice; // Add discounted price to item object
-        discountedPrice += itemPrice * item.quantity; // Accumulate discounted prices
+      if (!cart || cart.length === 0) {
+          return res.status(404).json({ message: 'Cart not found or empty' });
       }
 
-      if (itemPrice && product.StockCount >= item.quantity) {
-        let itemTotalPrice = itemPrice * item.quantity;
-        totalPrice += itemTotalPrice;
+      console.log("Cart items: ", cart);
 
-        console.log("Item Total Price:", itemTotalPrice);
-      } else {
-        console.log("Item out of stock or price calculation failed");
+      const useraddress = await address.find({ userId });
+
+      console.log("User address: ", useraddress);
+
+      let totalPrice = 0;
+      let discountedPrice = 0; // Initialize discountedPrice variable
+
+      for (const item of cart) {
+          let itemTotalPrice = item.quantity * (item.discountedprice ? item.discountedprice : item.price); // Use discountedprice if available, else use price
+          totalPrice += itemTotalPrice;
+
+          // If discountedprice is available, set it as discountedPrice
+          if (item.discountedprice) {
+              discountedPrice += itemTotalPrice;
+          }
       }
-    }
-    req.session.totalPrice = totalPrice;
-    
-  
-    console.log("Total Price:", totalPrice);
-    console.log("Discounted Price:", discountedPrice);
-    console.log("Real Total Price:", realTotalPrice);
 
-    const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
-    console.log("Timestamp:", timestamp);
+      console.log("Total Price:", totalPrice);
 
-    res.render("checkout", { cart, useraddress, totalPrice, discountedPrice, realTotalPrice });
+      res.render("checkout", { cart, useraddress, totalPrice, discountedPrice });
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+      console.error(error);
+      res.status(500).send('Internal Server Error');
   }
 };
+
+
 
 
   
@@ -395,138 +365,120 @@ exports.cartdisplay = async (req, res) => {
 // post checkout 
 
 exports.postCheckout = async (req, res) => {
-  try {
-     const userId = req.session.user;
-     console.log("User ID:", userId); // Log the user ID
-    let totalPriceInSession = req.session.totalPrice;
-    console.log("Total price in session is",totalPriceInSession);
- 
-     const addressId = req.body.address;
-     const couponCode = req.body.couponCode;
-     const paymentMethod = req.body.paymentMethod;
-     const orderDate = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }); 
-     console.log("Order Date:", orderDate); 
- 
-     if (!userId) {
-       console.log("User ID is missing");
-       return res.status(400).json({ message: 'User ID is required' });
-     }
- 
-     const cart = await Cart.find({ userid: userId });
-     console.log("Cart:", cart); // Log the cart items
- 
-     const useraddress = await address.findOne({ _id: addressId });
-     console.log("User Address:", useraddress); // Log the user address
-     let totalPrice = 0;
-     let discountedPrice = 0;
-     let discountPrice=0;
-     for (const item of cart) {
-       const product = await Product.findById(item.productid);
-       console.log("Product:", product);
- 
-       if (!product) {
-         console.log(`Product with id ${item.productid} not found`);
-         continue; // Skip this item and move to the next one
-       }
- 
-       let itemPrice = product.productPrice;
- 
-       if (product.productOffer) {
-         const discountPercentage = product.productOffer;
-         const discountAmount = (itemPrice * discountPercentage) / 100;
-         itemPrice -= discountAmount;
-        //  console.log("Discount Amount:", discountAmount);
-         item.discountedprice = itemPrice; // Add discounted price to item object
-         discountedPrice += itemPrice * item.quantity; // Accumulate discounted prices
-       } else {
-         totalPrice += item.quantity * item.price; // Accumulate regular prices
-       }
-     }
 
- 
-     console.log("Total Price:", totalPrice);
-     console.log("Discounted Price:", discountedPrice);
- 
-     const userData = await collection.findById(userId);
+  try {
+      const userId = req.session.user; 
+      const discountedPrice =req.params.Totalprice;
+      const addressId =req.body.address;
+      const couponCode = req.body.couponCode;    
+      const paymentMethod = req.body.paymentMethod;
+
+   
+      if (!userId) {
+          return res.status(400).json({ message: 'User ID is required' });
+      }
+
+      const cart = await Cart.find({ userid: userId });
+      if (!addressId || addressId.trim() === '') {
+        return res.status(400).json({ message: 'Address ID is required' });
+    }
+
+    // Validate that addressId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(addressId)) {
+        return res.status(400).json({ message: 'Invalid address ID' });
+    }
+      const useraddress = await address.findOne({ _id:addressId});
+
+      if (!useraddress) {
+        return res.status(400).json({ message: 'Invalid address ID' });
+      }
+
+  
+
+      let totalPrice = 0;
+      for (const item of cart) {
+          let itemTotalPrice = item.quantity * item.price;
+          totalPrice += itemTotalPrice;
+      }
+      console.log("totalprice is getting ",totalPrice);
+
+
+ // Fetching user data
+      const userData = await collection.findById(userId);
+      console.log("userdata is getting in the userdata",userData);
      if (!userData) {
-       console.log("User not found");
-       return res.status(400).json({ message: 'User not found' });
-     }
+            return res.status(400).json({ message: 'User not found' });
+        }
+
+        if (paymentMethod === 'Wallet') {
+          if (userData.wallet.balance < totalPrice) {
+              return res.status(400).json({ message: 'Insufficient wallet balance' });
+          }
+          userData.wallet.balance -= totalPrice;
+          userData.wallet.transactions.push({
+            amount: totalPrice,
+            type: 'purchase',
+            description: 'purchased amount ', // Add a description field
+        })
+          await userData.save();
+      }
+      
  
-     if (paymentMethod === 'cashOnDelivery' && totalPrice > 1000) {
-       console.log("COD not allowed for orders above Rs 1000");
-       return res.status(400).json({ message: 'COD not allowed for orders above Rs 1000' });
-     }
- 
-     if (paymentMethod === 'Wallet') {
-       if (userData.wallet.balance < totalPrice) {
-         console.log("Insufficient wallet balance");
-         return res.status(400).json({ message: 'Insufficient wallet balance' });
-       }
-       userData.wallet.balance -= totalPrice;
-       userData.wallet.transactions.push({
-         amount: totalPrice,
-         type: 'purchase',
-         description: 'Purchase of products'
-       });
-       await userData.save();
-     }
- 
-     const order = new Order({
-      orderNumber: generateOrderNumber(),
-      userId: userId,
-      products: cart.map(item => ({
-        productId: item.productid,
-        productName: item.product,
-        productDescription: item.description,
-        productRating: item.productRating,
-        StockCount: item.stock,
-        productImage: item.image,
-        quantity: item.quantity,
-        price: item.price,
-        status: item.status,
-        reason: item.reason,
-     
-        discountedprice: item.discountedprice,
-        couponCode: couponCode,
-        refferalCode: item.refferalCode,
-      })),
-      totalQuantity: cart.reduce((total, item) => total + item.quantity, 0),
-      totalPrice: totalPriceInSession,
-      address: useraddress,
-      paymentMethod: paymentMethod,
-      discountedPrice: discountedPrice,
-      discountPrice: discountPrice, // Corrected field name
-      orderDate: orderDate,
+      // Create a new order
+      const order = new Order({
+          orderNumber: generateOrderNumber(), 
+          userId: userId,
+          products: cart.map(item => ({
+            productId: item.productid,
+            productName: item.product,
+            productDescription: item.productDescription,
+            productRating: item.productRating,
+            StockCount: item.StockCount,
+            productImage: item.image,
+            quantity: item.quantity,
+            price: item.price,
+            status: item.status,
+            reason: item.reason,
+            discountPrice: item.discountPrice,
+            couponCode: item.couponCode,
+            refferalCode: item.refferalCode,
+              
+          })),
+          totalQuantity: cart.reduce((total, item) => total + item.quantity, 0),
+          totalPrice: totalPrice,
+          address: useraddress, 
+          paymentMethod: paymentMethod,
+          discountPrice:discountedPrice,
+      });
+console.log("order  detils in geting in 367",order)
+      
+      await order.save();
+       
+      
+      const productDataInCollection = await Product.find();
+      const minusQuantityPromises = cart.map(async (item) => {
+        const productToUpdate = productDataInCollection.find(product => product._id.toString() === item.productid.toString());
+        if (productToUpdate && productToUpdate.StockCount >= item.quantity) {
+            await Product.updateOne(
+                { _id: item.productid },
+                { $inc: { StockCount: -item.quantity } }
+            );
+        } else {
+            console.log("Stock decresing not woring");
+        }
     });
-     await order.save();
-     console.log("Order saved:", order); // Log the saved order
- 
-     const productDataInCollection = await Product.find();
-     const minusQuantityPromises = cart.map(async (item) => {
-       const productToUpdate = productDataInCollection.find(product => product._id.toString() === item.productid.toString());
-       if (productToUpdate && productToUpdate.StockCount >= item.quantity) {
-         await Product.updateOne(
-           { _id: item.productid },
-           { $inc: { StockCount: -item.quantity } }
-         );
-         console.log(`Stock updated for product ${item.productid}`); // Log stock update
-       } else {
-         console.log("Stock decreasing not working for product", item.productid);
-       }
-     });
-     await Promise.all(minusQuantityPromises);
- 
-     const cartDelete = await Cart.deleteMany({ userid: userId });
-     console.log("Cart deleted:", cartDelete);
- 
-     res.redirect('/ordersucces');
+    await Promise.all(minusQuantityPromises);
+
+      
+      const cartDelete=await Cart.deleteMany({userid: userId})
+      console.log("cart deleted sdfsd ",cartDelete);
+     
+      res.redirect('/ordersucces');
   } catch (error) {
-     console.error("Error in postCheckout:", error);
-     res.status(500).send('Internal Server Error');
+      console.error(error);
+      res.status(500).send('Internal Server Error');
   }
- };
- 
+};
 
 
 function generateOrderNumber() {
@@ -870,66 +822,62 @@ exports.handleFailedPayment = async (req, res) => {
   // };
   
 
-
- 
-
-exports.validateCoupon = async (req, res) => {
-  try {
-    const userId = req.session.user;
-    const useraddress = await address.find({ userId });
-    const couponCode = req.body.couponCode.trim();
-
-    if (!couponCode || couponCode.includes(' ')) {
-      return res.render("checkout", { error: 'Invalid coupon code' });
+  exports.validateCoupon = async (req, res) => {
+    try {
+      const userId = req.session.user;
+      console.log('userId:', userId);
+  
+      const useraddress = await address.find({ userId });
+      console.log('useraddress:', useraddress);
+  
+      const couponCode = req.body.couponCode.trim();
+      console.log('couponCode:', couponCode);
+  
+      if (!couponCode || couponCode.includes(' ')) {
+        console.log('Invalid coupon code:', couponCode);
+        return res.render("checkout", { error: 'Invalid coupon code' });
+      }
+  
+      const currentDate = new Date();
+      console.log('currentDate:', currentDate);
+  
+      const coupon = await Coupon.findOne({ couponCode });
+      console.log('coupon:', coupon);
+  
+      if (!coupon) {
+        console.log('Coupon not found:', couponCode);
+        return res.render("checkout", { error: 'Coupon not found' });
+      } else if (currentDate > coupon.expiryDate) {
+        console.log('Coupon is expired:', couponCode);
+        return res.render("checkout", { error: 'Coupon is expired' });
+      }
+  
+      //the coupon has already 
+      const isCouponUsed = await Order.findOne({ userId, couponCode });
+      console.log('isCouponUsed:', isCouponUsed);
+  
+      if (isCouponUsed) {
+        console.log('Coupon has already been used by this user:', couponCode);
+        return res.render("checkout", { error: 'Coupon has already been used' });
+      }
+  
+      // If the coupon is valid and not used, continue with the checkout process
+      const cart = await Cart.find({ userid: userId });
+      console.log('cart:', cart);
+  
+      let totalPrice = 0;
+      for (const item of cart) {
+        let itemTotalPrice = item.quantity * item.price;
+        totalPrice += itemTotalPrice;
+      }
+      console.log('totalPrice:', totalPrice);
+  
+      const discountedPrice = totalPrice - (totalPrice * (coupon.discount / 100));
+      console.log('discountedPrice:', discountedPrice);
+  
+      return res.render('checkout', { cart, useraddress, totalPrice, discountedPrice });
+    } catch (error) {
+      console.error('Error validating coupon:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
-
-    const currentDate = new Date();
-    const coupon = await Coupon.findOne({ couponCode });
-
-    if (!coupon) {
-      return res.render("checkout", { error: 'Coupon not found' });
-    } else if (currentDate > coupon.expiryDate) {
-      return res.render("checkout", { error: 'Coupon is expired' });
-    }
-
-    const isCouponUsed = await Order.findOne({ userId, couponCode });
-    if (isCouponUsed) {
-      return res.render("checkout", { error: 'Coupon has already been used' });
-    }
-
-    const cart = await Cart.find({ userid: userId });
-    let totalPrice = 0;
-    for (const item of cart) {
-      let itemTotalPrice = item.quantity * item.price;
-      totalPrice += itemTotalPrice;
-    }
-
-    const discountedPrice = totalPrice - (totalPrice * (coupon.discount / 100));
-
-    // Update the Order creation logic to include discountedPrice
-    const newOrder = new Order({
-      userId,
-      products: cart.map(item => ({
-        productId: item.productId,
-        productName: item.productName,
-        quantity: item.quantity,
-        price: item.price,
-        couponCode: couponCode, // Include the coupon code for each product
-      })),
-      totalQuantity: cart.reduce((total, item) => total + item.quantity, 0),
-      totalPrice,
-      address: useraddress, // Assuming useraddress is an object with address details
-      discountedPrice,
-      discountPrice: totalPrice - discountedPrice, // Calculate the discount price
-      paymentMethod: req.body.paymentMethod, // Assuming paymentMethod is sent in the request
-      orderDate: new Date(),
-    });
-let realTotalPrice ;
-    await newOrder.save();
-
-    return res.render('checkout', { cart, useraddress, totalPrice, discountedPrice, discountPrice: newOrder.discountPrice,realTotalPrice });
-  } catch (error) {
-    console.error('Error validating coupon:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
+  };

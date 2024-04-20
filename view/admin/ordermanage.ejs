@@ -489,7 +489,7 @@ function updateOrderStatus(orderId,productId,event) {
   
     const newStatus = event.target.value;
     console.log("New status:", newStatus);
-    fetch('/updateOrderStatus', {
+    fetch('/OrderStatus', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

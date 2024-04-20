@@ -51,5 +51,5 @@ app.use("/",order)
 // Server
 const port = 4200;
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on the port:${port}`);
 });

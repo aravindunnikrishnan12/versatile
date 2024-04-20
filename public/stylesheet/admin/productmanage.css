@@ -108,49 +108,6 @@
   }
 
 
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 450px;
-  width: 30%;
-  height: 100%;
-  color: #2196F3;
-  
-}
-.confirm-btn {
-  background-color: #000000; /* Change this color to your desired color */
-  color: rgb(255, 255, 255); /* Text color, adjust as needed */
-  border-radius: 10px;
-}
-.modal-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 30px;
-}
-
-.close {
-  color: #050505;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
- 
-}
-
-
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-
 /* Style for the toggle button */
 .toggle-button {
   padding: 8px 12px;

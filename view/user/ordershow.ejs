@@ -25,7 +25,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+  .search-form button {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
 
+    /* Style for the search icon inside the button */
+    .search-form button i {
+        color: #000; /* Change this color to the desired color for the icon */
+        font-size: 18px; /* Adjust the font size of the icon */
+    }
+</style>
 <script>
 $(document).ready(function () {
   $('#sidebar-toggle').click(function () {
@@ -392,6 +405,51 @@ $(document).ready(function () {
 <!-- Add this inside your HTML file where the retry button is located -->
 
   
+<script>
+  function cancelOrder(orderId, productId) {
+     // Display SweetAlert prompt to collect reason for cancellation
+     Swal.fire({
+         title: 'Enter reason for cancellation',
+         input: 'text',
+         inputLabel: 'Reason',
+         inputPlaceholder: 'Enter your reason',
+         showCancelButton: true,
+         confirmButtonText: 'Confirm',
+         cancelButtonText: 'Cancel',
+     }).then((result) => {
+         if (result.isConfirmed) {
+             // User confirmed, proceed with cancellation
+             const reason = result.value;
+ 
+             // Send cancellation request to server
+             fetch('/cancelOrder', {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json',
+                 },
+                 body: JSON.stringify({ orderId: orderId, reason: reason ,productId:productId }),
+             }).then(response => {
+                 if (response.ok) {
+                     // Update the button text to "Cancelled"
+                     const cancelButton = document.querySelector(`button[onclick="cancelOrder('${orderId}', '${productId}');"]`);
+                     cancelButton.textContent = "Cancelled";
+                     cancelButton.classList.add("disabled");
+                     cancelButton.disabled = true;
+                     return response.json();
+                 }
+                 throw new Error('Network response was not ok.');
+             }).then(data => {
+                 console.log(data);
+                 Swal.fire("Order Cancelled Successfully", "", "success");
+             }).catch(error => {
+                 console.error('Error:', error);
+                 Swal.fire("Error", "There was a problem cancelling the order", "error");
+             });
+         }
+     });
+ }
+ 
+   </script>
   
 
 <script>

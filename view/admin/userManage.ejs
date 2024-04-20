@@ -92,7 +92,7 @@
     color: #fff;
 }
 .custom-btn {
-    background-color: #4d4f52; /* Button background color */
+    background-color: #6c6464; /* Button background color */
     color: #fff; /* Text color */
     border: none;
     padding: 10px 20px;
@@ -104,6 +104,61 @@
 .custom-btn:hover {
     background-color: #000000; /* Hover background color */
 }
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black with transparency */
+  }
+
+  /* Style the modal content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 80%; /* 80% width */
+    max-width: 400px; /* Maximum width */
+  }
+
+  /* Style the modal buttons */
+  .modal-buttons {
+    text-align: center;
+  }
+
+  .modal-buttons button {
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  /* Style the "Yes, Block" button */
+  #confirmBlock {
+    background-color: #f44336; /* Red */
+    color: white;
+  }
+
+  /* Style the "Yes, Unblock" button */
+  #confirmUnblock {
+    background-color: #4CAF50; /* Green */
+    color: white;
+  }
+
+  /* Style the "Cancel" button */
+  #cancelBlock,
+  #cancelUnblock {
+    background-color: #ccc; /* Light grey */
+    color: black;
+  }
 
 </style>
 <body>

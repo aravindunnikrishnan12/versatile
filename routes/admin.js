@@ -21,10 +21,10 @@ router.get("/Insite",admincontroller,getInsite);
 router.get("/UserManage",admincontroller,userManage);
 router.get("/couponmanageadmin",admincontroller,getcoupon);
 router.get("/getaddcoupon",admincontroller,addcoupon);
-router.get("/geteditcoupon/:id",editcoupon);
-router.get("/getsalesReport",salesReport);
-router.get('/download/pdf', downloadPDF);
-router.get('/download/excel',downloadExcel);
+router.get("/geteditcoupon/:id",admincontroller,editcoupon);
+router.get("/getsalesReport",admincontroller,salesReport);
+router.get('/download/pdf',admincontroller, downloadPDF);
+router.get('/download/excel',admincontroller,downloadExcel);
 //post routers
 
 const { AdminPostLogin, blockUser,postAddCoupon,posteditcoupon,deletecoupon } = require("../controller/admincontroller");
