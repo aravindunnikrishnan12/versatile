@@ -2,7 +2,7 @@ const mongoose =  require('mongoose')
 
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/versatile")
+mongoose.connect("mongodb+srv://aravindunnisree:TYOBObJIWXqCrq10@cluster0.fg50poe.mongodb.net/versatile?retryWrites=true&w=majority")
 
 
 .then(()=>{
