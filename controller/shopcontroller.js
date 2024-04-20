@@ -40,7 +40,7 @@ exports.getbook = async (req, res) => {
 
     const selectedCategory = categoryFilter || 'All';
 
-    res.render("book", { products, productCategories, selectedCategory, page: currentPage, totalPages });
+    res.render("Book", { products, productCategories, selectedCategory, page: currentPage, totalPages });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

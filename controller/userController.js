@@ -21,29 +21,58 @@ const productData = require("../model/addproductModel")
  }
  });
 
-exports.landingpage=(req,res)=>{
-  res.render("home");
-}
 
-exports.getHome = (req,res)=>{
+
+ exports.landingpage = (req, res) => {
+  try {
     res.render("home");
-}
-
-exports.getSignup = (req,res)=>{
-
-    res.render("userlogin")
-}
-
-
-exports.getLogin = (req,res)=>{
-    res.render("userlogin")
-}
-
-
-exports.getOtp=(req,res)=>{
-  const message =req.session.message;
-  res.render("otp",{ message });
+  } catch (error) {
+    console.error("Error rendering landing page", error);
+    res.status(500).json({ error: 'Internal server error occurred' });
+  }
 };
+
+exports.getHome = (req, res) => {
+  try {
+    res.render("home");
+  } catch (error) {
+    console.error("Error rendering home page", error);
+    res.status(500).json({ error: 'Internal server error occurred' });
+  }
+};
+
+exports.getSignup = (req, res) => {
+  try {
+    res.render("userlogin");
+  } catch (error) {
+    console.error("Error rendering signup page", error);
+    res.status(500).json({ error: 'Internal server error occurred' });
+  }
+};
+
+exports.getLogin = (req, res) => {
+  try {
+    res.render("userlogin");
+  } catch (error) {
+    console.error("Error rendering login page", error);
+    res.status(500).json({ error: 'Internal server error occurred' });
+  }
+};
+
+
+
+exports.getOtp = (req, res) => {
+  try {
+    const message = req.session.message;
+    res.render("otp", { message });
+  } catch (error) {
+    console.error("Error rendering OTP page", error);
+    res.status(500).json({ error: 'Internal server error occurred' });
+  }
+};
+
+
+
 
 ////////
 
@@ -164,11 +193,19 @@ exports.postLogin = async (req, res) => {
     }
     
   }
+
+  
   // 
- exports.resendotp = (req,res)=>{
-    mailsender(req.session.signupData)
-   
-  }
+  exports.resendotp = async (req, res) => {
+    try {
+      await mailsender(req.session.signupData);
+      res.status(200).json({ message: 'OTP resent successfully' });
+    } catch (error) {
+      console.error("Error sending OTP email", error);
+      res.status(500).json({ error: 'Internal server error occurred while resending OTP' });
+    }
+  };
+  
 // 
 
   exports.postOtp = async (req, res) => {
@@ -226,16 +263,22 @@ exports.resendOtp = async (req, res) => {
 };
 
 
-exports.Getlogout=(req,res)=>{
-  req.session.destroy((err)=>{
-      if(err){
-          console.error("error destrying the session",err)
-          res.status(500).json({error:'internal server error occcurs'})
-      }else{
-          res.redirect('/login')
+
+exports.Getlogout = (req, res) => {
+  try {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Error destroying the session", err);
+        res.status(500).json({ error: 'Internal server error occurred' });
+      } else {
+        res.redirect('/login');
       }
-  })
-}
+    });
+  } catch (error) {
+    console.error("Unexpected error occurred", error);
+    res.status(500).json({ error: 'Unexpected error occurred' });
+  }
+};
 
 
 
