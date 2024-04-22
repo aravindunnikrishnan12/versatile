@@ -167,6 +167,8 @@ exports.postAddProduct = async (req, res) => {
  
 
 //edit post
+
+
 exports.editproduct = async (req, res) => {
   try {
     const productId = req.params.id.replace(':', '');

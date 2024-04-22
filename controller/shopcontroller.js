@@ -70,7 +70,7 @@ exports.filterproduct = async (req, res) => {
 
       console.log("filteredProducts vdf:", filteredProducts);
 
-      res.render("book", { products: filteredProducts, categories });
+      res.render("Book", { products: filteredProducts, categories });
   } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');

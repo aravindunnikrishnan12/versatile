@@ -22,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", [path.join(__dirname, "view/user"), path.join(__dirname, "view/admin")]);
+
 app.use('/uploads',express.static(__dirname+"/uploads"));
 app.use(bodyparser.urlencoded({ extended: true }));
 // app.use('/upload', express.static('upload'));
@@ -48,6 +49,8 @@ app.use("/",shopmanage);
 app.use("/",profile)
 app.use("/",cart)
 app.use("/",order)
+
+
 // Server
 const port = 4200;
 app.listen(port, () => {
