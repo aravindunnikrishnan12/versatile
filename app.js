@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
-app.set("views", [path.join(__dirname, "view/user"), path.join(__dirname, "view/admin")]);
+app.set("views", [path.join(__dirname, "view/user"), path.join(__dirname, "view/admin"), path.join(__dirname, "view/errors")]);
 
 app.use('/uploads',express.static(__dirname+"/uploads"));
 app.use(bodyparser.urlencoded({ extended: true }));
@@ -50,8 +50,17 @@ app.use("/",profile)
 app.use("/",cart)
 app.use("/",order)
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render(path.join(__dirname, "view/errors/error"));
+});
 
-// Server
+// 404 error handling
+app.use((req, res) => {
+  res.status(404).render(path.join(__dirname, "view/errors/error"));
+});
+
 const port = 4200;
 app.listen(port, () => {
   console.log(`Server is running on the port:${port}`);

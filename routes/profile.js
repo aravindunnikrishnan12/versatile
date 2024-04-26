@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const userController=require("../middleware/sessioncntrl")
 
 
 //get routes
@@ -14,7 +15,7 @@ const {
 }=require("../controller/profilecontroller");
 
 router.get("/address",getaddress);
-router.get("/profile",getprofile);
+router.get("/profile",userController,getprofile);
 router.get("/password",getpassword);
 router.get("/getorders",getorder);
 router.get("/coupons",getcoupon)
