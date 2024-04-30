@@ -1,6 +1,6 @@
 const express=require("express");
 const router=express();
-const mongoose=require("../config/dbConnect");
+
 const Address = require("../model/addressModel");
 const collection =require('../model/userModel');
 const userData = require("../model/userModel")
@@ -16,6 +16,8 @@ const fs = require('fs');
 const path = require('path');
 
 
+const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Types;
 
 
 
@@ -462,6 +464,7 @@ exports.downloadinvoice = async (req, res) => {
         const invoiceFileName = `invoice_${order.orderNumber}.pdf`;
         const invoiceFilePath = path.join(__dirname, 'invoices', invoiceFileName);
 
+        
         // Pipe the PDF document to the response
         doc.pipe(res);
 
@@ -543,9 +546,7 @@ exports.postcancelorder = async (req, res) => {
     
     try {
         const {orderId, productId, reason } = req.body;orderId
-        console.log("Product ID received from the postcancelorder", productId);
-        console.log("Product ID received from the postcancelorder", orderId);
-
+       
         const order = await Order.findOne({  _id: orderId, 'products.productId': productId });
         console.log("Order found in the orderCart", order);
 
@@ -609,32 +610,109 @@ exports.postcancelorder = async (req, res) => {
 }
 
 
+exports.returnOrderApproval = async (req, res) => {
+    try {
+        console.log("returnOrderApproval", req.body);
+        const { orderId, productId, adminApproval, reason } = req.body;
+        const orderIdObject = mongoose.Types.ObjectId(orderId); // Use mongoose.Types.ObjectId
+        const productIdObject = mongoose.Types.ObjectId(productId); // Use mongoose.Types.ObjectId
+        
+        // Validate request parameters
+        if (!orderId || !productId || !adminApproval) {
+            return res.status(400).json({ success: false, message: "Invalid request parameters." });
+        }
+        console.log("Query Parameters:", { _id: orderId, "products.productId": productId });
+
+        // Find the order in the database
+        const order = await Order.findOne({ _id: orderIdObject, "products.productId": productIdObject });
+        console.log("order ...returnOrderApproval", order)
+        // Check if order is found
+        if (!order) {
+            return res.status(404).json({ success: false, message: "Order not found." });
+        }
+
+        // Update the adminApproval and adminReason based on the admin's decision
+        order.products.forEach(product => {
+            if (product.productId.toString() === productId) {
+                product.adminApproval = adminApproval;
+                product.adminReason = adminApproval === "Approved" ? "" : reason || "";
+            }
+        });
+
+        // Save the updated order
+        await order.save();
+
+        res.status(200).json({ success: true, message: "Admin approval updated successfully." });
+    } catch (error) {
+        console.error("Error in returnOrderApproval:", error);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+};
 
 exports.returnOrder = async (req, res) => {
     try {
-        const { orderId, productId, reason } = req.body;
+        const { orderId, productId, reason} = req.body;
 
-      console.log("req body is getting in the return order in line 281",req.body)
-      const updatedOrder = await Order.findOneAndUpdate(
-        { _id: orderId, "products._id": productId },
-        { 
-            $set: { 
-                "products.$.status": "Returned",
-                "products.$.reason": reason 
-            } 
-        },
-        { new: true }
-    );
+        const updatedOrder = await Order.findOneAndUpdate(
+            { _id: orderId, "products._id": productId },
+            {
+                $set: {
+                    "products.$.status": "Returned",
+                    "products.$.reason": reason,
+                    adminApproval:"Pending",
+                }
+            },
+            { new: true }
+        );
 
-        console.log("updatedOrders is getting in the return order in line 292",updatedOrder)
-        // Handle updatedOrder and send response
+        if (!updatedOrder) {
+            return res.status(404).json({ success: false, message: "Order not found" });
+        }
+
+        const product = updatedOrder.products.find(product => product._id.toString() === productId);
+        if (!product) {
+            return res.status(404).json({ success: false, message: "Product not found in the order" });
+        }
+
+        const mainProduct = await Product.findOne({ productName: product.productName });
+        if (!mainProduct) {
+            return res.status(404).json({ success: false, message: "Main product not found" });
+        }
+
+        // Increase the stock count of the main product
+        mainProduct.StockCount += 1;
+        await mainProduct.save();
+
+        // Check if the payment method is Razorpay or Wallet
+        if (updatedOrder.paymentMethod === 'razorpay' || updatedOrder.paymentMethod === 'Wallet') {
+            // Find the user associated with the order
+            const user = await userData.findOne({ _id: updatedOrder.userId });
+
+            // Calculate the refunded amount based on the product's price
+            const refundedAmount = product.price;
+
+            // Add the refunded amount to the user's wallet balance
+            user.wallet.balance += refundedAmount;
+
+            // Add a transaction record to the user's wallet
+            user.wallet.transactions.push({
+                amount: refundedAmount,
+                description: `Return refund for ${product.productName}`,
+                type: 'refund',
+            });
+
+            await user.save();
+        }
+
+        
+        await updatedOrder.save();
+
         res.status(200).json({ success: true, message: "Order returned successfully", updatedOrder });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 };
-
 
 
 

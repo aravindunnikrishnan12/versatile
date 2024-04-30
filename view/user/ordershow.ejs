@@ -173,7 +173,18 @@ $(document).ready(function () {
         <li class="card">
           <% order.products.forEach(product => { %>
           <div class="card-header">
-            <h1><%= product.productName %></h1>
+            
+            <h1><%= product.productName %>&nbsp;&nbsp;&nbsp;<img style="width: 60px; height: 60px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(50, 109, 109, 0.1);" src="<%= product.productImage %>">
+
+            </h1>
+        
+             
+         
+            <h5>ID:
+
+           <%= order.orderNumber %>
+            </h5>
+            <h6>Total Price: <%= order.totalPrice %></h6>
             <% if (product.status !== 'failed') { %>
               <button class="btn invoice-btn" onclick="downloadInvoice('<%= order._id %>', '<%= product._id %>')">Download Invoice</button>
               <% } %>
@@ -182,6 +193,7 @@ $(document).ready(function () {
           </div>
           <div class="card-content">
             <h2>Price: <%= product.price %></h2>
+            <h2>discountPrice: <%= order.discountPrice %></h2>
             <div class="row">
               <section>
                 <h3><%= order.address.address1 %></h3>
@@ -212,19 +224,21 @@ $(document).ready(function () {
                 <% if (product.status === 'Cancelled') { %>
                 <h2 style="font-weight: bold; color: red;">Order Cancelled</h2>
                 <% } else if (product.status === 'failed') { %>
-               <button type="submit" class="retry-button" onclick="retryOrder('<%= order._id %>', '<%= product.productId %>', '<%= product.price %>');">Retry Payment</button>
-
+                <button type="submit" class="retry-button" onclick="retryOrder('<%= order._id %>', '<%= product.productId %>', '<%= product.price %>');">Retry Payment</button>
                 <% } else { %>
                 <input type="hidden" name="orderId" value="<%= order._id %>">
                 <% if (product.status === 'delivered') { %>
-                <button type="submit" class="return-button" style="background-color: green;" onclick="returnOrder('<%= order._id %>', '<%= product._id %>');">Return Order</button>
-                <% } else if (product.status === 'Returned') { %>
-                <button type="submit" class="return-button" style="background-color: rgb(118, 236, 22);" onclick="returnOrder('<%= order._id %>', '<%= product._id %>');" disabled>Returned</button>
+                <% if (product.status === 'Returned') { %>
+                <button type="submit" class="return-button" style="background-color: rgb(118, 236, 22);" id="returnButton_<%= order._id %>_<%= product._id %>" disabled>Returned</button>
+                <% } else { %>
+                <button type="submit" class="return-button" style="background-color: green;" id="returnButton_<%= order._id %>_<%= product._id %>" onclick="returnOrder('<%= order._id %>', '<%= product._id %>');">Return Order</button>
+                <% } %>
                 <% } else { %>
                 <button type="submit" class="cancel-button" onclick="cancelOrder('<%= order._id %>', '<%= product.productId %>');" id="cancelForm_<%= order._id %>">Cancel Order</button>
                 <% } %>
                 <% } %>
-              </section>
+            </section>
+            
             </div>
           </div>
           <% }); %>
@@ -452,51 +466,50 @@ $(document).ready(function () {
    </script>
   
 
-<script>
+  <script>
   function returnOrder(orderId, productId) {
-      // Display SweetAlert prompt
-      Swal.fire({
-          title: "Reason for Return",
-          text: "Please provide a reason for returning the order:",
-          input: "text",
-          inputPlaceholder: "Reason",
-          showCancelButton: true,
-          confirmButtonText: "Return Order",
-          cancelButtonText: "Cancel",
-      }).then((result) => {
+    Swal.fire({
+        title: "Reason for Return",
+        text: "Please provide a reason for returning the order:",
+        input: "text",
+        inputPlaceholder: "Reason",
+        showCancelButton: true,
+        confirmButtonText: "Next",
+        cancelButtonText: "Cancel",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const reason = result.value;
+            Swal.fire({
+                title: "Admin Approval",
+                text: "Your return request will be sent to the admin.",
+                icon: "info",
+                confirmButtonText: "ok",
+                cancelButtonText: "Cancel",
+            });
 
-          if (result.isConfirmed) {
+            // Update UI to show "Pending" status or disable "Approved" button
+            const returnButton = document.getElementById(`returnButton_${orderId}_${productId}`);
+            returnButton.innerHTML = '<p style="color: white;">Waiting for admin approval</p>';
 
-              // User provided a reason, proceed with returning the order
-              
-              const reason = result.value;
-              fetch('/returnOrder', {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({ orderId: orderId, productId: productId, reason: reason }),
-              }).then(response => {
-                  if (response.ok) {
-                      // Update the button text to "Returned"
-                      const returnButton = document.querySelector(`button[onclick="returnOrder('${orderId}', '${productId}');"]`);
-                      returnButton.textContent = "Returned";
-                      returnButton.classList.add("disabled");
-                      returnButton.disabled = true;
-                      return response.json();
-                  }
-                  throw new Error('Network response was not ok.');
-              }).then(data => {
-                  console.log(data);
-                  Swal.fire("Order Returned Successfully", "", "success");
-              }).catch(error => {
-                  console.error('Error:', error);
-                  Swal.fire("Error", "There was a problem returning the order", "error");
-              });
-          }
-      });
-  }
-  </script>
+            returnButton.disabled = true;
+      
+            // Fetch request to backend
+            fetch('/returnOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ orderId: orderId, productId: productId, reason: reason,adminApproval:'pending'}),
+            }).then(response => {
+               
+            }).catch(error => {
+                // Handle error
+            });
+        }
+    });
+}
+
+    </script>
 
   <script>
 

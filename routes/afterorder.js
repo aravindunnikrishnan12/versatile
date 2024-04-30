@@ -10,6 +10,7 @@ const {
     getorderdetails,
 detailspage,
     details,
+ 
 }=require("../controller/ordercontroller")
 
 router.get("/order",getorderdetails);

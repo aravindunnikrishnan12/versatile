@@ -34,7 +34,8 @@ router.post("/AddProduct/:productid",uploads,postAddProduct);
 router.post("/editproduct/:id",uploads,editproduct);
 router.post("/visible/:id",visiblepost);
 router.post("/deleteproduct/:id",deleteproduct);
-router.post('/deleteImage/:id',deleteImage);
+router.delete('/deleteImage/:itemsid', deleteImage);
+
 
 //post Routes
 

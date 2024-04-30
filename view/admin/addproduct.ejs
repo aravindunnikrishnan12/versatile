@@ -130,6 +130,9 @@
   <label for="fileUploader">Product Images:</label>
   <input type="file" id="fileUploader" data-image-preview="#imagePreview" name="productImages" accept=".jpg,.png,.jpeg" multiple>
 
+<div id="imagePreview"></div>
+
+  
   <button class="addp" type="submit">Add Product</button>
 
 </form>
@@ -137,8 +140,7 @@
 <br>
 <br>
 <br>
-<div id="imagePreview"></div>
-   
+ 
  <!-- Cropper Modal -->
  <div id="cropper110Modal">
   <div id="imageCropBox">
@@ -314,7 +316,6 @@ function cropImage(e) {
         return;
     }
 }
-
 function deleteImage(img) {
     let deleteBtn = img.nextElementSibling; // Get the next sibling (delete button)
 
@@ -329,11 +330,40 @@ function deleteImage(img) {
     let fileInput = document.getElementById(img.dataset.input);
     let files = Array.from(fileInput.files);
     let updatedFiles = files.filter(file => file.name !== fileName);
-    fileInput.value = ''; // Clear the input value to reset it
-    updatedFiles.forEach(file => fileInput.files.add(file)); // Add updated files back to input
+    fileInput.files = new FileList(updatedFiles); // Set the updated files list back to the input
+
+    // Update the file input's value with the updated file list count
+    fileInput.value = updatedFiles.length > 0 ? updatedFiles.length.toString() : ''; // Update input value with file count or clear if no files left
+
+    // Update the preview after deleting the image
+    updatePreview(fileInput);
 }
 
 
+function updatePreview(input) {
+    let previewDiv = document.querySelector(input.dataset.imagePreview);
+    previewDiv.innerHTML = "";
+    for (let each of input.files) {
+        let imgSrc = URL.createObjectURL(each);
+        let img = document.createElement('img');
+        img.src = imgSrc;
+        img.dataset.fileName = each.name;
+        img.dataset.input = input.id;
+        img.addEventListener('click', cropImage);
+
+        // Create a delete button for each image
+        let deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent the click from propagating to the image click event
+            deleteImage(img);
+        });
+
+        // Append the image and delete button to the preview div
+        previewDiv.appendChild(img);
+        previewDiv.appendChild(deleteBtn);
+    }
+}
 
 cropButton.addEventListener('click', e => {
     e.preventDefault();

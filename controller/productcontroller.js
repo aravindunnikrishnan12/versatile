@@ -171,9 +171,11 @@ exports.postAddProduct = async (req, res) => {
 
 exports.editproduct = async (req, res) => {
   try {
+    console.log("req.body",req.body)
     const productId = req.params.id.replace(':', '');
+    console.log("productId",productId)
     const product = await AddProduct.findById(productId);
-
+    console.log("productId",product)
     if (!product) {
       return res.status(404).send("Product not found");
     }
@@ -196,7 +198,7 @@ exports.editproduct = async (req, res) => {
       productName: req.body.productName,
       productPrice: req.body.productPrice,
       productDescription: req.body.productDescription,
-      selectCategory: req.body.productCategory,
+      productCategory: req.body.productCategory,
       productImages: productImages,
       productRating: req.body.productRating,
       StockCount: req.body.StockCount,
@@ -224,7 +226,7 @@ exports.deleteImage = async (req, res) => {
  
      const unsetQuery = { $unset: { [`productImages.${indexToRemove}`]: 1 } };
      console.log("Unset query:", unsetQuery); // Log the unset query
- 
+     
      await AddProduct.findByIdAndUpdate(id, unsetQuery);
  
      await AddProduct.findByIdAndUpdate(id, { $pull: { productImages: null } });
@@ -242,12 +244,9 @@ exports.deleteImage = async (req, res) => {
      }
   } catch (error) {
      console.error("Error in deleteImage function:", error); // Log the error
-     res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
- };
- 
-
-
+     res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+ };
 
   //softdelete
   exports.visiblepost= async (req, res) => {

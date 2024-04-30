@@ -73,10 +73,12 @@
 
           <!-- Product Category -->
           <!-- Product Category -->
-          <label for="productCategory">Product Category:</label>
+          <label for="productCategory">Product Category:<%= items.productCategory  %></label>
+<p>select new</p>
           <select id="productCategory" name="productCategory">
-            <% categories.forEach((category)=> { %>
-            <option><%= category.categoryName %></option>
+
+            <% categories.forEach((category) => { %>
+              <option><%= category.categoryName %></option>
             <% }); %>
             <!-- Add more categories as needed --></select
           ><br />
@@ -169,28 +171,21 @@
 
     
     <script>
-   async function deleteImage(itemsid, index) {
-  console.log("deleteImage function called with itemsid:", itemsid, "and index:", index);
-  
+     async function deleteImage(itemsid, index) {
   const imageItem = document.querySelector('.preview-container[data-index="' + index + '"]');
-  console.log("Image item to delete:", imageItem); // Log the image item to be deleted
   
   try {
     const response = await fetch('/deleteImage/' + itemsid, {
-      method: 'POST',
+      method: 'DELETE', // Change to DELETE method
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ index }), // Send the index of the image to delete
     });
     
-    console.log("Response from server:", response); // Log the response from the server
-    
     if (response.ok) {
-      // If the server successfully deleted the image, remove it from the DOM
       imageItem.remove();
-      console.log("Image removed from DOM"); // Log the removal of the image from the DOM
-      location.reload(); // Reload the page
+      location.reload();
     } else {
       console.error('Failed to delete image from the server');
     }
@@ -199,8 +194,10 @@
   }
 }
 
-     </script>
-     
+         </script>
+        
+   
+   
     
     
     <script>

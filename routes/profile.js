@@ -38,6 +38,7 @@ createPayment,
 walletAddAmount,
 retryOrder,
 updateOrderStatus,
+returnOrderApproval,
 }=require("../controller/profilecontroller");
 
 router.post("/Address",postaddress);
@@ -56,6 +57,6 @@ router.post('/retryOrder',retryOrder)
 router.post('/updateOrderStatus',updateOrderStatus )
 
 router.get('/api/transactions',history);
-
+router.post("/sendReturnRequestToAdmin",returnOrderApproval)
 
 module.exports =router;

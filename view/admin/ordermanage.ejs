@@ -283,12 +283,11 @@
     </div>
   <div class="container">
   
-
-    
-    
+      
   <bold>
   <h1 style="font-weight: bold;">Order details</h1>
     </bold>
+    
     <table id="example" style="width:100%">
 
         <thead>
@@ -301,8 +300,8 @@
                 <th>Total Price</th>
                 <th>Date & Time</th>
                 <th>Payment Method</th>
-               
-                <th>Status</th>
+                <th>Actions</th>
+                <th>request</th>
                 <th>details</th>
             </tr>
         </thead>
@@ -335,7 +334,10 @@
                               </select>
                             <% } %>
                           </td>
-                          
+                          <td>
+                            <button id="requestModalBtn" class="btn btn-primary" onclick="showAdminApprovalModal('<%= order._id %>')">Request</button>
+                        </td>
+                        
                         <td>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" onclick="showOrderDetails('<%= JSON.stringify(order) %>')">Details</button>
 
@@ -371,6 +373,67 @@
     </div>
   </div>
   
+  <!-- Modal for adminApproval requests -->
+<div class="modal fade" id="adminApprovalModal" tabindex="-1" aria-labelledby="adminApprovalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="adminApprovalModalLabel">Admin Approval Request</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Display order details and approval/reject buttons here -->
+          <p>Order ID: <span id="orderID"></span></p>
+          <p>Admin Approval Status: <span id="adminApprovalStatus"></span></p>
+          <div id="approvalButtons">
+            <button class="btn btn-success" onclick="approveRequest()">Approve</button>
+            <button class="btn btn-danger" onclick="rejectRequest()">Reject</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap Bundle with Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function showAdminApprovalModal(orderId) {
+        console.log('Opening admin approval modal for order ID:', orderId);
+        // Use AJAX or fetch to get the admin approval status for the orderId
+        // For demonstration, assume the status is "Pending"
+        const adminApprovalStatus = "Pending";
+
+        // Update modal content with order ID and admin approval status
+        document.getElementById('orderID').textContent = orderId;
+        document.getElementById('adminApprovalStatus').textContent = adminApprovalStatus;
+
+        // Show the admin approval modal
+        $('#adminApprovalModal').modal('show');
+    }
+
+    function approveRequest() {
+        // Logic to approve request (e.g., send AJAX request to backend)
+        // For demonstration, log a message
+        console.log('Request approved');
+        
+        // Close the admin approval modal
+        $('#adminApprovalModal').modal('hide');
+    }
+
+    function rejectRequest() {
+        // Logic to reject request (e.g., send AJAX request to backend)
+        // For demonstration, log a message
+        console.log('Request rejected');
+        
+        // Close the admin approval modal
+        $('#adminApprovalModal').modal('hide');
+    }
+</script>
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
   const table = document.getElementById('example');

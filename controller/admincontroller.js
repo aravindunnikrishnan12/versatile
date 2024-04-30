@@ -330,13 +330,17 @@ exports.salesReport = async (req, res) => {
 };
 
 exports.downloadPDF = async (req, res) => {
-    console.log("pdf download is working")
+    console.log("pdf download is working");
     try {
-        const orders = await Order.find(); 
-console.log("orders is getting in the orders",orders)
+        const orders = await Order.find().populate('userId'); // Populate user data for each order
+        for (const order of orders) {
+            const user = await User.findById(order.userId);
+            order.user = user; // Attach user data to each order object
+        }
         // Create a new PDF document
         const doc = new PDFDocument();
-        doc.pipe(fs.createWriteStream('sales_report.pdf')); 
+        const writeStream = fs.createWriteStream('sales_report.pdf');
+        doc.pipe(writeStream);
 
         // Write content to the PDF
         doc.fontSize(16).text('Sales Report', { align: 'center' });
@@ -344,21 +348,61 @@ console.log("orders is getting in the orders",orders)
         doc.fontSize(12).text(`Date: ${new Date().toLocaleString()}`);
         doc.moveDown();
 
-        // Loop through orders and add details to the PDF
-        orders.forEach((order, index) => {
-            doc.fontSize(12).text(`Order Number: ${order.orderNumber}`);
-            doc.fontSize(10).text(`Username: ${order.user ? order.user.name : 'User not found'}`);
-            doc.fontSize(10).text(`Address: ${order.address.address1}, ${order.address.street}, ${order.address.country}, ${order.address.pincode}`);
-            doc.fontSize(10).text(`Total Quantity: ${order.totalQuantity}`);
-            doc.fontSize(10).text(`Total Price: ${order.totalPrice}`);
-            doc.fontSize(10).text(`Discount Price: ${order.discountPrice}`);
-            doc.fontSize(10).text(`Payment Method: ${order.paymentMethod}`);
-            doc.moveDown();
-        });
+        // Define table headers
+        const tableHeaders = [
+            'Order Number',
+            'Username',
+            'Address',
+            'Total Quantity',
+            'Total Price',
+            'Discount Price',
+            'Payment Method'
+        ];
 
+        // Set initial position for the table
+        let currentY = doc.y + 10;
+        let startX = 30; // Adjust the starting X position for the table
+
+        // Define narrower column widths and reduce spacing between columns
+        const columnWidth = 82;
+        const columnSpacing = 0;
+        const cellHeight = 55;
+
+        
+        doc.font('Helvetica-Bold').fontSize(12);
+        tableHeaders.forEach((header, index) => {
+            doc.rect(startX, currentY, columnWidth, cellHeight).stroke(); // Add border for each header cell
+            doc.text(header, startX + 5, currentY + 5, { width: columnWidth - 10, align: 'center' });
+            startX += columnWidth + columnSpacing; // Adjust for column spacing
+        });
+        currentY += cellHeight; // Increase spacing after headers
+
+        // Draw table rows with borders
+        doc.font('Helvetica').fontSize(10);
+        orders.forEach((order, index) => {
+            startX = 30; // Reset startX for each row
+            const rowData = [
+                order.orderNumber || '', // Use empty string if orderNumber is undefined
+                order.user ? order.user.name : 'User not found',
+                order.address ? `${order.address.address1 || ''}, ${order.address.country || ''}, ${order.address.pincode || ''}` : '',
+                order.totalQuantity || '',
+                order.totalPrice || '',
+                order.discountPrice ? order.discountPrice : 'No Offer',
+                order.paymentMethod || ''
+            ];
+
+            rowData.forEach((data, dataIndex) => {
+                doc.rect(startX, currentY, columnWidth, cellHeight).stroke(); // Add border for each cell
+                doc.text(data.toString(), startX + 5, currentY + 10, { width: columnWidth - 10, align: 'left' });
+                startX += columnWidth + columnSpacing; // Adjust for column spacing
+            });
+
+            currentY += cellHeight; // Increase row spacing
+        });
+        doc.moveDown(); // Move down after all rows are added
         doc.end(); // End PDF document
 
-        setTimeout(() => {
+        writeStream.on('finish', () => {
             res.download('sales_report.pdf', 'sales_report.pdf', (err) => {
                 if (err) {
                     console.error('Error downloading PDF:', err);
@@ -375,12 +419,13 @@ console.log("orders is getting in the orders",orders)
                     });
                 }
             });
-        }, 1000); // Delay 
+        });
     } catch (error) {
         console.error('Error generating PDF:', error);
         res.status(500).send('Internal server error');
     }
 };
+
 
 
 exports.downloadExcel = async (req, res) => {

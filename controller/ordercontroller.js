@@ -12,12 +12,9 @@ const User = require("../model/userModel")
 
 
 exports.getorderdetails =async(req,res)=>{
-    console.log("order finded admin side")
 
 try{
-    
-    
-    
+   
     const orders = await Order.find();
     console.log("order details is getting in the admin side",orders);
      
@@ -66,6 +63,10 @@ exports.detailspage=async(req,res)=>{
 }
 
 //post admin order details 
+
+
+
+
 
 
 exports.updateOrderStatus = async (req, res) => {
