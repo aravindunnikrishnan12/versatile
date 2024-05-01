@@ -184,7 +184,7 @@ $(document).ready(function () {
 
            <%= order.orderNumber %>
             </h5>
-            <h6>Total Price: <%= order.totalPrice %></h6>
+           
             <% if (product.status !== 'failed') { %>
               <button class="btn invoice-btn" onclick="downloadInvoice('<%= order._id %>', '<%= product._id %>')">Download Invoice</button>
               <% } %>
@@ -192,8 +192,12 @@ $(document).ready(function () {
  
           </div>
           <div class="card-content">
-            <h2>Price: <%= product.price %></h2>
-            <h2>discountPrice: <%= order.discountPrice %></h2>
+            <h6>Total Price: <%= order.totalPrice %></h6>
+            <% if (order.discountPrice !== order.totalPrice) { %>
+              <h2 style="color: rgba(0, 0, 0, 0.793); font-style: normal;">discountPrice: <%= order.discountPrice %></h2>
+            <% } %>
+            <h2 style="color: rgba(0, 0, 0, 0.737); font-style: normal;">Price: <%= product.price %></h2>
+            
             <div class="row">
               <section>
                 <h3><%= order.address.address1 %></h3>
@@ -224,7 +228,7 @@ $(document).ready(function () {
                 <% if (product.status === 'Cancelled') { %>
                 <h2 style="font-weight: bold; color: red;">Order Cancelled</h2>
                 <% } else if (product.status === 'failed') { %>
-                <button type="submit" class="retry-button" onclick="retryOrder('<%= order._id %>', '<%= product.productId %>', '<%= product.price %>');">Retry Payment</button>
+                <button type="submit" class="retry-button" onclick="retryOrder('<%= order._id %>', '<%= product.productId %>', '<%= product.price %>','<%= order.discountPrice %>');">Retry Payment</button>
                 <% } else { %>
                 <input type="hidden" name="orderId" value="<%= order._id %>">
                 <% if (product.status === 'delivered') { %>
@@ -234,6 +238,7 @@ $(document).ready(function () {
                 <button type="submit" class="return-button" style="background-color: green;" id="returnButton_<%= order._id %>_<%= product._id %>" onclick="returnOrder('<%= order._id %>', '<%= product._id %>');">Return Order</button>
                 <% } %>
                 <% } else { %>
+                  
                 <button type="submit" class="cancel-button" onclick="cancelOrder('<%= order._id %>', '<%= product.productId %>');" id="cancelForm_<%= order._id %>">Cancel Order</button>
                 <% } %>
                 <% } %>
@@ -255,7 +260,7 @@ $(document).ready(function () {
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 
-  
+
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -272,7 +277,7 @@ $(document).ready(function () {
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-  function retryOrder(orderId, productId, price) {
+  function retryOrder(orderId, productId, price,discountPrice) {
       console.log("retrybutton is working");
   
       fetch('/retryOrder', {
@@ -280,14 +285,14 @@ $(document).ready(function () {
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ orderId: orderId, productId: productId, price: price }),
+          body: JSON.stringify({ orderId: orderId, productId: productId, price: price,discountPrice:discountPrice }),
       })
       .then(response => response.json())
       .then(data => {
           const razorpayOrderId = data.orderId;
           const options = {
               key: "rzp_test_RqFlEd2XkYKxVa",
-              amount: price * 100, // Use the price variable
+              amount: discountPrice * 100, // Use the price variable
               currency: "INR",
               name: "versatile",
               description: "Payment for your order",
@@ -467,46 +472,51 @@ $(document).ready(function () {
   
 
   <script>
-  function returnOrder(orderId, productId) {
-    Swal.fire({
-        title: "Reason for Return",
-        text: "Please provide a reason for returning the order:",
-        input: "text",
-        inputPlaceholder: "Reason",
-        showCancelButton: true,
-        confirmButtonText: "Next",
+function returnOrder(orderId, productId) {
+  Swal.fire({
+    title: "Reason for Return",
+    text: "Please provide a reason for returning the order:",
+    input: "text",
+    inputPlaceholder: "Reason",
+    showCancelButton: true,
+    confirmButtonText: "Next",
+    cancelButtonText: "Cancel",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const reason = result.value;
+      Swal.fire({
+        title: "Admin Approval",
+        text: "Your return request will be sent to the admin.",
+        icon: "info",
+        confirmButtonText: "OK",
         cancelButtonText: "Cancel",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const reason = result.value;
-            Swal.fire({
-                title: "Admin Approval",
-                text: "Your return request will be sent to the admin.",
-                icon: "info",
-                confirmButtonText: "ok",
-                cancelButtonText: "Cancel",
-            });
+      });
 
-            // Update UI to show "Pending" status or disable "Approved" button
-            const returnButton = document.getElementById(`returnButton_${orderId}_${productId}`);
-            returnButton.innerHTML = '<p style="color: white;">Waiting for admin approval</p>';
+      // Update UI to show "Pending" status or disable "Approved" button
+      const returnButton = document.getElementById(`returnButton_${orderId}_${productId}`);
+      returnButton.innerHTML = '<p style="color: white;">Waiting for admin approval</p>';
+      returnButton.disabled = true;
 
-            returnButton.disabled = true;
-      
-            // Fetch request to backend
-            fetch('/returnOrder', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ orderId: orderId, productId: productId, reason: reason,adminApproval:'pending'}),
-            }).then(response => {
-               
-            }).catch(error => {
-                // Handle error
-            });
-        }
-    });
+      // Simulate admin approval after 5 seconds
+      setTimeout(() => {
+        returnButton.innerHTML = '<p style="color: white;">Returned</p>';
+        returnButton.disabled = true; // Optionally keep the button disabled after "Returned"
+      }, 5000);
+
+      // Fetch request to backend
+      fetch('/returnOrder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderId: orderId, productId: productId, reason: reason, adminApproval: 'pending' }),
+      }).then(response => {
+        // Handle success
+      }).catch(error => {
+        // Handle error
+      });
+    }
+  });
 }
 
     </script>

@@ -366,8 +366,8 @@ exports.getorder=async(req,res)=>{
 
 exports.retryOrder = async (req, res) => {
     try {
-        const { orderId, productId, price } = req.body;
-        console.log("Received retry order request:", { orderId, productId, price });
+        const { orderId, productId, price,discountPrice } = req.body;
+        console.log("Received retry order request:", { orderId, productId, price,discountPrice });
 
         // Ensure that your Razorpay API key and secret are correctly set here
         const Razorpay = require('razorpay');
@@ -378,7 +378,7 @@ exports.retryOrder = async (req, res) => {
 
         console.log("instance is getting ",instance)
         const options = {
-            amount: price * 100, // Convert price to the smallest currency unit (e.g., paise for INR)
+            amount: discountPrice * 100, // Convert price to the smallest currency unit (e.g., paise for INR)
             currency: 'INR',
             receipt: 'receipt_id', // You can generate a unique receipt ID here
         };
