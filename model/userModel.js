@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default:false,
   },
+  token:{
+    type: String,
+    default:''
+  },
   wallet: {
     balance: { type: Number, default: 0 },
     transactions: [{

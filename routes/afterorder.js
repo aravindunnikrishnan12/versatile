@@ -10,7 +10,7 @@ const {
     getorderdetails,
 detailspage,
     details,
- 
+    adminapproval,
 }=require("../controller/ordercontroller")
 
 router.get("/order",getorderdetails);
@@ -21,5 +21,5 @@ const {
 }=require("../controller/ordercontroller")
 
 router.post("/OrderStatus",updateOrderStatus);
-
+router.post('/updateAdminApproval',adminapproval);
 module.exports = router;

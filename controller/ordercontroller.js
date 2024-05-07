@@ -65,6 +65,36 @@ exports.detailspage=async(req,res)=>{
 //post admin order details 
 
 
+exports.adminapproval = async (req, res) => {
+    const { orderId, adminApproval } = req.body;
+
+    try {
+        const updatedOrder = await Order.findByIdAndUpdate(orderId, { adminApproval }, { new: true });
+
+        if (!updatedOrder) {
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
+
+        // Check if adminApproval is 'Approved' and update status to 'Returned'
+        if (adminApproval === 'Approved') {
+            updatedOrder.products.forEach((product) => {
+                product.status = 'Returned';
+            });
+        }
+
+        await updatedOrder.save();
+
+        res.status(200).json({ success: true, message: 'Admin approval status updated successfully', order: updatedOrder });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
+
+
+
+
 
 
 

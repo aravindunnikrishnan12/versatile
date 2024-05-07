@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .form-gap {
+    padding-top: 70px;
+}
+.error-message {
+            color: red;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<div class="form-gap"></div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+            <div class="panel panel-default">
+              <div class="panel-body">
+              
+                <div class="text-center">
+                    <h2>
+
+                        <% if( typeof message!== 'undefined') { %>
+                            <%= message %>
+                        <% } %>
+                    </h2>
+                    
+
+
+                
+                  <h3><i class="fa fa-lock fa-4x"></i></h3>
+                  <h2 class="text-center">Forgot Password?</h2>
+                  <p>You can reset your password here.</p>
+                  <div class="panel-body">
+    
+                    <form id="form" action="/postforgetpassword" method="post" onsubmit="return validateForm()">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
+
+                          <input type="text" class="form-control" name="email" id="email" placeholder="Email Address">
+                         
+                        </div>
+                        <div id="emailError" class="error-message"></div>
+                        
+                      </div>
+                      
+                      
+                      <button type="submit" class="btn btn-block btn-custom">Send Request</button>
+                    </form>
+    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+	</div>
+</div>
+
+<script>
+    function validateForm(){
+        var emailInput=document.getElementById('email').value.trim();
+        var emailError=document.getElementById('emailError');
+
+        if(emailInput ===''){
+            emailError.innerText="Email is required";
+            return false;
+        }else if(!validateEmail(emailInput)){
+            emailError.innerText="Enter a valid email";
+            return false;
+        }else{
+            emailError.innerText='';
+            return true;    
+        }
+    }
+
+    function validateEmail(email){
+        var emailpattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailpattern.test(email);
+    }
+
+</script>
+
+</body>
+</html>

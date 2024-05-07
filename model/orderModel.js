@@ -34,7 +34,7 @@ const orderSchema = mongoose.Schema({
     discountPrice: { type: Number},
     paymentMethod: { type: String},
     orderDate: { type: Date, default: new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }),},
-    adminApproval: { type: String, enum: ["Pending", "Approved", "Rejected"], default: "Pending" },
+    adminApproval: { type: String, enum: ["Pending", "Approved", "Rejected"],default:"Pending"},
     adminReason: { type: String, default: "" },
 });
 

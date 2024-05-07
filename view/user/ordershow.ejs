@@ -26,6 +26,20 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
+ .empty-message {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-top: 50px;
+  }
+
+  .empty-message a {
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+
   .search-form button {
         background-color: transparent;
         border: none;
@@ -167,92 +181,95 @@ $(document).ready(function () {
 
 
 <div class="wrapper">
-    <main>
-      <ul class="list">
-        <% orders.reverse().forEach(order => { %>
+  <main>
+    <% if (orders.length === 0) { %>
+     <div class="empty-page-container">
+        <div>
+          <div class="empty-icon">
+            <!-- Your empty icon here -->
+          </div>
+          <p class="empty-message">This page is empty. Go order!</p>
+        </div>
+      </div>
+    <% } else { %>
+    <ul class="list">
+      <% orders.reverse().forEach(order => { %>
         <li class="card">
+          
           <% order.products.forEach(product => { %>
-          <div class="card-header">
-            
-            <h1><%= product.productName %>&nbsp;&nbsp;&nbsp;<img style="width: 60px; height: 60px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(50, 109, 109, 0.1);" src="<%= product.productImage %>">
-
-            </h1>
-        
-             
-         
-            <h5>ID:
-
-           <%= order.orderNumber %>
-            </h5>
-           
-            <% if (product.status !== 'failed') { %>
-              <button class="btn invoice-btn" onclick="downloadInvoice('<%= order._id %>', '<%= product._id %>')">Download Invoice</button>
+            <div class="card-header" style=" padding: 10px; border-radius: 10px; margin-bottom: 10px;">
+              <h5 style="font-size: 24px; margin-bottom: 5px;"><%= product.productName %>&nbsp;&nbsp;&nbsp;<img style="width: 60px; height: 60px; border-radius: 10px; vertical-align: middle;" src="<%= product.productImage %>"></h5>
+              <h6>ID: <%= order.orderNumber %></h6>
+              <% if (product.status !== 'failed') { %>
+                <button class="btn invoice-btn" onclick="downloadInvoice('<%= order._id %>', '<%= product._id %>')">Download Invoice</button>
               <% } %>
-           
- 
-          </div>
-          <div class="card-content">
-            <h6>Total Price: <%= order.totalPrice %></h6>
-            <% if (order.discountPrice !== order.totalPrice) { %>
-              <h2 style="color: rgba(0, 0, 0, 0.793); font-style: normal;">discountPrice: <%= order.discountPrice %></h2>
-            <% } %>
-            <h2 style="color: rgba(0, 0, 0, 0.737); font-style: normal;">Price: <%= product.price %></h2>
-            
-            <div class="row">
-              <section>
-                <h3><%= order.address.address1 %></h3>
-                <p><%= order.address.additionalInfo %></p>
-              </section>
-              <section>
-                <h3>Date and Time</h3>
-                <p><%= new Date(order.orderDate).toLocaleString('en-US', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' }) %></p>
-              </section>
             </div>
-            <div class="row">
-              <section>
-                <h3>Quantity</h3>
-                <p><%= product.quantity %></p>
+            <div class="card-content">
+              <h6>Total Price: <%= order.totalPrice %></h6>
+              <% if (order.discountPrice !== order.totalPrice) { %>
+                <h2 style="color: rgba(0, 0, 0, 0.793); font-style: normal;">Discounted Price: <%= order.discountPrice %></h2>
+              <% } %>
+              <h2 style="color: rgba(0, 0, 0, 0.737); font-style: normal;">Price: <%= product.price %></h2>
+              <div class="row" style="display: flex; justify-content: space-between; margin-top: 10px;">
+                <section style="flex: 1;">
+                  <h3 style="font-size: 16px; margin-bottom: 5px;">Quantity</h3>
+                  <p style="font-size: 14px;"><%= product.quantity %></p>
+                </section>
+                <section style="flex: 1;">
+                  <h3 style="font-size: 16px; margin-bottom: 5px;">Order Status</h3>
+                  <p style="font-size: 14px;"><%= product.status %></p>
+                </section>
+              </div>
+              <div class="row" style="display: flex; justify-content: space-between; margin-top: 10px;">
+                <section style="flex: 1;">
+                  <h3 style="font-size: 16px; margin-bottom: 5px;">Payment Method</h3>
+                  <p style="font-size: 14px;"><%= order.paymentMethod %></p>
+                </section>
+                <section>
+                  <h3>Actions</h3>
+                  <% if (product.status === 'Cancelled') { %>
+                      <h2 style="font-weight: bold; color: red;">Order Cancelled</h2>
+                  <% } else if (product.status === 'failed') { %>
+                      <button type="submit" class="retry-button" onclick="retryOrder('<%= order._id %>', '<%= product.productId %>', '<%= product.price %>');">Retry Payment</button>
+                  <% } else { %>
+                      <input type="hidden" name="orderId" value="<%= order._id %>">
+                      <% if (product.status === 'delivered') { %>
+                          <h2> need Admin Approval: <%= order.adminApproval %></h2>
+                         
+                          <button type="submit" class="return-button" style="background-color: green;" onclick="returnOrder('<%= order._id %>', '<%= product._id %>');">Return Order</button>
+                      <% } else if (product.status === 'Returned' && order.adminApproval==='Approved') { %>
+                          <button type="submit" class="return-button" style="background-color: rgb(118, 236, 22);" onclick="returnOrder('<%= order._id %>', '<%= product._id %>');" disabled>Returned</button>
+                      <% } else { %>
+                          <button type="submit" class="cancel-button" onclick="cancelOrder('<%= order._id %>', '<%= product.productId %>');" id="cancelForm_<%= order._id %>">Cancel Order</button>
+                      <% } %>
+                  <% } %>
               </section>
-              <section>
-                <h3>Order Status</h3>
-                <p><%= product.status %></p>
-              </section>
+              
+              </div>
             </div>
-            <div class="row">
-              <section>
-                <h3>Payment Method</h3>
-                <p><%= order.paymentMethod %></p>
-              </section>
-              <section>
-                <h3>Actions</h3>
-                <% if (product.status === 'Cancelled') { %>
-                <h2 style="font-weight: bold; color: red;">Order Cancelled</h2>
-                <% } else if (product.status === 'failed') { %>
-                <button type="submit" class="retry-button" onclick="retryOrder('<%= order._id %>', '<%= product.productId %>', '<%= product.price %>','<%= order.discountPrice %>');">Retry Payment</button>
-                <% } else { %>
-                <input type="hidden" name="orderId" value="<%= order._id %>">
-                <% if (product.status === 'delivered') { %>
-                <% if (product.status === 'Returned') { %>
-                <button type="submit" class="return-button" style="background-color: rgb(118, 236, 22);" id="returnButton_<%= order._id %>_<%= product._id %>" disabled>Returned</button>
-                <% } else { %>
-                <button type="submit" class="return-button" style="background-color: green;" id="returnButton_<%= order._id %>_<%= product._id %>" onclick="returnOrder('<%= order._id %>', '<%= product._id %>');">Return Order</button>
-                <% } %>
-                <% } else { %>
-                  
-                <button type="submit" class="cancel-button" onclick="cancelOrder('<%= order._id %>', '<%= product.productId %>');" id="cancelForm_<%= order._id %>">Cancel Order</button>
-                <% } %>
-                <% } %>
-            </section>
-            
-            </div>
-          </div>
           <% }); %>
+          <!-- Move shipping address and date/time here -->
+          <div class="row" style="display: flex; justify-content: space-between; margin-top: 10px;">
+            <section style="flex: 1;">
+              <h3 style="font-size: 16px; margin-bottom: 5px;">Shipping Address</h3>
+              <p style="font-size: 14px;"><%= order.address.address1 %><br><%= order.address.additionalInfo %></p>
+            </section>
+            <section style="flex: 1;">
+              <h3 style="font-size: 16px; margin-bottom: 5px;">Date and Time</h3>
+              <p style="font-size: 14px;"><%= new Date(order.orderDate).toLocaleString('en-US', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' }) %></p>
+            </section>
+          </div>
         </li>
-        <% }); %>
-      </ul>
+      <% }); %>
+    </ul>
     <div class="pagination" id="pagination"></div>
-    </main>
-  </div>
+    <% } %>
+  </main>
+</div>
+
+
+
+
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -471,7 +488,10 @@ $(document).ready(function () {
    </script>
   
 
+  
+
   <script>
+
 function returnOrder(orderId, productId) {
   Swal.fire({
     title: "Reason for Return",
@@ -494,15 +514,10 @@ function returnOrder(orderId, productId) {
 
       // Update UI to show "Pending" status or disable "Approved" button
       const returnButton = document.getElementById(`returnButton_${orderId}_${productId}`);
-      returnButton.innerHTML = '<p style="color: white;">Waiting for admin approval</p>';
-      returnButton.disabled = true;
-
-      // Simulate admin approval after 5 seconds
-      setTimeout(() => {
-        returnButton.innerHTML = '<p style="color: white;">Returned</p>';
-        returnButton.disabled = true; // Optionally keep the button disabled after "Returned"
-      }, 5000);
-
+      if (returnButton) {
+        returnButton.innerHTML = '<p style="color: white;">Waiting for admin approval</p>';
+        returnButton.disabled = true;
+      }
       // Fetch request to backend
       fetch('/returnOrder', {
         method: 'POST',
@@ -510,19 +525,23 @@ function returnOrder(orderId, productId) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ orderId: orderId, productId: productId, reason: reason, adminApproval: 'pending' }),
-      }).then(response => {
-        // Handle success
-      }).catch(error => {
-        // Handle error
-      });
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error('Network response was not ok.');
+        })
+        .then(data => {
+          console.log(data);
+          Swal.fire("Order Returned Successfully", "", "success");
+        })
+        .catch(error => {
+          // Handle error
+        });
     }
   });
 }
-
-    </script>
-
-  <script>
-
 
   </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

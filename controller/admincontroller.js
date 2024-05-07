@@ -83,7 +83,7 @@ exports.blockUser = async (req,res) =>{
           return res.status(404).json({ error: 'User not found' });
         }
     
-        // Toggle the isBlocked status
+      
         user.isBlocked = !user.isBlocked;
         const updatedUser = await user.save();
     
@@ -228,7 +228,7 @@ exports.posteditcoupon = async (req, res) => {
         existingCoupon.minAmount = req.body.minAmount;
         existingCoupon.maxAmount = req.body.maxAmount;
 
-        // Save the updated coupon data
+  
         const updatedCoupon = await existingCoupon.save();
         console.log("Updated coupon:", updatedCoupon);
 
@@ -359,11 +359,11 @@ exports.downloadPDF = async (req, res) => {
             'Payment Method'
         ];
 
-        // Set initial position for the table
+    
         let currentY = doc.y + 10;
-        let startX = 30; // Adjust the starting X position for the table
+        let startX = 30;
 
-        // Define narrower column widths and reduce spacing between columns
+    
         const columnWidth = 82;
         const columnSpacing = 0;
         const cellHeight = 55;

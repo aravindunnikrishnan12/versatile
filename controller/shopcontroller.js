@@ -15,19 +15,20 @@ const Wishlist = require('../model/whishlistmodel');
 const Category =require('../model/categoryModel')
 
 
-//
 //object destructed
 
 exports.getbook = async (req, res) => {
   try {
     const { category: categoryFilter, page: currentPage = 1 } = req.query;
     const pageSize = 12;
-
+  
     let productQuery;
     if (categoryFilter && categoryFilter !== 'All') {
-      productQuery = Product.find({ productCategory: categoryFilter, isvisible: false });
+      productQuery = Product.find({ productCategory: categoryFilter, isvisible: false});
+   
     } else {
       productQuery = Product.find({ isvisible: false });
+   
     }
 
     const [totalProducts, productCategories] = await Promise.all([
@@ -108,8 +109,8 @@ exports.filterproduct = async (req, res) => {
 
   exports.sortProduct = async (req, res) => {
     try {
-        const { user: userid } = req.session; // Using object destructuring for req.session.user
-        const { sortBy } = req.params; // Using object destructuring for req.params.sortBy
+        const { user: userid } = req.session; 
+        const { sortBy } = req.params; 
         let categories;
         let products;
 
@@ -137,10 +138,10 @@ exports.filterproduct = async (req, res) => {
                 break;
         }
 
-        const productCategories = ['Category1', 'Category2', 'Category3']; // Sample categories
-        const currentPage = 1; // Sample current page
-        const totalPages = 10; // Sample total pages
-        const { category: selectedCategory = '' } = req.query; // Using object destructuring for req.query.category
+        const productCategories = ['Category1', 'Category2', 'Category3'];
+        const currentPage = 1; 
+        const totalPages = 10; 
+        const { category: selectedCategory = '' } = req.query; 
 
         res.render("Book", { products, categories, selectedCategory, productCategories, page: currentPage, totalPages });
     } catch (error) {
@@ -157,19 +158,19 @@ exports.searchmen = async (req, res) => {
     let products;
 
     if (searchQuery) {
-      // Perform the search if there's a search query
+    
       products = await productData.find({
         productName: { $regex: new RegExp(searchQuery, 'i') }
       });
     } else {
-      // Fetch all products if there's no search query
+     
       products = await productData.find();
     }
 
-    const productCategories = ['Category1', 'Category2', 'Category3']; // Sample categories
-    const currentPage = 1; // Sample current page
-    const totalPages = 10; // Sample total pages
-    let selectedCategory = req.query.category || ''; // Assuming category is passed in the query string
+    const productCategories = ['Category1', 'Category2', 'Category3']; 
+    const currentPage = 1;
+    const totalPages = 10;
+    let selectedCategory = req.query.category || ''; 
 
     // Render the view with the search results or all products
     res.render("Book", { products, selectedCategory, productCategories, page: currentPage, totalPages });
@@ -192,7 +193,7 @@ exports.addToCart = async (req, res) => {
       const userId = req.session.user;
   
       const product = await Product.findOne({_id:productId});
-      console.log("pdoducradsadadadadadadadad ",product);
+    
  
       const cartData = {
         userid: userId,
@@ -220,7 +221,7 @@ exports.addToCart = async (req, res) => {
       res.status(200).send('Product added to cart successfully');
   } catch (error) {
       console.error('Error adding to cart:', error);
-      // Respond with error status
+    
       res.status(500).send('An error occurred while adding the product to the cart');
   }
 };
@@ -341,7 +342,7 @@ exports.wishtoaddcart = async (req, res) => {
     const userId = req.session.user;
     console.log("user id is getting in the wishlist", userId);
 
-    // Check if productId is valid
+  
     if (!productId) {
       return res.status(400).json({ message: 'Product ID is required' });
     }

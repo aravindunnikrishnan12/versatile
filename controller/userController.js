@@ -9,7 +9,7 @@ const collection =require('../model/userModel');
 const productData = require("../model/addproductModel")
 //  const { generateNewOtp } = require('../controller/otputil');
  const otpgenerator =require('otp-generator')
-
+ const randomstring = require('randomstring');
 
  require('dotenv').config()
 
@@ -20,6 +20,10 @@ const productData = require("../model/addproductModel")
        pass : process.env.EMAIL_PASSWORD
  }
  });
+
+
+
+
 
 
 
@@ -82,6 +86,7 @@ exports.getOtp = (req, res) => {
 
 ////////////////////////////////////////////////////////////
 ///
+
 
 
 exports.postLogin = async (req, res) => {
@@ -174,7 +179,7 @@ exports.postLogin = async (req, res) => {
   
     try {
         await otpDocument.save();
-        // Send the email with the generated OTP
+      
         transporter.sendMail({
             from: process.env.EMAIL_ADDRESS,
             to: data.email,
@@ -221,13 +226,13 @@ exports.postLogin = async (req, res) => {
     
         console.log(req.session.signupData);
         const newuser = await new collection(req.session.signupData).save();
-        // Send success response
+     
          res.json({ success: true, message: 'OTP verification successful' });
         
        
        
       } else {
-        // Send error response
+
          res.status(400).json({ success: false, message: 'Invalid OTP' });
         
       }
@@ -250,7 +255,6 @@ exports.resendOtp = async (req, res) => {
       return res.json({ error: "User data not found. Please sign up again." });
     }
 
-    // Generate a new OTP and update the OTP record
     const newOtp = generateNewOtp();
     await otp.updateOne({ email: signupData.email }, { otp: newOtp });
     res.json({ success: true, message: "OTP resent successfully" });np
@@ -262,6 +266,135 @@ exports.resendOtp = async (req, res) => {
   }
 };
 
+
+exports.getforget =(req,res)=>{
+  try{
+   
+    res.render("forget")
+  }catch(error){
+    console.log("internal error")
+  }
+}
+
+
+
+exports.postforget =async(req,res)=>{
+  
+  try{
+    const email =req.body.email;
+
+    const userData = await collection.findOne({email:email})
+    console.log("postforget",userData);
+  if(userData){
+
+ const randomStringdata= randomstring.generate();
+ const updatedData= await collection.updateOne({email:email},{$set:{token:randomStringdata}});
+ sendResetPasswordMail(userData.name,userData.email,randomStringdata)
+ res.render("forget",{message:"check your email"})
+
+  }else{
+
+    res.render("forget",{message:"user no found"});
+  }
+  }catch(error){
+    console.log("internal error")
+  }
+}
+
+
+// for rest password sewnd mail
+
+
+
+const sendResetPasswordMail = async (name, email,token) => {
+  console.log("sendResetPasswordMail")
+  try {
+    const resetLink = `http://localhost:4200/newpassword?token=${token}`;
+
+    const mailOptions = {
+      from: 'process.env.EMAIL_ADDRESS',
+      to: email,
+      subject: 'Reset Password Request',
+      html: `
+      <html>
+        <body>
+          <p>Hello ${name},</p>
+          <p>You have requested to reset your password. Please click the link below to reset your password:</p>
+          <p><a href="${resetLink}">Reset Password</a></p>
+          <p>Thank you.</p>
+        </body>
+      </html>
+    `,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log('Reset password email sent successfully.');
+  } catch (error) {
+    console.error('Error occurred while sending reset password email:', error);
+  }
+};
+
+
+
+
+exports.newpasswordsetting= async(req,res)=>{
+  try{
+
+const token =req.query.token;
+
+const tokendata = await collection.findOne({token:token})
+
+if(tokendata)
+{
+
+  res.render("newpassword",{user_id:tokendata._id});
+
+}
+else{
+
+  res.render('404',{message:"invalid link"})
+}
+
+  }
+  catch(error){
+    console.log("Error:", error);
+    res.render('500', { message: "Internal Server Error" });
+  }
+}
+
+exports.postRestpassword=async(req,res)=>{
+ 
+  try{
+  
+   const password =req.body.newPassword;
+   const userId =req.body.user_id
+console.log("password and userid ",{password,userId});
+
+const securepass= await securePassword(password)
+const newdata= await collection.findByIdAndUpdate({_id:userId},{$set:{password:securepass,token:''}})
+res.redirect("/login");
+  }
+  catch(error){
+    console.log("Error:", error);
+    res.render('500', { message: "Internal Server Error" });
+  }
+}
+
+
+const securePassword =async(password)=>{
+  try{
+
+
+    const passwordhash= await bcrypt.hash(password,10);
+    return passwordhash;
+
+  }
+  catch(error){
+    console.log("Error",error);
+    res.render('500',{message:"internal server issue "});
+
+  }
+}
 
 
 exports.Getlogout = (req, res) => {

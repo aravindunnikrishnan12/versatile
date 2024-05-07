@@ -22,11 +22,11 @@ getbook,
 } = require("../controller/shopcontroller");
 router.get('/filterproducts',filterproduct)
 router.get('/books', userController, getbook);
-router.get('/display/:id',getdisplay);
+router.get('/display/:id',userController,getdisplay);
 
 router.get('/sortproduct/:sortBy',sortProduct)
 router.get('/search',searchmen)
-router.get('/wishlist',wishlist);
+router.get('/wishlist',userController,wishlist);
 
 
 

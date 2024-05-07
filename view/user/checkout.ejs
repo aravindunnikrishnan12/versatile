@@ -253,19 +253,17 @@
 
         <div class="cost" id="total">
           <span>Total</span>
-          <% if (discountedPrice) { %>
-            <del> <h5>₹<%= totalPrice %>
-            </h5></del>
-           
+          <% if (discountedPrice && discountedPrice !== totalPrice) { %>
+            <del><h5>₹<%= totalPrice %></h5></del>
             <h4>₹<%= discountedPrice %> discountprice</h4>
-            <span id="price" data-totalprice="<%= discountedPrice  %>"
-              data-discountprice="<%= discountedPrice %>"></span>
-            <% } else { %>
-              <h4>₹<%= totalPrice %>
-              </h4>
-              <span id="price" data-totalprice="<%= totalPrice  %>"></span>
-              <% } %>
+            <span id="price" data-totalprice="<%= discountedPrice %>" data-discountprice="<%= discountedPrice %>"></span>
+          <% } else { %>
+            <h4>₹<%= totalPrice %></h4>
+            <span id="price" data-totalprice="<%= totalPrice %>"></span>
+          <% } %>
         </div>
+        
+        
         <button class="pay-button" type="submit" style="background-color: #6b3e4b;"> submit </button>
 
 
