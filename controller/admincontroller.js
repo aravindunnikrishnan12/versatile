@@ -27,7 +27,6 @@ exports.getAdminLogin=(req,res)=>{
 
 //post
 
-
 exports.AdminPostLogin = async (req, res) => {
     try {
         const data = {

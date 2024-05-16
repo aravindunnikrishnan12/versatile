@@ -1,5 +1,4 @@
 
-
 const express=require("express");
 const router=express();
 const mongoose=require("..");
@@ -15,12 +14,14 @@ const Wishlist = require('../model/whishlistmodel');
 const Category =require('../model/categoryModel')
 
 
-//object destructed
+//get book
 
 exports.getbook = async (req, res) => {
   try {
     const { category: categoryFilter, page: currentPage = 1 } = req.query;
+    console.log("req.query",req.query)
     const pageSize = 12;
+   
   
     let productQuery;
     if (categoryFilter && categoryFilter !== 'All') {
@@ -35,6 +36,7 @@ exports.getbook = async (req, res) => {
       Product.countDocuments({ isvisible: false }),
       Product.distinct('productCategory')
     ]);
+   
     const totalPages = Math.ceil(totalProducts / pageSize);
 
     const products = await productQuery.skip((currentPage - 1) * pageSize).limit(pageSize).exec();
@@ -50,42 +52,7 @@ exports.getbook = async (req, res) => {
 
 
 
-//destrusted
 
-exports.filterproduct = async (req, res) => {
-  try {
-      const { query: { category } } = req; 
-
-      console.log("Category:", category);
-
-      const products = await Product.find({ isvisible: false }).populate('category');
-      console.log("products vdf:", products);
-
-      const categories = await Category.find({ isvisible: false });
-      console.log("categories vdf:", categories);
-
-      const filteredProducts = products.filter(product => {
-          const matchingCategory = categories.find(cat => cat.categoryName === product.category);
-          return matchingCategory;
-      });
-
-      console.log("filteredProducts vdf:", filteredProducts);
-
-      res.render("Book", { products: filteredProducts, categories });
-  } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-  }
-};
-
-
-
-
-  
-
-  
-  
-  
   
   exports.getdisplay= async (req,res)=>{
   
@@ -107,52 +74,13 @@ exports.filterproduct = async (req, res) => {
 
 
 
-  exports.sortProduct = async (req, res) => {
-    try {
-        const { user: userid } = req.session; 
-        const { sortBy } = req.params; 
-        let categories;
-        let products;
 
-        switch (sortBy) {
-            case 'popularity':
-                products = await productData.find().sort({ popularity: -1 });
-                break;
-            case 'priceLowToHigh':
-                products = await productData.find().sort({ productPrice: 1 });
-                break;
-            case 'priceHighToLow':
-                products = await productData.find().sort({ productPrice: -1 });
-                break;
-            case 'newArrivals':
-                products = await productData.find().sort({ createdAt: -1 });
-                break;
-            case 'aAZ':
-                products = await productData.find().sort({ productName: 1 });
-                break;
-            case 'zZA':
-                products = await productData.find().sort({ productName: -1 });
-                break;
-            default:
-                products = await productData.find();
-                break;
-        }
 
-        const productCategories = ['Category1', 'Category2', 'Category3'];
-        const currentPage = 1; 
-        const totalPages = 10; 
-        const { category: selectedCategory = '' } = req.query; 
 
-        res.render("Book", { products, categories, selectedCategory, productCategories, page: currentPage, totalPages });
-    } catch (error) {
-        console.error("Error sorting products:", error);
-        res.status(500).json({ message: 'An error occurred while sorting products.' });
-    }
-};
 
 
 exports.searchmen = async (req, res) => {
-  console.log("Search is working in the men session");
+
   try {
     const searchQuery = req.query.q;
     let products;
@@ -180,7 +108,9 @@ exports.searchmen = async (req, res) => {
   }
 };
 
-// ADD TO CART 
+
+
+// ADDtocart in the bookpage popup message 
 
 exports.addToCart = async (req, res) => {
  
@@ -188,13 +118,16 @@ exports.addToCart = async (req, res) => {
   try {
 
     let productId = req.params.id;
-    console.log("fkjdsfkjnsdkj",productId);
+
 
       const userId = req.session.user;
   
       const product = await Product.findOne({_id:productId});
-    
  
+      
+     if(product.StockCount<=0){
+    return res.status(400).send('out of stock')
+    }
       const cartData = {
         userid: userId,
         productid: productId,
@@ -206,7 +139,7 @@ exports.addToCart = async (req, res) => {
         category: product.productCategory,
         image: product.productImages[0],
       };
-      console.log("cartData",cartData);
+   
       const cartProduct = await Cart.findOne({ productid: productId, userid: userId });
   
       if (cartProduct) {
@@ -217,7 +150,6 @@ exports.addToCart = async (req, res) => {
         await Cart.create(cartData);
         console.log("Cart added successfully");
       }
-
       res.status(200).send('Product added to cart successfully');
   } catch (error) {
       console.error('Error adding to cart:', error);
@@ -228,11 +160,8 @@ exports.addToCart = async (req, res) => {
 
 
 
+
 //get whislist
-
-
-
-
 
 exports.wishlist = async (req, res) => {
   try {
@@ -241,7 +170,7 @@ exports.wishlist = async (req, res) => {
     
   
     const wishlistItems = await Wishlist.find({ userId: userId });
-    console.log("wishlist itesm isjdfds",wishlistItems);
+   
   
     
     if (!wishlistItems) {
@@ -261,6 +190,7 @@ exports.wishlist = async (req, res) => {
 
 
 // wishlist 
+
 exports.postwishlist = async (req, res) => {
   try {
     const { productId } = req.body;
@@ -288,6 +218,8 @@ exports.postwishlist = async (req, res) => {
       price: product.productPrice,
     });
 
+    
+
   await newItem.save();
 
    
@@ -302,9 +234,6 @@ exports.postwishlist = async (req, res) => {
 
 
 //remove wishlist
-
-
-
 
   exports.removewishlist = async (req, res) => {
   
@@ -329,6 +258,9 @@ exports.postwishlist = async (req, res) => {
     }
   };
   
+
+
+
 
 
 //wishlit to addcart
@@ -383,5 +315,108 @@ exports.wishtoaddcart = async (req, res) => {
   } catch (error) {
     console.error('Error adding item to cart:', error);
     return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+exports.sortProduct = async (req, res) => {
+  try {
+    console.log("sort product")
+      const { user: userid } = req.session; 
+      const { sortBy } = req.params; 
+      console.log("req.params",req.params)
+
+      let categories;
+      let products;
+
+      switch (sortBy) {
+          case 'popularity':
+              products = await productData.find().sort({ popularity: -1 });
+              break;
+          case 'priceLowToHigh':
+              products = await productData.find().sort({ productPrice: 1 });
+              break;
+          case 'priceHighToLow':
+              products = await productData.find().sort({ productPrice: -1 });
+              break;
+          case 'newArrivals':
+              products = await productData.find().sort({ createdAt: -1 });
+              break;
+          case 'aAZ':
+              products = await productData.find().sort({ productName: 1 });
+              break;
+          case 'zZA':
+              products = await productData.find().sort({ productName: -1 });
+              break;
+          default:
+              products = await productData.find();
+              break;
+      }
+
+      const productCategories = ['Category1', 'Category2', 'Category3'];
+      const currentPage = 1; 
+      const totalPages = 10; 
+      const { category: selectedCategory = '' } = req.query; 
+
+      res.render("Book", { products, categories, selectedCategory, productCategories, page: currentPage, totalPages });
+  } catch (error) {
+      console.error("Error sorting products:", error);
+      res.status(500).json({ message: 'An error occurred while sorting products.' });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// for testing
+exports.filterproduct = async (req, res) => {
+  console.log("filterproduct")
+  try {
+      const { query: { category } } = req; 
+
+      console.log("Category:", category);
+
+      const products = await Product.find({ isvisible: false }).populate('category');
+      console.log("products vdf:", products);
+
+      const categories = await Category.find({ isvisible: false });
+      console.log("categories vdf:", categories);
+
+      const filteredProducts = products.filter(product => {
+          const matchingCategory = categories.find(cat => cat.categoryName === product.category);
+          return matchingCategory;
+      });
+
+      console.log("filteredProducts vdf:", filteredProducts);
+
+      res.render("Book", { products: filteredProducts, categories });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
   }
 };

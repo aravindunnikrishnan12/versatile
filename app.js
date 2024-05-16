@@ -16,7 +16,6 @@ app.use(session({
 
 // Middleware
 app.use(cookieParser());
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -61,7 +60,7 @@ app.use((req, res) => {
   res.status(404).render(path.join(__dirname, "view/errors/error"));
 });
 
-const port = 4200;
+const port = process.env.PORT || 4200;
 app.listen(port, () => {
   console.log(`Server is running on the port:${port}`);
 });

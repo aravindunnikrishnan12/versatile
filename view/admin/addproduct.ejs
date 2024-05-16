@@ -91,6 +91,10 @@
 
 
 <form id='form' action="/AddProduct/:<%=product._id%>" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+<br>
+<% if (typeof message !== 'undefined') { %>
+    <p style="color: red;"><%= message %></p>
+<% } %>
 
   <!-- Product Name -->
 
@@ -316,54 +320,32 @@ function cropImage(e) {
         return;
     }
 }
-function deleteImage(img) {
-    let deleteBtn = img.nextElementSibling; // Get the next sibling (delete button)
+function deleteImage(imageElement) {
+    let fileName = imageElement.dataset.fileName;
+    let inputId = imageElement.dataset.input;
+    let fileInput = document.getElementById(inputId);
+    let files = Array.from(fileInput.files);
+
+    // Remove the image from the input's files list
+    let updatedFiles = files.filter(file => file.name !== fileName);
+    let dt = new DataTransfer();
+    updatedFiles.forEach(file => dt.items.add(file));
+    fileInput.files = dt.files;
 
     // Remove the image and its corresponding delete button from the DOM
-    img.remove();
+    let deleteBtn = imageElement.nextElementSibling;
     if (deleteBtn && deleteBtn.tagName === 'BUTTON') {
         deleteBtn.remove(); // Remove the delete button if it exists
     }
-
-    // Remove the file from the input's files list
-    let fileName = img.dataset.fileName;
-    let fileInput = document.getElementById(img.dataset.input);
-    let files = Array.from(fileInput.files);
-    let updatedFiles = files.filter(file => file.name !== fileName);
-    fileInput.files = new FileList(updatedFiles); // Set the updated files list back to the input
+    imageElement.remove(); // Remove the image
 
     // Update the file input's value with the updated file list count
     fileInput.value = updatedFiles.length > 0 ? updatedFiles.length.toString() : ''; // Update input value with file count or clear if no files left
-
-    // Update the preview after deleting the image
-    updatePreview(fileInput);
 }
 
 
-function updatePreview(input) {
-    let previewDiv = document.querySelector(input.dataset.imagePreview);
-    previewDiv.innerHTML = "";
-    for (let each of input.files) {
-        let imgSrc = URL.createObjectURL(each);
-        let img = document.createElement('img');
-        img.src = imgSrc;
-        img.dataset.fileName = each.name;
-        img.dataset.input = input.id;
-        img.addEventListener('click', cropImage);
 
-        // Create a delete button for each image
-        let deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'Delete';
-        deleteBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent the click from propagating to the image click event
-            deleteImage(img);
-        });
 
-        // Append the image and delete button to the preview div
-        previewDiv.appendChild(img);
-        previewDiv.appendChild(deleteBtn);
-    }
-}
 
 cropButton.addEventListener('click', e => {
     e.preventDefault();

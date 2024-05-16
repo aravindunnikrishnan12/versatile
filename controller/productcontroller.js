@@ -16,17 +16,22 @@ const { body, validationResult } = require('express-validator');
 exports.getProducts = async (req, res) => {
   try {
       const categoryFilter = req.query.category;
-      console.log("categoryFilter",categoryFilter)
+
       const productCategories = await AddProduct.distinct('productCategory');
-      let productQuery;
+
+
+        let productQuery;
+
       if (categoryFilter && categoryFilter !== 'All') {
+
           productQuery = AddProduct.find({ productCategory: categoryFilter });
       } else {
           productQuery = AddProduct.find();
       }
       const products = await productQuery.exec();
-      const selectedCategory = categoryFilter || 'All'; 
-      res.render("productManage", { product: products, productCategories, selectedCategory });
+
+    const selectedCategory = categoryFilter || 'All'; 
+  res.render("productManage", { product: products, productCategories, selectedCategory });
   } catch (error) {
       console.error(error);
       res.status(500).send("internal server error");
@@ -39,14 +44,15 @@ exports.getProducts = async (req, res) => {
 
 exports.getedit = async (req,res) =>{
     const id = req.params.id;
-    console.log(" edit product item 40",id);
+
 
 try{
-  const categories= await categoryCollecton.find();
+  // const categories= await categoryCollecton.distinct("categoryName");
+       
+  const categories = await categoryCollecton.find();
+ 
   const items = await AddProduct.findById(id);
-  console.log(" edit categorie line  39 ",categories);
-  console.log(" edit product item 40",items);
-  
+
 
  
   res.render("editproduct",{categories,items});
@@ -69,7 +75,7 @@ catch(error){
 
 // get of add product
 exports.addproduct = async (req,res)=>{
-  console.log("get of addproduct is working ")
+ 
     try{
 
         const categories= await categoryCollecton.find({ isvisible: false });
@@ -106,41 +112,33 @@ exports.postAddProduct = async (req, res) => {
            isVisible,
        } = req.body;
        console.log("Request Body:", req.body);
-       // Check if a product with the same name already exists
-       const existingProduct = await AddProduct.findOne({ productName });
- 
-       if (existingProduct) {
-        console.log("Product with the same name already exists:", existingProduct);
-           // Product with the same name already exists
-           return res.render('/addproduct');
-          
-       }
- 
-       // Check if req.files is defined and contains files
+
+
+    
+    //exists
+    const existingProduct = await AddProduct.findOne({ productName});
+  
+
+    if (existingProduct) {
+      
+      
+      return res.status(400).send('product is already exist');
+    }
+    
+      
        if (!req.files || req.files.length === 0) {
         console.log("No files were uploaded.");
            return res.status(400).send('No files were uploaded.');
        }
  
-       // Check if files are uploaded
+       // if files are uploaded
        let productImages = [];
  
        if (req.files && req.files.length > 0) {
          const fileUrls = req.files.map((file) => `/uploads/${file.filename}`);
          productImages = fileUrls;
        }
- 
-       // Log each field of the product
-       console.log("Product Name:", productName);
-       console.log("Product Description:", productDescription);
-       console.log("Product Category:", productCategory);
-       console.log("Product Price:", productPrice);
-       console.log("Product Rating:", productRating);
-       console.log("Stock Count:", StockCount);
-       console.log("Product Offer:", productOffer);
-       console.log("Is Visible:", isVisible);
-       console.log("Product Images:", productImages);
- 
+
        const data = {
            productName,
            productPrice,
@@ -153,9 +151,8 @@ exports.postAddProduct = async (req, res) => {
            isVisible,
        };
  
-       // Create the new product only if it doesn't already exist
+      
        const updatedProduct = await AddProduct.create(data);
-       console.log("Product Created:", updatedProduct);
 
        res.redirect('/products');
  
@@ -171,24 +168,24 @@ exports.postAddProduct = async (req, res) => {
 
 exports.editproduct = async (req, res) => {
   try {
-    console.log("req.body",req.body)
+  
     const productId = req.params.id.replace(':', '');
-    console.log("productId",productId)
+ 
     const product = await AddProduct.findById(productId);
-    console.log("productId",product)
+  
     if (!product) {
       return res.status(404).send("Product not found");
     }
 
     let productImages = [];
 
-    // Handle newly uploaded images
+    //  newly uploaded images
     if (req.files && req.files.length > 0) {
       const fileUrls = req.files.map((file) => `/uploads/${file.filename}`);
       productImages = [...productImages, ...fileUrls];
     }
 
-    // Handle existing images
+    //  existing images
     if (req.body.existingImages) {
       const existingImages = JSON.parse(req.body.existingImages);
       productImages = [...productImages, ...existingImages];
@@ -213,47 +210,15 @@ exports.editproduct = async (req, res) => {
 };
 
 
-//delete image 
-exports.deleteImage = async (req, res) => {
-  console.log("Request received in deleteImage function"); // Log the start of the function
- 
-  try {
-     const id = req.params.id;
-     const indexToRemove = req.body.index;
- 
-     console.log("Request parameters:", { id }); // Log the id from request parameters
-     console.log("Request body:", { indexToRemove }); // Log the indexToRemove from request body
- 
-     const unsetQuery = { $unset: { [`productImages.${indexToRemove}`]: 1 } };
-     console.log("Unset query:", unsetQuery); // Log the unset query
-     
-     await AddProduct.findByIdAndUpdate(id, unsetQuery);
- 
-     await AddProduct.findByIdAndUpdate(id, { $pull: { productImages: null } });
- 
-     const updatedProduct = await AddProduct.findById(id);
- 
-     console.log("Updated product:", updatedProduct); // Log the updated product
- 
-     if (updatedProduct) {
-       console.log("Image deleted successfully"); // Log success message
-       res.status(200).json({ success: true, message: 'Image deleted successfully', data: updatedProduct });
-     } else {
-       console.log("Index not found in productImages array"); // Log error message
-       res.status(404).json({ success: false, message: 'Index not found in productImages array' });
-     }
-  } catch (error) {
-     console.error("Error in deleteImage function:", error); // Log the error
-     res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
- };
+
+
 
   //softdelete
   exports.visiblepost= async (req, res) => {
     try {
       const id= req.params.id;
        
-      console.log("dadd", id );
+     
       const product = await AddProduct.findById(id);
      
 
@@ -297,3 +262,119 @@ exports.deleteImage = async (req, res) => {
    }
              
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+  //delete image 
+exports.deleteImage = async (req, res) => {
+  console.log("Request received in deleteImage function"); // Log the start of the function
+ 
+  try {
+    const { productId, index } = req.params;
+    console.log("Request { productId, index }",{ productId, index });
+    // Find the product by ID
+    const existingProduct = await AddProduct.findById(productId);
+    console.log("Request received in deleteImage function",existingProduct);
+    if (!existingProduct) {
+        return res.status(404).json({ error: "Product not found" });
+    }
+
+    // Remove the image at the specified index from the productImages array
+    existingProduct.productImages.splice(index, 1);
+
+    // Save the updated product
+    await existingProduct.save();
+
+    res.json({
+        message: "Image deleted successfully",
+    });
+} catch (error) {
+    console.error('Error deleting image:', error);
+    res.status(500).json({ error: "Internal Server Error"});
+}
+
+};
+

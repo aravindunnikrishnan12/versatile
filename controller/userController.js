@@ -23,10 +23,6 @@ const productData = require("../model/addproductModel")
 
 
 
-
-
-
-
  exports.landingpage = (req, res) => {
   try {
     res.render("home");
@@ -77,17 +73,7 @@ exports.getOtp = (req, res) => {
 
 
 
-
-////////
-
-
-
-
-
-////////////////////////////////////////////////////////////
-///
-
-
+///////////////////////////////////////////////////////////
 
 exports.postLogin = async (req, res) => {
   const data = {
@@ -106,7 +92,7 @@ exports.postLogin = async (req, res) => {
       console.log("User is blocked");
       return res.render("userlogin", { errorMessage: "User is blocked" });
     }
-    // Compare the hashed password from the database with the provided password
+   
     const passwordMatch = await bcrypt.compare(data.password, user.password);
 
     if (!passwordMatch) {
@@ -171,28 +157,28 @@ exports.postLogin = async (req, res) => {
   const mailsender = async (data) => {
     const generatedOTP = genotp();
     console.log(generatedOTP)
-    const otpDocument = new otp({
-        
+    const otpDocument = new otp({    
         email: data.email,
         otp: generatedOTP
     });
-  
+
     try {
+
         await otpDocument.save();
-      
         transporter.sendMail({
             from: process.env.EMAIL_ADDRESS,
             to: data.email,
             subject: "OTP Verification",
             text: "Verify Your Email Using the OTP",
             html: `<h3>Verify Your Email Using this OTP: ${generatedOTP}</h3>`,
-        }, (err, info) => {
+      }, (err, info) => {
             if (err) {
                 console.log("Error sending email:", err);
             } else {
                 console.log("Email sent successfully. Message ID:", info.messageId);
             }
         });
+
     } catch (error) {
         console.error("Error saving OTP to the database:", error);
     }
@@ -213,6 +199,9 @@ exports.postLogin = async (req, res) => {
   
 // 
 
+
+
+
   exports.postOtp = async (req, res) => {
    
       try {
@@ -224,7 +213,6 @@ exports.postLogin = async (req, res) => {
   
       if (x.otp == otpvalue.otp) {
     
-        console.log(req.session.signupData);
         const newuser = await new collection(req.session.signupData).save();
      
          res.json({ success: true, message: 'OTP verification successful' });
@@ -257,7 +245,7 @@ exports.resendOtp = async (req, res) => {
 
     const newOtp = generateNewOtp();
     await otp.updateOne({ email: signupData.email }, { otp: newOtp });
-    res.json({ success: true, message: "OTP resent successfully" });np
+    res.json({ success: true, message: "OTP resent successfully" });
 
    
   } catch (error) {

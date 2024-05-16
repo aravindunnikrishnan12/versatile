@@ -25,45 +25,65 @@ const { validationResult } = require('express-validator');
 //checkout
 exports.getcheckout = async (req, res) => {
   try {
-      const userId = req.session.user;
-     
-      if (!userId) {
-          return res.status(400).json({ message: 'User ID is required' });
+    const userId = req.session.user;
+    console.log("User ID in the getcheckout", userId);
+   
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    const cart = await Cart.find({ userid: userId });
+    console.log("Cart items: ", cart);
+
+    if (!cart || cart.length === 0) {
+      return res.status(404).json({ message: 'Cart not found or empty' });
+    }
+
+    const useraddress = await address.find({ userId });
+    let totalPrice = 0;
+    let discountedPrice = 0; // Initialize discountedPrice variable
+
+    for (const item of cart) {
+      console.log("Processing item:", item);
+      const product = await Product.findById(item.productid);
+      console.log("Product details:", product);
+
+      if (!product) {
+        console.log(`Product with id ${item.productid} not found`);
+        continue; // Skip this item and move to the next one
       }
 
-      const cart = await Cart.find({ userid: userId });
+      let itemPrice = product.productPrice;
+      let itemDiscountedPrice = itemPrice; // Initialize item's discounted price
 
-      if (!cart || cart.length === 0) {
-          return res.status(404).json({ message: 'Cart not found or empty' });
+      console.log("Item Price before discount:", itemPrice);
+      if (product.productOffer) {
+        const discountPercentage = product.productOffer;
+        const discountAmount = (itemPrice * discountPercentage) / 100;
+        itemDiscountedPrice = itemPrice - discountAmount; // Calculate discounted price
+        console.log("Discounted Price:", itemDiscountedPrice);
       }
 
-      console.log("Cart items: ", cart);
+      let itemTotalPrice = item.quantity * itemPrice; // Calculate total price without discount
+      totalPrice += itemTotalPrice; // Add total price to totalPrice
 
-      const useraddress = await address.find({ userId });
+      let itemTotalDiscountedPrice = item.quantity * itemDiscountedPrice; // Calculate total discounted price
+      discountedPrice += itemTotalDiscountedPrice; // Add discounted price to discountedPrice
 
-      console.log("User address: ", useraddress);
-
-      let totalPrice = 0;
-      let discountedPrice = 0; // Initialize discountedPrice variable
-
-      for (const item of cart) {
-          let itemTotalPrice = item.quantity * (item.discountedprice ? item.discountedprice : item.price); // Use discountedprice if available, else use price
-          totalPrice += itemTotalPrice;
-
-          // If discountedprice is available, set it as discountedPrice
-          if (item.discountedprice) {
-              discountedPrice += itemTotalPrice;
-          }
-      }
-
+      console.log("Item Total Price:", itemTotalPrice);
+      console.log("Item Total Discounted Price:", itemTotalDiscountedPrice);
       console.log("Total Price:", totalPrice);
+      console.log("Discounted Price:", discountedPrice);
+    }
 
-      res.render("checkout", { cart, useraddress, totalPrice, discountedPrice });
+    res.render("checkout", { cart, useraddress, totalPrice, discountedPrice });
   } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
+    console.error(error);
+    res.status(500).send('Internal Server Error');
   }
 };
+
+
 
 
 
@@ -126,9 +146,13 @@ exports.getorderdetails=async(req,res)=>{
 exports.addtocart = async (req, res) => {
   try {
     const productId = req.params.id;
+    console.log("productId in the addtocart:",productId)
+
     const userId = req.session.user;
+    console.log("userID is getting",userId)
 
     const product = await Product.findById(productId);
+    console.log("product is getting in the addtocart",product)
 
     const cartData = {
       userid: userId,
@@ -140,25 +164,29 @@ exports.addtocart = async (req, res) => {
       stock: product.StockCount,
       category: product.productCategory,
       image: product.productImages[0],
-      totalPrice: product.productPrice, // Initialize total price with product price
-      discountedprice: 0, // Initialize discounted price with 0
+      totalPrice: product.productPrice,
+      discountedprice: 0, 
     };
 
-    // Calculate discounted price if product has an offer
+    console.log("cartdata is getting",cartData)
+
+    //  if product has an offer
     if (product.productOffer) {
       cartData.discountedprice = product.productPrice - (product.productPrice * product.productOffer) / 100;
-      cartData.totalPrice = cartData.discountedprice; // Update total price with discounted price
+      cartData.totalPrice = cartData.discountedprice; 
     }
 
-    const cartProduct = await Cart.findOne({ productid: productId, userid: userId });
 
+    const cartProduct = await Cart.findOne({ productid: productId, userid: userId });
+console.log("cart product is getting in the cartproduct",cartProduct)
     if (cartProduct) {
       const newQuantity = cartProduct.quantity + 1;
-      cartData.totalPrice = cartData.totalPrice * newQuantity; // Update total price based on quantity
+      cartData.totalPrice = cartData.totalPrice * newQuantity; //  total price based on quantity
       await Cart.updateOne({ _id: cartProduct._id }, { $set: { quantity: newQuantity, totalPrice: cartData.totalPrice } });
     } else {
       await Cart.create(cartData);
     }
+
 
     res.redirect("/cartdisplay");
   } catch (error) {
@@ -171,9 +199,10 @@ exports.addtocart = async (req, res) => {
 exports.cartdisplay = async (req, res) => {
   try {
     const userId = req.session.user;
-    console.log("User ID:", userId); // Log the user ID
+    console.log("User ID:", userId);
+
     const cart = await Cart.find({ userid: userId });
-    console.log("Cart:", cart);
+    console.log("Cart items:", cart);
 
     let total = 0;
     let totalPrice = 0;
@@ -182,7 +211,7 @@ exports.cartdisplay = async (req, res) => {
     for (const item of cart) {
       console.log("Processing item:", item);
       const product = await Product.findById(item.productid);
-      console.log("Product:", product);
+      console.log("Product details:", product);
 
       if (!product) {
         console.log(`Product with id ${item.productid} not found`);
@@ -196,22 +225,27 @@ exports.cartdisplay = async (req, res) => {
         const discountAmount = (itemPrice * discountPercentage) / 100;
         itemPrice -= discountAmount;
         item.discountedprice = itemPrice; // Add discounted price to item object
-        console.log("Discount Amount:", discountAmount);
+        console.log("itemPrice", itemPrice);
+        console.log("item.discountedprice", item.discountedprice);
+        console.log("discountAmount", discountAmount);
+        console.log("discountAmount", discountPercentage);
       }
 
       if (itemPrice && product.StockCount >= item.quantity) {
         let itemTotalPrice = itemPrice * item.quantity;
         totalPrice += itemTotalPrice;
         console.log("Item Total Price:", itemTotalPrice);
+        console.log("Total Price:", totalPrice);
+
       } else {
         allItemsInStock = false;
-        console.log("Item out of stock or price calculation failed");
+        console.log("Item out of stock or invalid price");
       }
     }
 
-    console.log("Total Price", totalPrice);
+    console.log("Total Price:", totalPrice);
+    console.log("All Items In Stock:", allItemsInStock);
 
-    // Pass the calculated values to your template
     res.render('cart', { cart, totalPrice, allItemsInStock, total });
   } catch (error) {
     console.error(error);

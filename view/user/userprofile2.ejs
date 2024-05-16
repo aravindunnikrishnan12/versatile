@@ -471,9 +471,13 @@ box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Add a box shadow on focus *
                                     </div>
                                  
                                     <h3>Add Balance</h3>
-                                    <form id="addBalanceForm" action="/add-amount" method="POST">
-                                      <label for="amount">Enter Amount:</label>
-                                      <input type="text" id="amount" name="amount">
+                                    <form id="addBalanceForm">
+                                    
+                                      <div class="form-group text-center">
+                                        <label for="amount">Amount (₹)</label>
+                                        <input type="number" class="form-control" id="amount" name="amount" required>
+                                     </div>
+                            
                                       <button type="button" onclick="handlePayment()" class="btn btn-dark " style="background-color: #6b3e4b; border-radius: 5px;" >Add Balance</button>
                                     </form>
                                                                  
@@ -612,95 +616,90 @@ function displayTransactionHistory(transactions) {
 
 
   <script>
-  // Function to handle Razorpay payment
-  async function handlePayment() {
-        var amount = document.getElementById('amount').value;
-
-        // Check if the amount is empty
-        if (!amount.trim()) {
-            // If amount is empty, show SweetAlert error
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter the amount to add balance!',
-                confirmButtonColor: '#007bff' // Blue color for confirm button
-            });
-            return; // Exit the function if amount is empty
-        }
-
-        var amountInPaise = Math.round(parseFloat(amount) * 100);
-
-        try {
-            // Make an AJAX request to your server to generate a Razorpay order
-            const response = await fetch('/generate-razorpay-order', {
-                method: 'POST',
-                headers: {
+    // Function to handle Razorpay payment
+    function handlePayment() {
+      var amount = document.getElementById('amount').value;
+  console.log("amount is getting",amount)
+      // Check if the amount is empty or not a valid number
+      if (!amount.trim() || isNaN(amount)) {
+        // If amount is empty or not a number, show error
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please enter a valid amount to add balance!',
+          confirmButtonColor: '#007bff'
+        });
+        return; // Exit the function if amount is invalid
+      }
+  
+      // Make an AJAX request to your server to generate a Razorpay order
+      fetch('/generate-razorpay-order', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            amount: amount
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Initialize Razorpay checkout
+          var options = {
+            key: 'rzp_test_RqFlEd2XkYKxVa',
+            amount:amount*100,
+            currency: 'INR',
+            name: 'versatile',
+            description: 'Add Balance',
+            order_id: data.id,
+            handler: function(response) {
+              // Send the Razorpay payment ID to your server for verification
+              fetch('/verify-razorpay-payment', {
+                  method: 'POST',
+                  headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ amount: amountInPaise })
-            });
-
-            const data = await response.json();
-
-            // Initialize Razorpay checkout
-            var options = {
-                key: 'rzp_test_RqFlEd2XkYKxVa', // Your Razorpay test key
-                amount: data.amount,
-                currency: 'INR',
-                name: 'versatile',
-                description: 'Add Balance',
-                order_id: data.id,
-                handler: function (response) {
-                    // Send the Razorpay payment ID to your server for verification
-                    fetch('/verify-razorpay-payment', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ paymentId: response.razorpay_payment_id, amount: amountInPaise })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            console.log("SUCCESS");
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Balance Added Successfully!',
-                                position: 'top-end',
-                                toast: true,
-                                showConfirmButton: false,
-                                timer: 1500,  // Display the toast for 1.5 seconds
-                                customClass: {
-                                    popup: 'swal2-small-toast',  // Apply a custom class for smaller toast
-                                },
-                            });
-
-                            // Optionally, you can add a delay before submitting the form
-                            setTimeout(() => {
-                                document.getElementById('addBalanceForm').submit();
-                            }, 1500);  // Adjust the delay as needed
-                        } else {
-                            // Handle payment failure
-                            alert('Payment failed. Please try again.');
-                        }
+                  },
+                  body: JSON.stringify({
+                    paymentId: response.razorpay_payment_id,
+                    amount: amount
+                  })
+                })
+                .then(response => response.json())
+                .then(data => {
+                  if (data.success) {
+                    console.log("SUCCESS");
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Balance Added Successfully!',
+                      position: 'top-end',
+                      toast: true,
+                      showConfirmButton: false,
+                      timer: 1500,
+                      customClass: {
+                        popup: 'swal2-small-toast',
+                      },
                     });
-                }
-            };
-
-            var rzp = new Razorpay(options);
-            rzp.open();
-        } catch (error) {
-            console.error('Error:', error);
-            // Show error message using SweetAlert
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'An error occurred while processing the payment. Please try again later!',
-                confirmButtonColor: '#007bff' // Blue color for confirm button
-            });
-        }
+                    // Optionally, you can add a delay before submitting the form
+                    setTimeout(() => {
+                      document.getElementById('addBalanceForm').submit();
+                    }, 1500);
+                  } else {
+                    // Handle payment failure
+                    alert('Payment failed. Please try again.');
+                  }
+                });
+            }
+          };
+  
+          var rzp = new Razorpay(options);
+          rzp.open();
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
     }
   </script>
+
   <script>
     document.getElementById('backButton').addEventListener('click', function() {
    window.history.back();

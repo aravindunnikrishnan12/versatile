@@ -26,7 +26,7 @@ exports.getprofile = async (req,res)=>{
    try{
     const userId=req.session.user;
      const userDatas =await userData.findById({_id:userId}); 
-     console.log("user is is",userDatas);
+    
      const addresses = await adressData.find({userId:userId});
      if(!userId){
         return res.status(404).json({ success: false, message: 'user not found' });
@@ -47,23 +47,25 @@ const instance = new Razorpay({
 });
 
 exports.createPayment = async (req, res) => {
+    console.log("create payment is getting")
     try {
         const { amount } = req.body;
         console.log("req body is getting ", req.body);
 
-        console.log("create payment is working ");
+       
 
-        // Create a Razorpay order
+        //  Razorpay order
         const options = {
-            amount: amount, // Already in paise format (if multiplied by 100 in client-side)
-            currency: "INR",
-            receipt: "receipt_order_" + Math.floor(Math.random() * 1000),
+            amount: amount,
+            currency: 'INR',
+            receipt: "receipt_order_123",
             payment_capture: 1,
+    
         };
 
         console.log("Options:", options);
 
-        const order = await instance.orders.create(options); // Use instance here
+        const order = await instance.orders.create(options); 
         console.log("Order:", order);
         res.json(order);
     } catch (error) {
@@ -73,61 +75,65 @@ exports.createPayment = async (req, res) => {
 };
 
 
-exports.walletAddAmount = async (req, res) => { 
-    console.log("wallet add amount is working ");
-    const paymentId = req.body.paymentId;
-    const amount = parseFloat(req.body.amount);
-    console.log("amount add is working ", amount);
-    console.log("wallet add amount is working ", paymentId);
-    
-    // Verify the payment with Razorpay API
+exports.walletAddAmount = async (req, res) => {
+    const { paymentId, amount } = req.body;
+  
     try {
-        const payment = await instance.payments.fetch(paymentId); // Use instance here
-        console.log("payment");
-        console.log(payment);
-        // Check if the payment amount and currency match the expected values
-        if (payment.amount === amount && payment.currency === "INR") {
-            const userId = req.session.user; // Assuming you have user authentication middleware setting req.session.user
-
-            try {
-                const user = await userData.findOne({ _id: userId });
-                console.log("user is getting", user);
-                if (user) {
-                    // If user exists, update the wallet balance and add a new deposit transaction
-                    const updatedBalance = user.wallet.balance + amount;
-
-                    user.wallet.transactions.push({
-                        type: "deposit",
-                        amount: amount,
-                        description: "Added balance via Razorpay",
-                    });
-
-                    user.wallet.balance = updatedBalance;
-
-                    await user.save();
-                    res.json({ success: true });
-                } else {
-                    res.json({ success: false, error: "User not found" });
-                }
-            } catch (error) {
-                console.error("Error updating wallet balance:", error);
-                res.json({ success: false, error: "Error updating wallet balance" });
-            }
-        } else {
-            res.json({ success: false, error: "Invalid payment amount or currency" });
-        }
+      
+      const paymentVerified = verifyPayment(paymentId, amount);
+  
+      console.log("verified amounyt is getting",paymentVerified)
+      if (!paymentVerified) {
+        return res.status(400).json({ success: false, error: "Invalid payment" });
+      }
+  
+     
+      const userId = req.session.user;
+      const user = await userData.findOne({ _id: userId });
+  
+      if (!user) {
+        return res.status(404).json({ success: false, error: "User not found" });
+      }
+  
+      user.wallet.balance += amount;
+      user.wallet.transactions.push({
+        type: "deposit",
+        amount: amount,
+        description: "Added balance via Razorpay",
+      });
+  
+      await user.save();
+  
+      res.json({ success: true });
     } catch (error) {
-        console.error("Error verifying Razorpay payment:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+      console.error("Error adding balance to wallet:", error);
+      res.status(500).json({ success: false, error: "Internal Server Error" });
     }
-};
+  };
+  
+  const verifyPayment = async (paymentId, amount) => {
+    console.log("verify payment is working")
+    try {
+   
+      const payment = await instance.payments.fetch(paymentId);
+      console.log("payment is working",)
 
-
+    
+      if (payment.amount === amount && payment.currency === "INR") {
+        return true; 
+      } else {
+        return false; 
+      }
+    } catch (error) {
+      console.error("Error verifying payment with Razorpay API:", error);
+      return false; 
+    }
+  };
 exports.history =async(req,res)=>{
-    console.log("hitory router is working ")
+  
     try {
         const userId = req.session.user;
-        console.log("user id is getting in the history",userId)
+       
         const user = await userData.findById(userId);
         if (!user) {
             return res.status(404).json({ error: "User not found" });
@@ -174,7 +180,7 @@ exports.editprofile = async (req, res) => {
       
     try{
         const userId = req.params.userID;
-        console.log("re name ",userId);
+      
         const { newName } = req.body;
         
         console.log("eee",newName);
@@ -243,14 +249,14 @@ exports.posteditaddress = async (req, res) => {
         const addressId = req.params.id;
         const { address1, street, country, pincode, phone, additionalInfo } = req.body.updatedAddress;
 
-        // Find the address by ID
+        
         const address = await Address.findById(addressId);
 
         if (!address) {
             return res.status(404).json({ success: false, message: 'Address not found' });
         }
 
-        // Update address fields
+    
         address.address1 = address1;
         address.street = street;
         address.country = country;
@@ -258,10 +264,10 @@ exports.posteditaddress = async (req, res) => {
         address.phone = phone;
         address.additionalInfo = additionalInfo;
 
-        // Save the updated address
+        
         const updatedAddress = await address.save();
 
-        // Respond with the updated address
+      
         res.status(200).json({ success: true, message: 'Address updated successfully', data: updatedAddress });
     } catch (error) {
         console.error(error);
@@ -366,10 +372,11 @@ exports.getorder=async(req,res)=>{
 
 exports.retryOrder = async (req, res) => {
     try {
+
         const { orderId, productId, price,discountPrice } = req.body;
+        console.log("Received retry",req.body);
         console.log("Received retry order request:", { orderId, productId, price,discountPrice });
 
-        // Ensure that your Razorpay API key and secret are correctly set here
         const Razorpay = require('razorpay');
         const instance = new Razorpay({
             key_id: 'YOUR_RAZORPAY_KEY_ID',
@@ -378,9 +385,9 @@ exports.retryOrder = async (req, res) => {
 
         console.log("instance is getting ",instance)
         const options = {
-            amount: discountPrice * 100, // Convert price to the smallest currency unit (e.g., paise for INR)
+            amount: discountPrice * 100, 
             currency: 'INR',
-            receipt: 'receipt_id', // You can generate a unique receipt ID here
+            receipt: 'receipt_id', 
         };
 console.log("options is alsomos getting ",options)
         // Creating the order
@@ -411,11 +418,7 @@ exports.updateOrderStatus = async (req, res) => {
 
         const { orderId, productId, status } = req.body;
 
-        console.log('Received update order status request for orderId:', orderId);
-        console.log('Received update order status request for productId:', productId);
-        console.log('Received status:', status);
-
-        // Find the order by orderId and productId
+      
         const updatedOrder = await Order.findOneAndUpdate(
             { _id: orderId, "products.productId": productId },
             { $set: { "products.$.status": status } },
@@ -423,13 +426,13 @@ exports.updateOrderStatus = async (req, res) => {
         );
 
         if (!updatedOrder) {
-            console.log('Order not found or product not found in order.');
+          
             return res.status(404).json({ error: 'Order not found or product not found in order' });
         }
 
         console.log('Order status updated successfully:', updatedOrder);
        
-        // Send the updated order details along with the status update response
+       
         res.json({ updatedOrder, message: 'Order status updated successfully' });
     } catch (error) {
         console.error('Error updating order status:', error); // Log the actual error message
@@ -545,7 +548,7 @@ exports.downloadinvoice = async (req, res) => {
 exports.postcancelorder = async (req, res) => {
     
     try {
-        const {orderId, productId, reason } = req.body;orderId
+        const {orderId, productId, reason } = req.body;
        
         const order = await Order.findOne({  _id: orderId, 'products.productId': productId });
         console.log("Order found in the orderCart", order);
@@ -577,7 +580,7 @@ exports.postcancelorder = async (req, res) => {
         }
 
         // Calculate the refunded amount based on totalPrice or the original price
-        const refundedAmount = Math.min(product.price, order.totalPrice);
+        const refundedAmount = Math.min(order.discountPrice);
 
         // Check if the payment method is Razorpay
         if (order.paymentMethod === 'razorpay'||order.paymentMethod === 'Wallet') {
@@ -615,6 +618,9 @@ exports.postcancelorder = async (req, res) => {
 exports.returnOrder = async (req, res) => {
     try {
         const { orderId, productId, reason, adminApproval } = req.body;
+ 
+        const order = await Order.findOne({  _id: orderId, 'products.productId': productId });
+        console.log("Order found in the returnOrder", order);
 
         // Check if adminApproval is "Approved" before updating the product status
         if (adminApproval === "Approved") {
@@ -653,7 +659,7 @@ exports.returnOrder = async (req, res) => {
                 const user = await userData.findOne({ _id: updatedOrder.userId });
 
                 // Calculate the refunded amount based on the product's price
-                const refundedAmount = product.price;
+                const refundedAmount = order.discountPrice;
 
                 // Add the refunded amount to the user's wallet balance
                 user.wallet.balance += refundedAmount;

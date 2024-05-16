@@ -73,13 +73,15 @@
 
           <!-- Product Category -->
           <!-- Product Category -->
-          <label for="productCategory">Product Category:<%= items.productCategory  %></label>
+         
 <p>select new</p>
           <select id="productCategory" name="productCategory">
 
-            <% categories.forEach((category) => { %>
-              <option><%= category.categoryName %></option>
-            <% }); %>
+       
+          <% categories.forEach(category => { %>
+            <option value="<%= category.categoryName %>" <%= items.productCategory === category.categoryName ? 'selected' : '' %>><%= category.categoryName %></option>
+        <% }); %>
+
             <!-- Add more categories as needed --></select
           ><br />
 
@@ -150,6 +152,14 @@
 
 <!-- Image Preview -->
 
+
+
+          <!-- Add Product Button -->
+          <button class="addp" type="submit">update</button>
+        </form>
+        <br>
+        <br>
+
 <div id="imagePreviewContainer" class="image-preview-container">
   <% if (items.productImages && items.productImages.length > 0) { %>
     <% items.productImages.forEach((image, index) => { %>
@@ -161,102 +171,37 @@
     <% }); %>
   <% } %>
 </div>
-
-
-          <!-- Add Product Button -->
-          <button class="addp" type="submit">update</button>
-        </form>
       </div>
     </div>
 
-    
-    <script>
-     async function deleteImage(itemsid, index) {
-  const imageItem = document.querySelector('.preview-container[data-index="' + index + '"]');
-  
-  try {
-    const response = await fetch('/deleteImage/' + itemsid, {
-      method: 'DELETE', // Change to DELETE method
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ index }), // Send the index of the image to delete
+
+<script>
+   function deleteImage(itemsid, index) {
+    fetch(`/deleteImage/${itemsid}/${index}`, {
+        method: 'DELETE',
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const container = document.getElementById("imagePreviewContainer");
+        const imgContainer = container.querySelector(`[data-index="${index}"]`);
+        
+        if (imgContainer) {
+            container.removeChild(imgContainer);
+        } else {
+            console.error('Image container not found.');
+        }
+
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error deleting image:', error);
     });
-    
-    if (response.ok) {
-      imageItem.remove();
-      location.reload();
-    } else {
-      console.error('Failed to delete image from the server');
-    }
-  } catch (error) {
-    console.error('Error deleting image:', error);
-  }
 }
 
-         </script>
-        
-   
-   
-    
-    
-    <script>
-      let selectedFiles = []; // Keep track of selected files
-
-      function previewImages() {
-        const input = document.getElementById("productImage");
-        const container = document.getElementById("imagePreviewContainer");
-        container.innerHTML = ""; // Clear previous previews
-
-        if (input.files) {
-          for (const file of input.files) {
-            selectedFiles.push(file); // Add file to selectedFiles array
-
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-              const imgContainer = document.createElement("div");
-              imgContainer.className = "preview-container";
-
-              const img = document.createElement("img");
-              img.src = e.target.result;
-              img.alt = "Product Image";
-              img.style.maxWidth = "100px"; // Adjust the maximum width as needed
-
-              const deleteButton = document.createElement("button");
-              deleteButton.innerText = "Delete";
-              deleteButton.type = "button";
-              deleteButton.className = "delete-button"; // Apply the CSS class
-              deleteButton.onclick = function () {
-                container.removeChild(imgContainer);
-                input.value = ""; // Remove the corresponding file from the input
-                removeFileFromArray(file); // Remove file from selectedFiles array
-              };
-
-              imgContainer.appendChild(img);
-              imgContainer.appendChild(deleteButton);
-              container.appendChild(imgContainer);
-            };
-
-            reader.readAsDataURL(file);
-          }
-        }
-      }
-
-      function removeFileFromArray(fileToRemove) {
-        selectedFiles = selectedFiles.filter((file) => file !== fileToRemove);
-      }
-
-      function submitForm() {
-        const form = document.getElementById("yourFormId");
-        const formData = new FormData(form);
-
-        // Append selectedFiles to formData
-        for (const file of selectedFiles) {
-          formData.append("uploadedImages", file);
-        }
-      }
-    </script>
+</script>
 
     <script>
       const productName = document.getElementById("productName");

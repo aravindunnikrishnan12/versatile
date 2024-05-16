@@ -66,16 +66,33 @@ exports.detailspage=async(req,res)=>{
 
 
 exports.adminapproval = async (req, res) => {
+    console.log("admin approval")
     const { orderId, adminApproval } = req.body;
-
+console.log("req.body is getting adminapproval",req.body)
     try {
         const updatedOrder = await Order.findByIdAndUpdate(orderId, { adminApproval }, { new: true });
-
+console.log("updatedorder is founded adminapproval",updatedOrder)
         if (!updatedOrder) {
             return res.status(404).json({ success: false, message: 'Order not found' });
         }
+       
 
-        // Check if adminApproval is 'Approved' and update status to 'Returned'
+        if(updatedOrder.paymentMethod === 'razorpay'){
+
+            const user = await User.findOne({_id:updatedOrder.userId});
+
+            const refundedAmount = updatedOrder.discountPrice;
+
+            user.wallet.balance+=refundedAmount;
+            user.wallet.transactions.push({
+                amount: refundedAmount,
+                description: `Return refunded`,
+                type: 'refund',
+            });
+
+            await user.save();
+        }
+       
         if (adminApproval === 'Approved') {
             updatedOrder.products.forEach((product) => {
                 product.status = 'Returned';
