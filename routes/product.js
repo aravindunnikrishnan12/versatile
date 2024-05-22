@@ -14,9 +14,9 @@ const{
  
 }= require("../controller/productcontroller");
 
-router.get("/products",getProducts);
-router.get("/Addproduct",addproduct);
-router.get("/editproduct/:id",getedit);
+router.get("/admin/products",getProducts);
+router.get("/admin/Addproduct",addproduct);
+router.get("/admin/editproduct/:id",getedit);
 
 
 

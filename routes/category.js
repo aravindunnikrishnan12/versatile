@@ -14,13 +14,13 @@ const {
 
 } = require("../controller/categorycontroller");
 
-router.get("/category", getCategorys);
+router.get("/admin/category", getCategorys);
 
 
-router.get("/addCategory",getaddCategory)
+router.get("/admin/addCategory",getaddCategory)
 
 
-router.get("/editCategory/:id",getEditCategory);
+router.get("/admin/editCategory/:id",getEditCategory);
 
 
 

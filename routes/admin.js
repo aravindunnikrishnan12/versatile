@@ -12,24 +12,25 @@ const {
   salesReport,
   downloadPDF,
   downloadExcel,
+  logout
 } = require("../controller/admincontroller");
 
 //get routers
-
-router.get("/adminLogin", getAdminLogin);
-router.get("/Insite",admincontroller,getInsite);
-router.get("/UserManage",admincontroller,userManage);
-router.get("/couponmanageadmin",admincontroller,getcoupon);
-router.get("/getaddcoupon",admincontroller,addcoupon);
-router.get("/geteditcoupon/:id",admincontroller,editcoupon);
-router.get("/getsalesReport",admincontroller,salesReport);
+router.get("/admin/adminlogin",getAdminLogin);
+router.get("/admin/Insite",admincontroller,getInsite);
+router.get("/admin/UserManage",admincontroller,userManage);
+router.get("/admin/couponmanageadmin",admincontroller,getcoupon);
+router.get("/admin/getaddcoupon",admincontroller,addcoupon);
+router.get("/admin/geteditcoupon/:id",admincontroller,editcoupon);
+router.get("/admin/getsalesReport",admincontroller,salesReport);
 router.get('/download/pdf',admincontroller, downloadPDF);
 router.get('/download/excel',admincontroller,downloadExcel);
+router.get('/adminlogout',logout);
 //post routers
 
 const { AdminPostLogin, blockUser,postAddCoupon,posteditcoupon,deletecoupon } = require("../controller/admincontroller");
 
-router.post("/adminlogin", AdminPostLogin);
+router.post("/postadminlogin", AdminPostLogin);
 router.post("/blockUser/:userId", blockUser);
 
 

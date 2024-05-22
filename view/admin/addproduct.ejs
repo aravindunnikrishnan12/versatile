@@ -66,7 +66,19 @@
         .cropper110-close {
             background-color: red;
         }
-       
+        .custom-link {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .custom-link:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -76,8 +88,8 @@
             <h1>Versatile</h1>
         </div>
         <ul class="menu">
-            <li><a href="/Insite">Dashboard</a></li>
-            <li><a href="/adminLogin">Logout</a></li>
+            <li><a href="/admin/Insite">Dashboard</a></li>
+            <li><a href="/adminlogout">Logout</a></li>
         </ul>
     </nav>
 </div>
@@ -86,7 +98,8 @@
  <div class="form-container">
  <div class="background-container">
 
-    <a href="/products" class="custom-link"><i class="fa-solid fa-arrow-left"></i></a>
+    <!-- <a href="/admin/products" class="custom-link">back</a> -->
+    <a href="javascript:history.back()" class="custom-link">Back</a>
 <h1 class="heading">Add Product</h1>
 
 

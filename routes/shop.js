@@ -18,8 +18,9 @@ wishlist,
 removewishlist,
 wishtoaddcart,
 getbook,
-
 } = require("../controller/shopcontroller");
+
+
 router.get('/filterproducts',filterproduct)
 router.get('/books', userController, getbook);
 router.get('/display/:id',userController,getdisplay);

@@ -8,18 +8,23 @@ const usersession = require("../middleware/sessioncntrl");
 const {
 
     getorderdetails,
-detailspage,
+    detailspage,
     details,
     adminapproval,
 }=require("../controller/ordercontroller")
 
-router.get("/order",getorderdetails);
-router.get("/orderdetails/:orderId",details);
-router.get("/o",detailspage);
+router.get("/admin/order",getorderdetails);
+router.get("/admin/orderdetails/:orderId",details);
+router.get("/admin/o",detailspage);
+
+
+
 const {
     updateOrderStatus,
 }=require("../controller/ordercontroller")
 
 router.post("/OrderStatus",updateOrderStatus);
 router.post('/updateAdminApproval',adminapproval);
+
+
 module.exports = router;

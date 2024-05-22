@@ -5,7 +5,6 @@ const ADMINDATA =require("../model/adminModel");
 
 async function  checkadminSession(req, res, next) {
  
-
     const Auth = await ADMINDATA.find({_id:req.session.admin});
 
       if ( req.session.admin) {
@@ -14,7 +13,7 @@ async function  checkadminSession(req, res, next) {
 
   } else {
 
-    res.redirect("/adminlogin");
+    res.redirect("/admin/adminlogin");
 
   }
   

@@ -8,41 +8,27 @@ const Cart = require("../model/cartmodel");
 const Product  = require("../model/addproductModel");
 const collection =require('../model/userModel');
 const productData = require("../model/addproductModel");
-
 const Wishlist = require('../model/whishlistmodel');
-
 const Category =require('../model/categoryModel')
 
-
 //get book
-
 exports.getbook = async (req, res) => {
   try {
     const { category: categoryFilter, page: currentPage = 1 } = req.query;
-    console.log("req.query",req.query)
     const pageSize = 12;
-   
-  
     let productQuery;
     if (categoryFilter && categoryFilter !== 'All') {
       productQuery = Product.find({ productCategory: categoryFilter, isvisible: false});
-   
     } else {
       productQuery = Product.find({ isvisible: false });
-   
     }
-
     const [totalProducts, productCategories] = await Promise.all([
       Product.countDocuments({ isvisible: false }),
       Product.distinct('productCategory')
     ]);
-   
     const totalPages = Math.ceil(totalProducts / pageSize);
-
     const products = await productQuery.skip((currentPage - 1) * pageSize).limit(pageSize).exec();
-
     const selectedCategory = categoryFilter || 'All';
-
     res.render("Book", { products, productCategories, selectedCategory, page: currentPage, totalPages });
   } catch (error) {
     console.error(error);
@@ -51,18 +37,11 @@ exports.getbook = async (req, res) => {
 };
 
 
-
-
   
   exports.getdisplay= async (req,res)=>{
-  
     try{
       const id = req.params.id;
-   
-  
       const products = await productData.findOne({ _id: id });
-      
-  console.log("products",products)
       res.render("display",{products})
     }
     catch(error){
@@ -72,35 +51,22 @@ exports.getbook = async (req, res) => {
   }
 
 
-
-
-
-
-
-
-
 exports.searchmen = async (req, res) => {
-
   try {
     const searchQuery = req.query.q;
     let products;
-
     if (searchQuery) {
     
       products = await productData.find({
         productName: { $regex: new RegExp(searchQuery, 'i') }
       });
     } else {
-     
       products = await productData.find();
     }
-
     const productCategories = ['Category1', 'Category2', 'Category3']; 
     const currentPage = 1;
     const totalPages = 10;
     let selectedCategory = req.query.category || ''; 
-
-    // Render the view with the search results or all products
     res.render("Book", { products, selectedCategory, productCategories, page: currentPage, totalPages });
   } catch (error) {
     console.error("Error in search:", error);
@@ -113,18 +79,11 @@ exports.searchmen = async (req, res) => {
 // ADDtocart in the bookpage popup message 
 
 exports.addToCart = async (req, res) => {
- 
-
   try {
 
     let productId = req.params.id;
-
-
       const userId = req.session.user;
-  
-      const product = await Product.findOne({_id:productId});
- 
-      
+      const product = await Product.findOne({_id:productId});  
      if(product.StockCount<=0){
     return res.status(400).send('out of stock')
     }
@@ -139,44 +98,25 @@ exports.addToCart = async (req, res) => {
         category: product.productCategory,
         image: product.productImages[0],
       };
-   
       const cartProduct = await Cart.findOne({ productid: productId, userid: userId });
-  
       if (cartProduct) {
         const newQuantity = cartProduct.quantity + 1;
         await Cart.updateOne({ _id: cartProduct._id }, { $set: { quantity: newQuantity } });
-        console.log("Cart updated successfully");
       } else {
-        await Cart.create(cartData);
-        console.log("Cart added successfully");
+        await Cart.create(cartData);  
       }
       res.status(200).send('Product added to cart successfully');
   } catch (error) {
       console.error('Error adding to cart:', error);
-    
       res.status(500).send('An error occurred while adding the product to the cart');
   }
 };
 
-
-
-
 //get whislist
-
 exports.wishlist = async (req, res) => {
   try {
     const userId = req.session.user;
-  
-    
-  
     const wishlistItems = await Wishlist.find({ userId: userId });
-   
-  
-    
-    if (!wishlistItems) {
-      console.log('No wishlist items found for user:', userId);
-    }
-    
     res.render("whishlist", { wishlistItems }); 
   } catch (error) {
     console.error('Error retrieving wishlist items:', error);
@@ -184,32 +124,19 @@ exports.wishlist = async (req, res) => {
   }
 };
 
-
-
-
-
-
 // wishlist 
-
 exports.postwishlist = async (req, res) => {
   try {
     const { productId } = req.body;
     const userId = req.session.user;
-
   const existingItem = await Wishlist.findOne({ productId, userId });
-
   if (existingItem) {
       return res.json({ message: 'Product already in wishlist' });
     }
-
-    
   const product = await Product.findById(productId);
-
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-
-    
     const newItem = new Wishlist({
      userId,
       productId,
@@ -217,12 +144,7 @@ exports.postwishlist = async (req, res) => {
      productImage: product.productImages,
       price: product.productPrice,
     });
-
-    
-
-  await newItem.save();
-
-   
+  await newItem.save(); 
     res.status(201).json({ message: 'Product added to wishlist successfully' });
   } catch (error) {
     console.error('Error adding to wishlist:', error);
@@ -231,27 +153,16 @@ exports.postwishlist = async (req, res) => {
   }
 };
 
-
-
 //remove wishlist
-
   exports.removewishlist = async (req, res) => {
-  
-   
     try {
-      const id =req.params.id;
-     
-      const result = await Wishlist.findByIdAndDelete(id);
-      
+      const id =req.params.id; 
+      const result = await Wishlist.findByIdAndDelete(id);  
       if(!result){
       return res.status(404).send("cart not found");
-      }
-  
-    
+      }   
       res.redirect('/wishlist');
-
     }
-
     catch (error) {
       console.error('Error removing product from wishlist:', error);
       res.status(500).send('Error removing product from wishlist');
@@ -260,75 +171,65 @@ exports.postwishlist = async (req, res) => {
   
 
 
-
-
-
 //wishlit to addcart
 
+
 exports.wishtoaddcart = async (req, res) => {
-  console.log("wishlist to addtocart");
   try {
-    const productId = req.body.productId; 
-    console.log("Product ID received:", productId);
+    const productId = req.body.productId;
 
     const userId = req.session.user;
-    console.log("user id is getting in the wishlist", userId);
 
-  
     if (!productId) {
-      return res.status(400).json({ message: 'Product ID is required' });
+      return res.status(400).json({ message: "Product ID is required" });
     }
 
     const product = await Product.findOne({ _id: productId });
-    console.log("product is found ", product);
+
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ message: "Product not found" });
     }
     const cartData = {
       userid: userId,
       productid: productId,
       product: product.productName,
       price: product.productPrice,
-      description:product.productDescription,
+      description: product.productDescription,
       quantity: 1,
-      stock:product.StockCount,
-      category:product.productCategory,
+      stock: product.StockCount,
+      category: product.productCategory,
       image: product.productImages[0],
-     
     };
 
-  
-    const cartProduct = await Cart.findOne({ productid: productId, userid: userId });
+    const cartProduct = await Cart.findOne({
+      productid: productId,
+      userid: userId,
+    });
 
     if (cartProduct) {
       const newQuantity = cartProduct.quantity + 1;
-      await Cart.updateOne({ _id: cartProduct._id }, { $set: { quantity: newQuantity } });
-      console.log("Cart updated successfully");
-
+      await Cart.updateOne(
+        { _id: cartProduct._id },
+        { $set: { quantity: newQuantity } }
+      );
     } else {
       await Cart.create(cartData);
-
-      console.log("Cart added successfully");
     }
 
     res.redirect("/cartdisplay");
   } catch (error) {
-    console.error('Error adding item to cart:', error);
-    return res.status(500).json({ message: 'Internal server error' });
+    console.error("Error adding item to cart:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
 
 exports.sortProduct = async (req, res) => {
   try {
-    console.log("sort product")
       const { user: userid } = req.session; 
       const { sortBy } = req.params; 
-      console.log("req.params",req.params)
-
       let categories;
       let products;
-
       switch (sortBy) {
           case 'popularity':
               products = await productData.find().sort({ popularity: -1 });
@@ -352,15 +253,13 @@ exports.sortProduct = async (req, res) => {
               products = await productData.find();
               break;
       }
-
       const productCategories = ['Category1', 'Category2', 'Category3'];
       const currentPage = 1; 
       const totalPages = 10; 
       const { category: selectedCategory = '' } = req.query; 
-
       res.render("Book", { products, categories, selectedCategory, productCategories, page: currentPage, totalPages });
   } catch (error) {
-      console.error("Error sorting products:", error);
+   
       res.status(500).json({ message: 'An error occurred while sorting products.' });
   }
 };

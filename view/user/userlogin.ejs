@@ -388,11 +388,15 @@
             passError.innerHTML = "";
     
             // Validation checks for username
-            if (username.value.trim() === '' || username.value === null||!/^[a-zA-Z0-9]+$/.test(username.value)) {
-                e.preventDefault();
-                nameError.innerHTML = "Name is required and can only contain letters";
-                isValid = false;
-            }
+            if (
+    username.value.trim() === '' || 
+    username.value === null ||
+    !/^[a-zA-Z\s]+$/.test(username.value)
+) {
+    e.preventDefault();
+    nameError.innerHTML = "Name is required and can only contain letters and spaces";
+    isValid = false;
+}
     
             // Validation checks for email
             const emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -402,12 +406,13 @@
                 isValid = false;
             }
     
-            // Validation checks for password
-            if (password.value.length < 6) {
-                e.preventDefault();
-                passError.innerHTML = "Password must be more than 6 characters";
-                isValid = false;
-            }
+         // Validation checks for password
+         const strongPasswordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!password.value.match(strongPasswordCheck)) {
+            e.preventDefault();
+            passError.innerHTML = "Password must be at least 8 characters long, include both upper and lower case letters, contain a number, and have at least one special character";
+            isValid = false;
+        }
     
             // Submit the form only if all validation checks pass
             if (isValid) {

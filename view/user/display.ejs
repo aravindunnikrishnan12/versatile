@@ -6,7 +6,9 @@
   <title>Display</title>
   <link rel="stylesheet" href="/stylesheet/user/trail.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zoom.css/1.1.3/zoom.css">
-
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-amd' viewBox='0 0 16 16'><path d='m.334 0 4.358 4.359h7.15v7.15l4.358 4.358V0zM.2 9.72l4.487-4.488v6.281h6.28L6.48 16H.2z'/></svg>" type="image/svg+xml">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/zoom.js/1.7.2/zoom.min.js"></script>
@@ -22,6 +24,63 @@
 <!-- Add Font Awesome CSS for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
+    
+    .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    padding-top: 60px;
+    transition: opacity 0.3s ease-in-out;
+  }
+  .modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    animation: slide-in 0.5s ease-out;
+  }
+  .close {
+    color: #aaa;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .close:hover,
+  .close:focus {
+    color: #000;
+  }
+  .modal-content p {
+    font-size: 18px;
+    color: #333;
+  }
+  @keyframes slide-in {
+    from {
+      top: -300px;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      opacity: 1;
+    }
+  }
+
+
+
+    /*  */
     .search-form button {
         background-color: transparent;
         border: none;
@@ -197,7 +256,12 @@
                   <% } else { %>
                       <h3 style="font-weight: bold;">₹<%= products.productPrice %></h3>
                   <% } %>
-                    
+                  <% if (products.StockCount === 0) { %>
+                    <b style="color: #000;">Out of Stock</b>
+                <% }else{ %>
+                  <h3>stock left:<%= products.StockCount %></h3>
+                  <% } %>
+                 
                   </div>
                   
                 </div>
@@ -205,38 +269,24 @@
                   <div class="swatch clearfix" data-option-index="0">
                     <div class="header">DESCRIPTION: <%= products.productDescription%></div>
                     <br>Considered one of the foundational works of science fiction,in, a young scientist who creates a living being from dead body parts. The creature, rejected and tormented by society, grapples with its own identity and seeks revenge on its creator. Through this tale of hubris, ambition, and the consequences of playing god, Shelley explores themes of humanity
-                    <div data-value="M" class="swatch-element plain m available">
-                     
-                       
-                      </label>
-                    </div>
-                    <div data-value="L" class="swatch-element plain l available">
+                   
                     
-                       
-                      </label>
-                    </div>
-                    <div data-value="XL" class="swatch-element plain xl available">
-                    
-                       
-                      </label>
-                    </div>
-                    <div data-value="XXL" class="swatch-element plain xxl available">
-                      
-                        
-                        
-                      </label>
-                    </div>
                   </div>
                   
                   
                 </div>
-            
-
-                <form action="/cart/<%= products._id %>" method="POST">
-                  <button class="btn btn-round btn-cart" type="submit" data-product-id="<%= products.productId %>"  style="background-color: #6b3e4b; border-radius: 20px;">
-                    <i class="fas fa-shopping-cart"></i>     Add to Cart
+         
+                <% if (products.StockCount > 0) { %>
+                  <form action="/cart/<%= products._id %>" method="POST">
+                    <button class="btn btn-round btn-cart" type="submit" data-product-id="<%= products.productId %>" style="background-color: #6b3e4b; border-radius: 20px;">
+                      <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                  </form>
+                <% } else { %>
+                  <button class="btn btn-round btn-cart out-of-stock" type="button" style="background-color: #6b3e4b; border-radius: 20px;" onclick="showOutOfStockMessage()">
+                    <i class="fas fa-shopping-cart"></i> Out of Stock
                   </button>
-              </form>
+                <% } %>
                 <div class="social-sharing-btn-wrapper">
                   <span id="social_sharing_btn">Share</span>
                 </div>
@@ -306,6 +356,7 @@
     </div>
   
   </section>
+  
   <footer role="contentinfo" aria-label="Footer">
     <div class="_cont">
       <div class="socials">
@@ -344,24 +395,44 @@
       </div>
     </div>
   </footer>
-  
-  <!-- Quickbeam cart-->
-  
-  <div id="quick-cart" quickbeam="cart">
-    <a id="quick-cart-pay" quickbeam="cart-pay" class="cart-ico">
-      <span>
-        <strong class="quick-cart-text">Pay<br></strong>
-        <span id="quick-cart-price">0</span>
-        <span id="quick-cart-pay-total-count">0</span>
-      </span>
-    </a>
+  <!-- Modal for Out of Stock Message -->
+<div id="outOfStockModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeOutOfStockMessage()">&times;</span>
+    <p>Sorry, this product is currently out of stock.</p>
   </div>
+</div>
+
 
   <!-- Add Bootstrap JS for functionality -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+<script>
+  function showOutOfStockMessage() {
+    var modal = document.getElementById("outOfStockModal");
+    modal.style.display = "block";
+    setTimeout(() => {
+      modal.style.opacity = "1";
+    }, 10);
+  }
+
+  function closeOutOfStockMessage() {
+    var modal = document.getElementById("outOfStockModal");
+    modal.style.opacity = "0";
+    setTimeout(() => {
+      modal.style.display = "none";
+    }, 300);
+  }
+
+  window.onclick = function(event) {
+    var modal = document.getElementById("outOfStockModal");
+    if (event.target == modal) {
+      closeOutOfStockMessage();
+    }
+  }
+</script>
   <script>
     const containers = document.querySelectorAll(".MsterImage");
 
