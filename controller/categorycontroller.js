@@ -69,25 +69,29 @@ exports.postEditCategory = async (req, res) => {
 
     const newCategoryName = req.body.categoryName;
 
-    const renderWithMessage = (message) => {
+    if (!newCategoryName || newCategoryName.trim() === '' || newCategoryName.length > 10) {
       return res.render('editCategory', {
         id: categoryId,
         name: category.categoryName,
-        message,
+        message: 'Category name is required and should be less than 10 characters.',
       });
-    };
-
-    if (!newCategoryName || newCategoryName.trim() === '' || newCategoryName.length > 10) {
-      return renderWithMessage('Category name is required and should be less than 10 characters.');
     }
 
     if (/^\d/.test(newCategoryName)) {
-      return renderWithMessage('Category name cannot start with a number.');
+      return res.render('editCategory', {
+        id: categoryId,
+        name: category.categoryName,
+        message: 'Category name cannot start with a number.',
+      });
     }
 
     const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
     if (specialCharsRegex.test(newCategoryName)) {
-      return renderWithMessage('Category name cannot contain special characters.');
+      return res.render('editCategory', {
+        id: categoryId,
+        name: category.categoryName,
+        message: 'Category name cannot contain special characters.',
+      });
     }
 
     const existingCategory = await categoryCollection.findOne({
@@ -96,7 +100,11 @@ exports.postEditCategory = async (req, res) => {
     });
 
     if (existingCategory) {
-      return renderWithMessage('Category with the same name already exists.');
+      return res.render('editCategory', {
+        id: categoryId,
+        name: category.categoryName,
+        message: 'Category with the same name already exists.',
+      });
     }
 
     category.categoryName = newCategoryName;
@@ -108,6 +116,7 @@ exports.postEditCategory = async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 };
+
 
 //delete
 
