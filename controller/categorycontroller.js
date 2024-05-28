@@ -64,56 +64,48 @@ exports.postEditCategory = async (req, res) => {
     const category = await categoryCollection.findById(categoryId);
 
     if (!category) {
-      return res.status(404).send("Category not found");
+      return res.status(404).send('Category not found');
     }
 
     const newCategoryName = req.body.categoryName;
 
-    // Define a function to handle rendering with a message
     const renderWithMessage = (message) => {
-      return res.render("editCategory", {
+      return res.render('editCategory', {
         id: categoryId,
         name: category.categoryName,
         message,
       });
     };
 
-    // Validate the new category name
-    if (
-      !newCategoryName ||
-      newCategoryName.trim() === "" ||
-      newCategoryName.length > 10
-    ) {
-      return renderWithMessage("Category name is required and should be less than 10 characters.");
+    if (!newCategoryName || newCategoryName.trim() === '' || newCategoryName.length > 10) {
+      return renderWithMessage('Category name is required and should be less than 10 characters.');
     }
 
     if (/^\d/.test(newCategoryName)) {
-      return renderWithMessage("Category name cannot start with a number.");
+      return renderWithMessage('Category name cannot start with a number.');
     }
 
     const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
     if (specialCharsRegex.test(newCategoryName)) {
-      return renderWithMessage("Category name cannot contain special characters.");
+      return renderWithMessage('Category name cannot contain special characters.');
     }
 
-    // Check if a category with the same name already exists (case-insensitive)
     const existingCategory = await categoryCollection.findOne({
-      categoryName: { $regex: new RegExp(`^${newCategoryName}$`, "i") },
+      categoryName: { $regex: new RegExp(`^${newCategoryName}$`, 'i') },
       _id: { $ne: category._id },
     });
 
     if (existingCategory) {
-      return renderWithMessage("Category with the same name already exists.");
+      return renderWithMessage('Category with the same name already exists.');
     }
 
-    // Update the category name
     category.categoryName = newCategoryName;
     await category.save();
 
-    res.redirect("/admin/category");
+    res.redirect('/admin/category');
   } catch (error) {
-    console.error("Error updating category:", error);
-    res.status(500).send("Internal Server Error");
+    console.error('Error updating category:', error);
+    res.status(500).send('Internal Server Error');
   }
 };
 
