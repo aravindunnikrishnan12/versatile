@@ -8,29 +8,25 @@ const { getLogin } = require("../controller/userController");
 
 
 const {
-    getHome,
+
     getSignup,
     getOtp,
-    landingpage,
     Getlogout,
     resendotp,
     getforget,
-    newpasswordsetting
+    newpasswordsetting,
+    userGuest
 } = require("../controller/userController");
 
 
 router.get("/login",getLogin);
 router.get("/signup", getSignup);
-router.get("/", landingpage);
-router.get("/home", userController,getHome);
 router.get('/getOtp',getOtp);
-
-router.get("/home", userController,getHome);
 router.get('/logout',userController,Getlogout);
 router.get('/resendotp',resendotp);
 router.get('/forgetpassword',getforget)
 router.get('/newpassword',newpasswordsetting)
-
+router.get('/',userGuest)
 ////////////
 // post
 
@@ -40,7 +36,8 @@ const {
     postOtp,
     resendOtp,
     postforget,
-    postRestpassword
+    postRestpassword,
+    checkReferralCode
 } = require("../controller/userController");
 
 
@@ -50,6 +47,6 @@ router.post("/verifyotp", postOtp);
 router.post('/resendOtp',resendOtp);
 router.post('/postforgetpassword',postforget)
 router.post('/postRestpassword',postRestpassword)
-
+router.post('/checkReferralCode',checkReferralCode);
 
 module.exports = router;

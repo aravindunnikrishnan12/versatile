@@ -14,10 +14,16 @@
  
   }
   
-  
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color:#f8f6f6;;
+    overflow-y: scroll; /* Enable vertical scrolling */
+  }
   .navbar {
     position: fixed;
-     
+   overflow: hidden;
       background-color:#31473A;
       color: rgb(255, 255, 255);
       height: 75px;
@@ -190,47 +196,27 @@
 
 
 
-    .main-content {
-       overflow: hidden;
-        padding: 10px;
-        background-color: #ff000043;
-        height:666px;
-        
-      }
-      .top-bar {
-        position: relative;
-        height: 650px;
-        width: 1270px;
-        left: 250px;
-        border: 1px solid #b8b8b8d6;
-        background-color:#ffffff14;
-       
-        /* box-shadow: 9px 10px 44px 0px rgba(0,0,0,0.1); */
-        box-shadow: 0 0 5px rgba(1, 2, 3, 1.1);
-        border-radius:20px;
-        padding: 10px;
-        margin-bottom: 20px; /* Adjust as needed */
-    }
 
     .overall-stats {
-     
+      margin-top: 50px;
+      margin-left: 310px;
       width: 250px;
       height: 110px;
-      background-color:white;
+      background-color:rgb(185, 92, 92);
       border-radius: 10px;
-    
       padding: 10px;
   }
   
   .overall-stats p {
+    
       margin: 5px 0;
       font-size: 12px;
       font-weight:500;
-      color: rgb(33, 31, 31);
+      color: rgb(224, 218, 218);
   }
   .first {
-    margin-top: 50px;
-    margin-left: 90px;
+    
+   
     display: flex;
     box-shadow: 0 0 5px rgba(1, 2, 3, 1.1);
     justify-content: center; /* Horizontally center the content */
@@ -262,4 +248,66 @@
   top: 10px; /* Adjust top position as needed */
   right: 10px; /* Adjust right position as needed */
   z-index: 1000; /* Ensure the button appears above other elements */
+}
+
+
+/* Small laptops */
+@media (max-width: 1366px) {
+  .top-bar {
+    width: 100%;
+    left: 0;
+    border-radius: 0;
+  }
+
+  .first {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .filter-container,
+  .chart-card {
+    position: static;
+    width: 90%;
+    margin: 10px auto;
+  }
+
+  #myPaymentMethodChart {
+    position: static;
+    width: 90%;
+    margin: 10px auto;
+  }
+}
+
+/* Mac laptops and larger desktop screens */
+@media (min-width: 1367px) {
+
+
+  .top-bar {
+    width: 1270px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .first {
+    margin-left: 90px;
+    width: 270px;
+  }
+
+  .filter-container {
+    position: fixed;
+    left: 700px; /* Adjust as needed */
+    top: 100px;
+  }
+
+  .chart-card {
+    position: fixed;
+    left: 800px; /* Adjust as needed */
+    top: 100px;
+  }
+
+  #myPaymentMethodChart {
+    position: fixed;
+    left: 350px; /* Adjust as needed */
+    top: 320px;
+  }
 }

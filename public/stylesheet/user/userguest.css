@@ -144,7 +144,6 @@
     padding: 100px 0; /* Adjust the padding as needed */
     height: calc(100vh - 20px); /* Calculate height based on viewport height minus navbar height */
 }
-
 .banner-content {
     margin-top: 10px;
     text-align: left;

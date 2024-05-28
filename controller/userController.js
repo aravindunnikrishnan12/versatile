@@ -19,25 +19,7 @@ const transporter = nodemailer.createTransport({
  });
 
 
-exports.landingpage = (req, res) => {
-  try {
-    res.render("book");
-  } catch (error) {
-    
-    res.status(500).json({ error: 'Internal server error occurred' });
-  }
-};
 
-
-exports.getHome = (req, res) => {
-  try {
-    const user = req.session.user;
-    res.render("home",{ user });
-  } catch (error) {
-  
-    res.status(500).json({ error: 'Internal server error occurred' });
-  }
-};
 
 exports.getSignup = (req, res) => {
   try {
@@ -94,7 +76,7 @@ exports.postLogin = async (req, res) => {
 
     req.session.user = user._id;
     console.log("session", req.session.user);
-    res.redirect("/home");
+    res.redirect("/books");
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
@@ -103,9 +85,9 @@ exports.postLogin = async (req, res) => {
 
 
 exports.postSignup = async (req, res) => {
-  console.log("password")
+ 
     const { name, email, password } = req.body;
-    console.log("password",req.body.password)
+
     try {
       const existingUser = await collection.findOne({ email });
       if (existingUser) {
@@ -116,6 +98,7 @@ exports.postSignup = async (req, res) => {
         name,
         email,
         password: hashedPassword,
+        referredCode: req.body.referralCode,
       };  
       const existingUserByEmail = await collection.findOne({ email: req.session.signupData.email });
       if (existingUserByEmail) {
@@ -178,11 +161,41 @@ exports.postSignup = async (req, res) => {
 
   exports.postOtp = async (req, res) => {
       try {
+        const signupData = req.session.signupData;
+        console.log('signupData',signupData)
+        if (!signupData) {
+          return res.json({ error: 'User data not found. Please sign up again.' });
+      }
+
       const x = await otp.findOne({}).sort({ _id: -1 }).limit(1);   
       const  otpvalue = req.body; 
       if (x.otp == otpvalue.otp) {  
-        const newuser = await new collection(req.session.signupData).save();   
-         res.json({ success: true, message: 'OTP verification successful' });     
+
+const newUser=new collection({
+  name:signupData.name,
+  email:signupData.email,
+  password:signupData.password,
+  referredCode: signupData.referredCode,
+})
+
+      // Conditionally add 50 to the wallet balance if referredCode is not empty
+      if (signupData.referredCode) {
+        newUser.wallet.balance += 50;
+        newUser.wallet.transactions.push({
+          amount: 50,
+          description: 'Added 50 rupees to wallet balance',
+          type: 'deposit',
+      });
+      }
+const savedUser=await newUser.save();
+
+
+  
+       
+         res.json({ success: true, message: 'OTP verification successful' });  
+         
+         
+
       } else {
          res.status(400).json({ success: false, message: 'Invalid OTP' });     
       }
@@ -308,6 +321,64 @@ const securePassword =async(password)=>{
     res.render('500',{message:"internal server issue "});
   }
 }
+
+
+exports.checkReferralCode=async(req,res)=>{
+  console.log("checkReferralCode");
+
+  const { referralCode } = req.body;
+  console.log("checkReferralCode",req.body);
+
+ 
+    if (!referralCode) {
+        return res.status(400).json({ isValid: false, message: 'Referral code is required.' });
+    }
+  
+    try {
+      
+        const userDetails = await collection.findOne({ referralCode: referralCode });
+  console.log("user is getting in  the checkReferralCode", userDetails);
+        if (userDetails) {
+            return res.json({ isValid: true, message: 'Referral code is valid.' });
+        } else {
+            return res.json({ isValid: false, message: 'Invalid referral code.' });
+        }
+    } catch (error) {
+        console.error('Error checking referral code:', error);
+        return res.status(500).json({ isValid: false, message: 'Internal server error.'});
+  }
+
+}
+
+
+
+
+// gust 
+exports.userGuest = async(req, res) => {
+  try {
+    const { category: categoryFilter, page: currentPage = 1 } = req.query;
+    const pageSize = 12;
+    let productQuery;
+    if (categoryFilter && categoryFilter !== 'All') {
+      productQuery = productData.find({ productCategory: categoryFilter, isvisible: false});
+    } else {
+      productQuery = productData.find({ isvisible: false });
+    }
+    const [totalProducts, productCategories] = await Promise.all([
+      productData.countDocuments({ isvisible: false }),
+      productData.distinct('productCategory')
+    ]);
+    const totalPages = Math.ceil(totalProducts / pageSize);
+    const products = await productQuery.skip((currentPage - 1) * pageSize).limit(pageSize).exec();
+    const selectedCategory = categoryFilter || 'All';
+   
+    res.render("userguest", { products, productCategories, selectedCategory, page: currentPage, totalPages});
+  } catch (error) {
+    
+    res.status(500).json({ error: 'Internal server error occurred' });
+  }
+};
+
 
 
 

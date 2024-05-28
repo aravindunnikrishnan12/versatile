@@ -37,7 +37,12 @@
   <div class="cartSection">
     <form action="/wish-addcart/<%=item.productId%>" method="POST">
       <input type="hidden" name="productId" value="<%= item.productId %>">
-      <button type="submit" class="btn addToCart"  style="background-color: #6b3e4b; border-radius: 20px;">AddtoCart</button>
+      <% if (item.productStockCount === 0) { %>
+        <b style="color: #000;">Out of Stock</b>
+      <% } else { %>
+        <button type="submit" class="btn addToCart" style="background-color: #6b3e4b; border-radius: 20px;">Add to Cart</button>
+      <% } %>
+     
     </form>
   </div>
 <div>&nbsp;&nbsp;</div>

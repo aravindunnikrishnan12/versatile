@@ -11,115 +11,22 @@
 }
 
 
-.navbar {
-   
-    background-color:#31473A;
-    color: rgb(255, 255, 255);
-    height: 75px;
-  }
-  
-  .main-nav {
-   
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-  }
-  
-  .main-nav h1 {
-    margin: 0;
-    margin-left: 85px;
-    margin-top: -10px;
-    font-size:35PX;
-    font-family: "Playfair Display", serif;
-    letter-spacing: 2px;
-    font-weight: 700;
-    /* font-family: 'Roboto Condensed', sans-serif; */
-  }
-  
-  menu ul li{
-    display: inline-block;
-    margin-left: 50px;
-    height: 80px;
-    position: relative;
-    line-height: 80px;
-    cursor: pointer;
-    
-    
-  }
-  menu ul li::after{
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: #000000;
-    width: 0%;
-    height: 3px;
-    transition: 0.3s;
-  }
-  nav ul li:hover::after,
-  nav ul li.active::after{
-    width: 100%;
-  }
-  .menu {
-    font-family: 'Roboto Condensed', sans-serif;
-  
-    list-style: none;
-    margin: 0;
-    margin-top: 1px;
-    padding: 0;
-    display: flex;
-    margin-left: 950px;
-  }
-  
-  .menu li {
-    margin-left: 35px;
-    /* margin-top: 15PX; */
-   font-weight: 500;
-    
-  }
-  
-  
-  .menu a {
-    text-decoration: none;
-    color: white;
-
-  }
-  
-  .menu li :hover  {
-    margin-left: -14px;
-    /* margin-top: 15PX; */
-  font-weight: 500;
-  background-color: rgb(246, 246, 246);
-   border-radius:16px;
-   padding: 6px;
-   color: black;
-  
-  }
-  
-  
-  .menu a {
-    text-decoration: none;
-    color: rgb(239, 239, 239);
-
-  }
   .body{
     background-color:#f8f6f6;;
   }
   
 
-.background-container {
-  border: 1px solid #b8b8b8;
-  background-color:#fdfbfbdc;
+  .background-container {
+    border: 1px solid #b8b8b8;
+    background-color: #fdfbfbdc;
     box-shadow: 0 0 5px rgba(1, 2, 1, 1.1);
     border-radius: 10px;
     padding: 18px;
     max-width: 800px;
     width: 100%;
-    margin-left: 360px;
-    margin-top: 10px;
-    height: 700px;
-}
+    margin: 10px auto; /* Center the container horizontally and add some margin */
+    height: auto; /* Let the height adjust based on content */
+  }
 
 .back-button {
     display: block;
@@ -193,17 +100,7 @@ button:hover {
   
   color:#2e2b2b
 }
-/* 
-.image-preview-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-}
 
-.image-preview {
-  max-width: 100px; 
-  margin-right: 10px;
-} */
 
 .delete-button-container {
   margin-left: auto; 
@@ -230,38 +127,21 @@ button:hover {
   padding: 20px; /* Add padding for better appearance */
 }
 
-/* 
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
+/* Media queries for responsive design */
+@media only screen and (max-width: 768px) {
+  .background-container {
+    max-width: 600px; /* Adjust the max-width for smaller screens */
+  }
 }
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 30%;
+@media only screen and (max-width: 480px) {
+  .background-container {
+    padding: 10px; /* Adjust padding for smaller screens */
+  }
+  .background-container h1 {
+    font-size: 28px; /* Decrease font size for smaller screens */
+  }
+  button {
+    margin-left: 0; /* Center the button on smaller screens */
+  }
 }
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-} */ 

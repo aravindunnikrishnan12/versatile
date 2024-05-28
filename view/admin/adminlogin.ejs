@@ -9,32 +9,59 @@
     <link rel="icon" href="./favicon.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poetsen+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+      <style>
+        .roboto-regular-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+        /* Custom styles for the header */
+        h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900 ;/* Bold */
+    color: #757575; /* Darker color */
+}
+.custom-btn {
+            background-color: #343a40; /* Dark background color */
+            color: #f8f9fa !important; /* Light text color */
+            border-color: #343a40; /* Same as background color for border */
+        }
+        .custom-btn:hover {
+            background-color: #23272b; /* Darker color on hover */
+            border-color: #23272b; /* Darker color on hover for border */
+        }
+    </style>
 </head>
 <body>
-   
-    <div class="wrapper">
-        
-            <form name="adminloginForm" id="form" action="/postadminlogin" method="POST" onsubmit="return validateForm()">
-                <h2>Admin Login</h2>
-                <% if (typeof message !== 'undefined') { %>
-                    <div class="Errormsg">
-                      <h2><%= message %></h2>
-                    </div>
-                  <% } %>
-                <div class="input-field">
-                    <input type="email" placeholder="Email" name="email" id="email">
-                    <span id="email_valid" style="color: #b92b27;"></span>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <div class="wrapper">
+                    <form name="adminloginForm" id="form" action="/postadminlogin" method="POST" onsubmit="return validateForm()">
+                        <h2>Admin Login</h2>
+                        <% if (typeof message !== 'undefined') { %>
+                            <div class="Errormsg">
+                                <h2><%= message %></h2>
+                            </div>
+                        <% } %>
+                        <div class="mb-3 input-field">
+                            <input type="email" class="form-control" placeholder="Email" name="email" id="email">
+                            <span id="email_valid" style="color: #b92b27;"></span>
+                        </div>
+                        <div class="mb-3 input-field">
+                            <input type="password" class="form-control" placeholder="Password" name="password" id="password">
+                            <span id="pass_error" class="pass_error" style="color: #b92b27;"></span>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-dark custom-btn">Log In</button>
+                                                </div>
+                    </form>
                 </div>
-             
-                <div class="input-field">
-                    <input type="password" placeholder="Password" name="password" id="password">
-                    <span id="pass_error" class="pass_error" style="color: #b92b27;"></span>
-                </div>
-                
-            
-                <button type="submit">Log In</button>
-            </form>
-       
+            </div>
+        </div>
     </div>
     <script>
         const email = document.getElementById('email');

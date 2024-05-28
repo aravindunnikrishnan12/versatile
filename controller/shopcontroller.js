@@ -14,6 +14,7 @@ const Category =require('../model/categoryModel')
 //get book
 exports.getbook = async (req, res) => {
   try {
+    const user = req.session.user; 
     const { category: categoryFilter, page: currentPage = 1 } = req.query;
     const pageSize = 12;
     let productQuery;
@@ -29,7 +30,7 @@ exports.getbook = async (req, res) => {
     const totalPages = Math.ceil(totalProducts / pageSize);
     const products = await productQuery.skip((currentPage - 1) * pageSize).limit(pageSize).exec();
     const selectedCategory = categoryFilter || 'All';
-    res.render("Book", { products, productCategories, selectedCategory, page: currentPage, totalPages });
+    res.render("Book", { products, productCategories, selectedCategory, page: currentPage, totalPages,user });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -112,17 +113,19 @@ exports.addToCart = async (req, res) => {
   }
 };
 
-//get whislist
-exports.wishlist = async (req, res) => {
-  try {
-    const userId = req.session.user;
-    const wishlistItems = await Wishlist.find({ userId: userId });
-    res.render("whishlist", { wishlistItems }); 
-  } catch (error) {
-    console.error('Error retrieving wishlist items:', error);
-    res.status(500).send('An error occurred while fetching the wishlist.');
-  }
-};
+
+
+
+// exports.wishlist = async (req, res) => {
+//   try {
+//     const userId = req.session.user;
+//     const wishlistItems = await Wishlist.find({ userId: userId });
+//     res.render("whishlist", { wishlistItems }); 
+//   } catch (error) {
+//     console.error('Error retrieving wishlist items:', error);
+//     res.status(500).send('An error occurred while fetching the wishlist.');
+//   }
+// };
 
 // wishlist 
 exports.postwishlist = async (req, res) => {
@@ -222,7 +225,34 @@ exports.wishtoaddcart = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+// Get wishlist
+exports.wishlist = async (req, res) => {
+  try {
+    const userId = req.session.user;
 
+ 
+    const wishlistItems = await Wishlist.find({ userId: userId });
+
+    // Step 2: Fetch the corresponding product details
+    const productIds = wishlistItems.map(item => item.productId);
+    const products = await Product.find({ _id: { $in: productIds } });
+
+    // Step 3: Merge product details with wishlist items
+    const mergedWishlistItems = wishlistItems.map(item => {
+      const product = products.find(prod => prod._id.toString() === item.productId.toString());
+      return {
+        ...item.toObject(),  // Convert Mongoose document to plain object
+        productStockCount: product ? product.StockCount : 0,  // Add stock count from product
+      };
+    });
+
+    // Step 4: Render the merged data to the view
+    res.render("whishlist", { wishlistItems: mergedWishlistItems });
+  } catch (error) {
+    console.error('Error retrieving wishlist items:', error);
+    res.status(500).send('An error occurred while fetching the wishlist.');
+  }
+};
 
 exports.sortProduct = async (req, res) => {
   try {

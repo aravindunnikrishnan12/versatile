@@ -24,16 +24,16 @@ body {
 
 
 .wrapper {
+    background: no-repeat linear-gradient(#0000, #0000004d 20%, #0000007c 75%);
     width: 400px;
     border-radius: 20px;
     padding: 20px;
     text-align: center;
-    /* background-color: rgba(255, 255, 255, 0.8); */
-    box-shadow: 0 0 10px rgba(218, 204, 204, 0.1);    ;
-    border: 2px solid #e69595;
   
-
+    box-shadow: 0 0 10px rgba(218, 204, 204, 0.1);
+    border: 2px solid #e69595;
 }
+
 
 form {
     display: flex;

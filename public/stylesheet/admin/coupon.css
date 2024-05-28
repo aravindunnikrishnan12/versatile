@@ -10,9 +10,16 @@
 
 }
 
-
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color:#f8f6f6;;
+  
+}
 .navbar {
-   
+  
+  max-width: 1700px;
     background-color:#31473A;
     color: rgb(255, 255, 255);
     height: 75px;
@@ -112,32 +119,25 @@
     padding: 0;
     height: 100%;
     width: 100%;
-}
-.background-color {
-    margin-top: 0px; 
-    background-color:rgb(255, 255, 255); 
-    height: 100%;
-    width: 100%;
-    padding: 1px;
-}
-
- .container {
-    width: 90%;
-    max-width: 1400px;
-    margin: auto;
-    padding: 20px;
-    box-shadow: 0 0 5px rgba(1, 2, 3, 1.1);
-    background-color:#f8f6f6;
-    border-radius: 20px;
-    /* box-shadow: 0 0 10px rgba(163, 163, 155, 0.247); */
-    overflow-x: auto;
-    position: relative;
-    left: 8%;
-    overflow: hidden;
-    margin-top: 30px;
-    margin-left: -50px;
+}.background-color {
+  margin-top: 0px; 
+  background-color: rgb(255, 255, 255); 
+  height: 100%;
+  width: 100%;
+  padding: 1px;
 }
 
+.container {
+
+  width: 1400px;
+ 
+  padding: 20px;
+  box-shadow: 0 0 5px rgba(1, 2, 3, 1.1);
+  background-color: #f8f6f6;
+  border-radius: 20px;
+  overflow-x: auto;
+  overflow: hidden;
+}
 h1 {
     font-size: 30px;
     margin-bottom: 20px;
@@ -224,4 +224,51 @@ transition: all 0.3s ease;
   border-bottom: 2px solid #fff; 
   font-size: 16px;
   padding: 10.5px;
+}
+
+
+@media only screen and (max-width: 768px) {
+ 
+  .search-bar {
+      flex-grow: 1; /* Allow search bar to take remaining space */
+  }
+  .search-input {
+      width: 100%;
+      margin-right: 0;
+  }
+  .search-button {
+      margin-left: 5px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .menu {
+    margin-left: 0;
+  }
+  .menu li {
+    margin-left: 0;
+  }
+  .main-nav h1 {
+    margin-left: 15px;
+    font-size: 28px;
+  }
+}
+
+/* Tablets */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .main-nav h1 {
+    font-size: 30px;
+  }
+}
+
+/* Larger screens */
+@media only screen and (min-width: 1025px) {
+  .menu {
+    margin-left: 950px;
+  }
+  .menu li {
+    margin-left: -105px;
+  }
+  .main-nav h1 {
+    font-size: 35px;
+  }
 }

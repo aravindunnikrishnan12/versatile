@@ -63,7 +63,18 @@ exports.getcheckout = async (req, res) => {
 
 //success
 exports.getsuccess = (req, res) => {
-  res.render("success");
+
+  try{
+
+   
+      res.render("success");
+  
+   
+  }catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+  
 };
 
 //get orderdetails
@@ -338,6 +349,8 @@ exports.postCheckout = async (req, res) => {
     const couponCode = req.body.couponCode;
     const paymentMethod = req.body.paymentMethod;
 
+
+   
     if (!userId) {
       return res.status(400).json({ message: "User ID is required" });
     }
@@ -367,6 +380,22 @@ exports.postCheckout = async (req, res) => {
     const userData = await collection.findById(userId);
     if (!userData) {
       return res.status(400).json({ message: "User not found" });
+    }
+    
+    if(userData.referredCode){
+      const referredUser = await collection.findOne({ referralCode: userData.referredCode });
+      if (referredUser && !referredUser.firstOrderCompleted) {
+        // Add 100 rupees to the wallet of the referred user
+referredUser.wallet.balance += 100;
+referredUser.wallet.transactions.push({
+  amount: 100,
+  description: 'Your friend referred you with a code',
+  type: 'deposit',
+});
+referredUser.firstOrderCompleted = true;
+await referredUser.save();
+       
+ }
     }
 
     if (paymentMethod === "Wallet") {
@@ -713,6 +742,7 @@ exports.handleFailedPayment = async (req, res) => {
 // };
 
 exports.validateCoupon = async (req, res) => {
+  console.log("validateCoupon")
   try {
     const userId = req.session.user;
     const useraddress = await address.find({ userId });
@@ -720,7 +750,7 @@ exports.validateCoupon = async (req, res) => {
     const couponCode = req.body.couponCode.trim();
 
     if (!couponCode || couponCode.includes(" ")) {
-      return res.render("checkout", { error: "Invalid coupon code" });
+      return res.status(200).json ({ message: "Invalid coupon code" });
     }
 
     const currentDate = new Date();
@@ -728,9 +758,9 @@ exports.validateCoupon = async (req, res) => {
     const coupon = await Coupon.findOne({ couponCode });
 
     if (!coupon) {
-      return res.render("checkout", { error: "Coupon not found" });
+      return res.status(200).json ({ message: "Coupon not found" });
     } else if (currentDate > coupon.expiryDate) {
-      return res.render("checkout", { error: "Coupon is expired" });
+      return res.status(200).json({ message: "Coupon is expired" });
     }
 
     //the coupon has already

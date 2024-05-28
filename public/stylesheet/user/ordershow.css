@@ -188,9 +188,9 @@ header {
 .pagination {
   display: flex;
   justify-content:end;
-  top: 650px;
+  top: 590px;
   right: 80px; 
-  position: fixed;
+  position: absolute;
 
 }
 
@@ -218,6 +218,8 @@ header {
   cursor: pointer;
   margin-right: 8px;
 }
+
+
 
 /* Adjustments for the next button */
 .pagination-button.next {

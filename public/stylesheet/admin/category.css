@@ -113,7 +113,7 @@ body {
     margin: 0;
     padding: 0;
     background-color:#f8f6f6;;
-    overflow: hidden;
+ 
 }
 
 .container {
@@ -343,4 +343,159 @@ button.b2 {
 /* Hover effect for the delete button */
 button.b2:hover {
   background-color: #fffdfd; /* Darker red on hover */
+}
+
+@media only screen and (max-width: 768px) {
+ 
+  .search-bar {
+      flex-grow: 1; /* Allow search bar to take remaining space */
+  }
+  .search-input {
+      width: 100%;
+      margin-right: 0;
+  }
+  .search-button {
+      margin-left: 5px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .menu {
+    margin-left: 0;
+  }
+  .menu li {
+    margin-left: 0;
+  }
+  .main-nav h1 {
+    margin-left: 15px;
+    font-size: 28px;
+  }
+}
+
+/* Tablets */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .main-nav h1 {
+    font-size: 30px;
+  }
+}
+
+/* Larger screens */
+@media only screen and (min-width: 1025px) {
+  .menu {
+    margin-left: 950px;
+  }
+  .menu li {
+    margin-left: -105px;
+  }
+  .main-nav h1 {
+    font-size: 35px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .container {
+    width: 100%;
+  }
+  .header {
+    padding: 15px 0;
+  }
+  .header button {
+    padding: 6px 12px;
+    font-size: 13px;
+    right: 10px;
+  }
+  .categories {
+    padding: 10px;
+    height: auto;
+  }
+  .navbars {
+    padding: 8px;
+  }
+  .navbars a {
+    padding: 6px 12px;
+  }
+  .edit-btn {
+    padding: 3px 8px;
+    margin-left: 10px;
+  }
+  .category-list li {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .category-item span {
+    width: 25%;
+  }
+}
+
+/* iPad */
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+  .container {
+    width: 90%;
+  }
+  .header button {
+    padding: 8px 14px;
+    font-size: 14px;
+    right: 20px;
+  }
+  .navbars a.act {
+    margin-right: 70px;
+  }
+  .category-item .cat {
+    margin-left: 50px;
+  }
+  .edit-btn {
+    margin-left: 130px;
+  }
+  .category-item #b2 {
+    left: -5px;
+  }
+  .category-item #b1 {
+    left: 5px;
+  }
+}
+
+/* Google Pixel 7 */
+@media only screen and (device-width: 1080px) and (device-height: 2400px) {
+  /* Styles specific to Google Pixel 7 */
+  .container {
+    width: 85%;
+  }
+  .header button {
+    padding: 7px 13px;
+    font-size: 13px;
+    right: 15px;
+  }
+  .navbars a.act {
+    margin-right: 80px;
+  }
+  .category-item .cat {
+    margin-left: 60px;
+  }
+  .edit-btn {
+    margin-left: 160px;
+  }
+  .category-item #b2 {
+    left: -8px;
+  }
+  .category-item #b1 {
+    left: 8px;
+  }
+}
+/* Media query for iPhone XR */
+@media only screen and (max-width: 414px) {
+  .category-item {
+      margin-top: 5px; /* Adjust margin */
+      padding: 10px; /* Adjust padding */
+      border-radius: 10px; /* Smaller border radius */
+  }
+
+  .category-item span {
+      width: 25%; /* Reduce span width */
+      font-size: 14px; /* Decrease font size */
+  }
+
+  .edit-btn,
+  .category-item button {
+      padding: 3px 8px; /* Adjust button padding */
+      font-size: 12px; /* Decrease button font size */
+  }
 }

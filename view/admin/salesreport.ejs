@@ -13,7 +13,8 @@
    <!-- DataTable HEADER-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
-
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <style>
          body, html {
@@ -23,30 +24,28 @@
             width: 100%;
         }
         .background-color {
-            margin-top: 0px; 
-            background-color:rgb(255, 255, 255); 
-            height: 100%;
-            width: 100%;
-            padding: 1px;
-        }
-     
-         .container {
-            width: 90%;
-            max-width: 1400px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #b8b8b8;
-            background-color:#ffffffdc;
-            border-radius: 20px;
-            /* box-shadow: 9px 10px 44px 0px rgba(0,0,0,0.1); */
-            box-shadow: 0 0 5px rgba(1, 2, 3, 1.1);
-            overflow-x: auto;
-            position: relative;
-            left: 8%;
-            overflow: hidden;
-            margin-top: 30px;
-            margin-left: -50px;
-        }
+        margin-top: 0px; 
+        background-color:rgb(255, 255, 255); 
+        height: 100%;
+        width: 100%;
+        padding: 1px;
+    }
+    .container {
+        width: 90%;
+        max-width: 1400px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #b8b8b8;
+        background-color:#ffffffdc;
+        border-radius: 20px;
+        box-shadow: 0 0 5px rgba(1, 2, 3, 1.1);
+        overflow-x: auto;
+        position: relative;
+        left: 8%;
+        overflow: hidden;
+        margin-top: 30px;
+        margin-left: -50px;
+    }
 
         h1 {
             font-size: 30px;
@@ -203,6 +202,180 @@
 .custom-btn:hover {
     background-color: #000000; /* Hover background color */
 }
+
+    /* Media Queries */
+    @media (max-width: 1200px) {
+        .container {
+            width: 95%;
+            left: 2.5%;
+            margin-left: 0;
+        }
+        h1 {
+            font-size: 28px;
+        }
+        td, th {
+            font-size: 12px;
+        }
+        .search-bar {
+            margin-left: 10px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            width: 100%;
+            left: 0;
+            padding: 10px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        td, th {
+            font-size: 11px;
+        }
+        .price-filter {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .price-filter button {
+            margin-left: 0;
+            margin-top: 10px;
+        }
+        .search-bar {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 0;
+        }
+        .search-input, .search-button {
+            width: 100%;
+            margin-left: 0;
+            margin-top: 5px;
+        }
+        .sidebar {
+            width: 200px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            padding: 5px;
+        }
+        h1 {
+            font-size: 20px;
+        }
+        td, th {
+            font-size: 10px;
+        }
+        .price-filter button {
+            padding: 5px;
+        }
+        .search-input, .search-button {
+            padding: 6px;
+        }
+        .sidebar {
+            width: 180px;
+        }
+    }
+
+    /* Media Queries */
+    @media (max-width: 1200px) {
+        .container {
+            width: 95%;
+            left: 2.5%;
+            margin-left: 0;
+        }
+        h1 {
+            font-size: 28px;
+        }
+        td, th {
+            font-size: 12px;
+        }
+        .search-bar {
+            margin-left: 10px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            width: 100%;
+            left: 0;
+            padding: 10px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        td, th {
+            font-size: 11px;
+        }
+        .price-filter {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .price-filter button {
+            margin-left: 0;
+            margin-top: 10px;
+        }
+        .search-bar {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 0;
+        }
+        .search-input, .search-button {
+            width: 100%;
+            margin-left: 0;
+            margin-top: 5px;
+        }
+        .sidebar {
+            width: 200px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            padding: 5px;
+        }
+        h1 {
+            font-size: 20px;
+        }
+        td, th {
+            font-size: 10px;
+        }
+        .price-filter button {
+            padding: 5px;
+        }
+        .search-input, .search-button {
+            padding: 6px;
+        }
+        .sidebar {
+            width: 180px;
+        }
+    }
+    /* Responsive table */
+    @media (max-width: 768px) {
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+        thead tr {
+            display: none;
+        }
+        tr {
+            margin-bottom: 15px;
+        }
+        td {
+            text-align: right;
+            padding-left: 50%;
+            position: relative;
+        }
+        td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            width: 50%;
+            padding-left: 15px;
+            font-weight: bold;
+            text-align: left;
+        }
+    }
     </style>
 </head>
 <body>
@@ -221,62 +394,49 @@
                           <li><a href="/admin/products" data-tag="product"><i class="fas fa-clone"></i>Product Details</a></li>
                           <li><a href="/admin/order" data-tag="order"><i class="fas fa-calendar"></i>Order & Payment</a></li>
                           <li><a href="/admin/getsalesReport" data-tag="sales"><i class="fas fa-chart-bar"></i>Sales Report</a></li>
-                          <li><a href="#" data-tag="sales"><i class="fas fa-chart-bar"></i>offers</a></li>
-                         
                           <li><a href="/admin/couponmanageadmin" data-tag="coupon"><i class="fas fa-copy"></i>Coupon</a></li>
+                          <li><a href="/adminlogout">Logout</a></li>
                       </ul>
                   </div>
                 </div>
             <div>
                 <h1>Versatile</h1>
             </div>
-            <div class="search-bar">
-              <input type="text" placeholder="Search..." class="search-input">
-              <button type="button" class="search-button"><i class="fas fa-search"></i></button>
-          </div>
+        
       
           
-            <ul class="menu">
-             
-                <li><a href="/adminlogout">Logout</a></li>
-            </ul>
+     
         </nav>
       </div>
+
+
+
 <div class="background-color">
     <div class="container">
         <h1 class="salesreportHeading">Sales Report</h1>
         <div class="price-filter">
-            <!-- <div class="overall-stats">
-                <p>Overall Sales Count: <span id="sales-count"><%= salesCount %></span></p>
-                <p>Overall Order Amount: <span id="order-amount"><%= orderCount %></span></p>
-                <p>Overall Discount: <span id="overall-discount"><%= discountCount %></span></p>
-            </div> -->
+          
             <div class="date-filters">
                 <form id="dateFilterForm" action="/admin/getsalesReport" method="GET">
                     <label for="start-date">Start Date:</label>
-                    <input type="date" id="startDate" name="startDate">
+                    <input type="date" id="startDate" name="startDate" required>
                     <label for="end-date">End Date:</label>
-                    <input type="date" id="endDate" name="endDate">
+                    <input type="date" id="endDate" name="endDate" required>
                     <button id="apply-date-filter" type="submit">Filter</button>
                 </form>
-               
             </div>
-
-
             <div class="duration-filters">
                 <form id="filterForm" action="/admin/getsalesReport" method="GET">
                     <select id="filterOption" name="filterOption">
-                        <option value="daily">Daily</option>
-                        <option value="weekly">weekly</option>
-                        <option value="monthly">monthly</option>
+                        <option value="daily" <%= filterOption === 'daily' ? 'selected' : '' %>>Daily</option>
+                        <option value="weekly" <%= filterOption === 'weekly' ? 'selected' : '' %>>Weekly</option>
+                        <option value="monthly" <%= filterOption === 'monthly' ? 'selected' : '' %>>Monthly</option>
                     </select>
                     <button type="submit" id="apply-duration-filter">Filter</button>
                 </form>
-                
             </div>
             <a href="/download/excel" class="add-link" id="download-excel"><button>Download Excel</button></a>
-           <a href="/download/pdf" class="add-link" id="download-pdf"><button>PDF Download</button></a>
-        </div>
+            <a href="<%= `/download/pdf?startDate=${startDate}&endDate=${endDate}&filterOption=${filterOption}` %>" class="add-link" id="download-pdf"><button>PDF Download</button></a>        </div>
        
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
@@ -293,7 +453,7 @@
                 </tr>
             </thead>
             <tbody>
-                <% orders.forEach((order, index) => { %>
+                <% orders.reverse().forEach((order, index) => { %>
                     <tr class="order-row">
                         <td><%= index + 1 %></td>
                         <td><%= order.user ? order.user.name : 'User not found' %></td>
@@ -312,6 +472,51 @@
         </table>
     </div>
 </div>
+
+   <!-- SweetAlert2 JS -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+   <script>
+    document.getElementById('dateFilterForm').addEventListener('submit', function(event) {
+        const startDate = new Date(document.getElementById('startDate').value);
+        const endDate = new Date(document.getElementById('endDate').value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set to the beginning of today
+
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1); // Tomorrow's date
+
+        if (!startDate || !endDate) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Missing Dates',
+                text: 'Please select both start date and end date.'
+            });
+            event.preventDefault();
+            return;
+        }
+
+        if (startDate > endDate) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Date Range',
+                text: 'Start date cannot be later than end date.'
+            });
+            event.preventDefault();
+            return;
+        }
+
+        if (endDate > tomorrow) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Future Date Selected',
+                text: 'End date cannot be more than one day ahead from today.'
+            });
+            event.preventDefault();
+            return;
+        }
+    });
+</script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

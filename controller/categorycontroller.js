@@ -52,7 +52,7 @@ exports.postAddCategory = async (req, res) => {
     const dataCreated = await categoryCollection.create({
       categoryName: data.categoryName,
     });
-    res.redirect("/category");
+    res.redirect("/admin/category");
   }
 };
 
@@ -61,7 +61,6 @@ exports.postAddCategory = async (req, res) => {
 exports.postEditCategory = async (req, res) => {
   try {
     const categoryId = req.params.id;
-
     const category = await categoryCollection.findById(categoryId);
 
     if (!category) {
@@ -70,72 +69,48 @@ exports.postEditCategory = async (req, res) => {
 
     const newCategoryName = req.body.categoryName;
 
+    // Define a function to handle rendering with a message
+    const renderWithMessage = (message) => {
+      return res.render("editCategory", {
+        id: categoryId,
+        name: category.categoryName,
+        message,
+      });
+    };
+
+    // Validate the new category name
     if (
       !newCategoryName ||
       newCategoryName.trim() === "" ||
       newCategoryName.length > 10
     ) {
-      return res.render("editCategory", {
-        id: categoryId,
-        name: category.categoryName,
-        message: "Category name is required.",
-      });
+      return renderWithMessage("Category name is required and should be less than 10 characters.");
     }
 
     if (/^\d/.test(newCategoryName)) {
-      return res.render("editCategory", {
-        id: categoryId,
-        name: category.categoryName,
-        message: "Category name cannot start with a number.",
-      });
+      return renderWithMessage("Category name cannot start with a number.");
     }
 
     const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
-
     if (specialCharsRegex.test(newCategoryName)) {
-      return res.render("editCategory", {
-        id: categoryId,
-        name: category.categoryName,
-        message: "Category name cannot contain special characters.",
-      });
+      return renderWithMessage("Category name cannot contain special characters.");
     }
 
-    if (newCategoryName.charAt(0) !== newCategoryName.charAt(0).toUpperCase()) {
-      return res.render("editCategory", {
-        id: categoryId,
-        name: category.categoryName,
-        message: "First letter of the category must be uppercase.",
-      });
-    }
-
-    const existsCategory = await categoryCollection.findOne({
-      categoryName: newCategoryName,
-      _id: { $ne: category._id },
-    });
-    if (existsCategory) {
-      return res.render("editCategory", {
-        id: categoryId,
-        name: category.categoryName,
-        message: "Category Already Exists",
-      });
-    }
-
-    const caseInsensitiveCategory = await categoryCollection.findOne({
+    // Check if a category with the same name already exists (case-insensitive)
+    const existingCategory = await categoryCollection.findOne({
       categoryName: { $regex: new RegExp(`^${newCategoryName}$`, "i") },
       _id: { $ne: category._id },
     });
 
-    if (caseInsensitiveCategory) {
-      return res.render("editCategory", {
-        id: categoryId,
-        name: category.categoryName,
-        message: "Category with same name (different case) already exists.",
-      });
+    if (existingCategory) {
+      return renderWithMessage("Category with the same name already exists.");
     }
 
+    // Update the category name
     category.categoryName = newCategoryName;
-    const updatedCategory = await category.save();
-    res.redirect("/category");
+    await category.save();
+
+    res.redirect("/admin/category");
   } catch (error) {
     console.error("Error updating category:", error);
     res.status(500).send("Internal Server Error");
@@ -152,7 +127,7 @@ exports.deleteCategory = async (req, res) => {
     if (!result) {
       return res.status(404).send("category not found");
     }
-    res.redirect("/category");
+    res.redirect("/admin/category");
   } catch (error) {
     console.error("Error deleting category:", error);
     res.status(500).send("Internal Server Error");
@@ -171,7 +146,7 @@ exports.visiblepost = async (req, res) => {
     category.isvisible = !category.isvisible;
 
     await category.save();
-    res.redirect("/category");
+    res.redirect("/admin/category");
   } catch (err) {
     console.log(err);
     res.status(500).send("Internal Server Error");

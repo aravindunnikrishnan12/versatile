@@ -20,8 +20,8 @@ const { ObjectId } = mongoose.Types;
 exports.getprofile = async (req,res)=>{
    try{
     const userId=req.session.user;
-     const userDatas =await userData.findById({_id:userId}); 
-    
+     const userDatas =await userData.findById({_id:userId}).lean(); 
+    console.log("userDatas",userDatas)
      const addresses = await adressData.find({userId:userId});
      if(!userId){
         return res.status(404).json({ success: false, message: 'user not found' });
@@ -145,10 +145,12 @@ exports.getpassword=(req,res)=>{
 //post 
 
 exports.editprofile = async (req, res) => {
+  console.log("editprofile")
   try {
     const userId = req.params.userID;
-
+console.log("userId is geting profile",userId);
     const { newName } = req.body;
+    console.log("userId is geting profile",req.body);
 
     console.log("eee", newName);
     await userData.findByIdAndUpdate(userId, { name: newName });
@@ -652,3 +654,47 @@ exports.getcoupon = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 };
+
+
+
+
+const generateReferralCode = () => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const codeLength = 8;
+  let referralCode = '';
+
+  for (let i = 0; i < codeLength; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      referralCode += characters.charAt(randomIndex);
+  }
+
+  return referralCode;
+};
+
+exports.createReferral=async(req,res)=>{
+ 
+  try {
+     
+      const userId = req.session.user;
+    
+      const userDetails = await userData.findById({_id:userId});
+     
+      if (userDetails) {
+          // If the user doesn't have a referral code, generate one and update the user document
+          if (!userDetails.referralCode) {
+              const referralCode = generateReferralCode();
+              await userData.findByIdAndUpdate(userId, { referralCode }, { new: true });
+              return { status: 'success', message: 'Referral code added successfully', referralCode };
+          } else {
+              // If the user already has a referral code, return it
+              return { status: 'success', message: 'User already has a referral code', referralCode: userDetails.referralCode };
+          }
+      } else {
+          return { status: 'error', message: 'User not found with the provided ID' };
+      }
+  } catch (error) {
+      console.error('Error:', error);
+      return { status: 'error', message: 'Internal Server Error'};
+}
+
+}

@@ -9,6 +9,40 @@
 </head>
 <style>
 
+/* Media Queries */
+
+@media only screen and (max-width: 414px) {
+  /* Styles for iPhone XR */
+  .custom-link {
+    margin-right: 5%;
+  }
+
+  .modal {
+    margin-top: -370px;
+  }
+}
+
+@media only screen and (min-width: 415px) and (max-width: 768px) {
+  /* Styles for iPad */
+  .custom-link {
+    margin-right: 8%;
+  }
+
+  .modal {
+    margin-top: -300px;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  /* Styles for Mac Desktop */
+  .custom-link {
+    margin-right: 20%;
+  }
+
+  .modal {
+    margin-top: -470px;
+  }
+}
 
   main {
       text-align: center;
@@ -136,21 +170,29 @@
   height: 100%;
 
 }
+@media only screen and (max-width: 768px) {
+    .panel.product-details {
+      padding: 10px;
+    }
+
+    .custom-link {
+      font-size: 18px;
+    }
+
+    .admin-input {
+      padding: 6px;
+    }
+
+    .admin-button {
+      padding: 8px 12px;
+    }
+  }
 </style>
 <body>
      
     
-  <div class="navbar">
-    <nav class="main-nav">
-        <div>
-            <h1>Versatile</h1>
-        </div>
-        <ul class="menu">
-            <li><a href="/admin/Insite">Dashboard</a></li>
-            <li><a href="/adminlogout">Logout</a></li>
-        </ul>
-    </nav>
-</div>
+
+  
 
       <main>
         <div class="panel product-details">
@@ -199,7 +241,7 @@
     
       // Check if categoryName contains spaces, small letters, or numbers
       if (categoryName.trim() === '' ||  !/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/.test(categoryName.value)  || /\d/.test(categoryName)|| categoryName.length > 10) {
-        displayModal("Category Name should not contain spaces, small letters");
+        displayModal("Category Name should not contain spaces,maximum 10character");
         return false; // Prevent form submission
       }
   

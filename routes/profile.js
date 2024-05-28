@@ -38,7 +38,7 @@ createPayment,
 walletAddAmount,
 retryOrder,
 updateOrderStatus,
-
+createReferral,
 }=require("../controller/profilecontroller");
 
 router.post("/Address",postaddress);
@@ -49,10 +49,8 @@ router.post('/password/change',postPasswordChange);
 router.post("/cancelOrder",postcancelorder);
 router.post("/returnOrder",returnOrder)
 router.post("/generate-razorpay-order",createPayment)
-
 router.post('/verify-razorpay-payment',walletAddAmount)
-
-
+router.post('/createReferral',createReferral)
 router.post('/retryOrder',retryOrder)
 router.post('/updateOrderStatus',updateOrderStatus )
 

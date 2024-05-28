@@ -16,6 +16,7 @@
     integrity="sha512-your-integrity-hash-here" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     integrity="sha512-your-integrity-hash-here" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
 
   <!-- Google Fonts -->
   <link
@@ -33,6 +34,7 @@
       padding: 0;
       box-sizing: border-box;
     }
+    
 
     .navbar {
       background-color: rgb(255, 0, 0);
@@ -44,6 +46,7 @@
       /* Center vertically */
       justify-content: space-between;
       padding: 10px;
+      position: relative;
     }
 
     .main-nav {
@@ -90,6 +93,157 @@
     .menu a:hover {
       color: rgb(239, 239, 239);
     }
+
+
+/* Media Queries */
+
+/* Small Desktops */
+@media (max-width: 1200px) {
+  .main-nav h1 {
+    margin-left: 50px;
+    font-size: 28px;
+  }
+  
+  .menu li {
+    margin-left: 25px;
+  }
+}
+
+/* iPad Mini */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .main-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .main-nav h1 {
+    margin-left: 20px;
+    font-size: 24px;
+  }
+
+  .menu {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu li {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
+
+
+/* Media Queries */
+
+/* Small Desktops */
+@media (max-width: 1200px) {
+  .main-nav h1 {
+    margin-left: 50px;
+    font-size: 28px;
+  }
+  
+  .menu li {
+    margin-left: 25px;
+  }
+}
+
+/* iPad Mini */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .main-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .main-nav h1 {
+    margin-left: 20px;
+    font-size: 24px;
+  }
+
+  .menu {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding-left: 20px; /* Added padding to align items */
+  }
+
+  .menu li {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .menu a {
+    font-size: 16px;
+  }
+}
+
+/* iPhone XR */
+@media (max-width: 414px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 5px;
+  }
+
+  .main-nav h1 {
+    margin-left: 10px;
+    font-size: 20px;
+  }
+
+  .menu {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding-left: 10px; /* Added padding to align items */
+  }
+
+  .menu li {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .menu a {
+    font-size: 16px;
+  }
+}
+/* iPhone XR */
+@media (max-width: 414px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 5px;
+  }
+
+  .main-nav h1 {
+    margin-left: 10px;
+    font-size: 20px;
+  }
+
+  .menu {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .menu li {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .menu a {
+    font-size: 16px;
+  }
+}
+
   </style>
 
 
@@ -108,8 +262,7 @@
       <div>
         <ul class="menu">
 
-          <li><a href="/home">Home</a></li>
-
+          <li><a href="/books">Home</a></li>
           <li><a href="/books">Shop</a></li>
           <li><a href="/profile">Profile</a></li>
 
@@ -181,7 +334,7 @@
             <div class="contact-card">
               <div class="header">
                 <button type="button" class="add-address-btn font-weight-bold" data-toggle="modal"
-                  data-target="#addAddressModal" style="background-color: #6b3e4b;">ADD NEW ADDRESS</button>
+                  data-target="#addAddressModal" style="background-color: #a45b6da3;">ADD NEW ADDRESS PRESS HERE</button>
               </div>
 
               <div class="content">
@@ -283,7 +436,7 @@
           </p>
           <% } %>
             <div class="discount">
-              <form action="/validateCoupon" method="post">
+              <form action="/validateCoupon" method="post" onsubmit="return validateCoupon()">
                 <input type="text" id="couponCodeInput" name="couponCode" placeholder="Enter Coupon Code">
 
 
@@ -300,6 +453,8 @@
   
   
   
+
+
 
 
   <script>
@@ -323,7 +478,8 @@
         <div class="modal-header">
           <h5 class="modal-title" id="addAddressModalLabel">Add Address</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span style="color: rgb(255, 255, 255); text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); background-color: rgb(0, 0, 0);">close</span>
+
           </button>
         </div>
         <div class="modal-body">

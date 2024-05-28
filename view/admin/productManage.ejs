@@ -153,14 +153,78 @@
 right: 100px;
 }
 
+/* For tablets and larger devices */
+@media (min-width: 768px) {
+  .container {
+    padding: 30px;
+  }
+}
+
+/* For phones and smaller devices */
+@media (max-width: 576px) {
+  .container {
+    padding: 10px;
+    left: 0;
+    margin-left: 0;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .black-button {
+    padding: 6px 18px;
+    font-size: 10px;
+  }
+
+  .action-buttons {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .price-filter button {
+    padding: 8px;
+    margin-left: 5px;
+    font-size: 10px;
+  }
+
+  .dataTable_wrapper table.dataTable thead th {
+    padding: 8px;
+    font-size: 14px;
+  }
+}
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* Styles for smaller devices */
+@media (max-width: 576px) {
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+
+  /* Optional: Adjust table styles for smaller screens */
+  #example {
+    width: auto;
+    display: block;
+    white-space: nowrap;
+  }
+
+  #example th,
+  #example td {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+
 </style>
 
     <%- include('secondnvbar') %>
     
-      <ul class="menu">
-       
-          <li><a href="/adminLogin">Logout</a></li>
-      </ul>
+    
   </nav>
 </div>
 
@@ -186,6 +250,7 @@ right: 100px;
   </div>
       <h1 class="headline">product Management</h1>
       <h5>Selected Category: <%= selectedCategory %></h5>
+      <div class="table-responsive">
       <table id="example" class="table table-striped" style="width:100%">
 
           <thead>
@@ -254,6 +319,7 @@ right: 100px;
           </tbody>
          
       </table>
+    </div>
   </div>
 </div>
 

@@ -18,6 +18,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     default:''
   },
+  referralCode: {
+    type: String,
+  },
+  referredCode: {
+    type: String,
+  },
+  firstOrderCompleted: {
+    type: Boolean,
+    default: false
+  },
   wallet: {
     balance: { type: Number, default: 0 },
     transactions: [{

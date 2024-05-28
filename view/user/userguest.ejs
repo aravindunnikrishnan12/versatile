@@ -23,8 +23,8 @@
     <!-- swiper CSS -->
     <link rel="stylesheet" href="css/slick.css">
     <!-- style CSS -->
-    <link rel="stylesheet" href="/stylesheet/user/product.css">
-
+ 
+    <link rel="stylesheet" href="/stylesheet/user/userguest.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -127,6 +127,11 @@
         color: #fff;
         border-color: #007bff;
     }
+    .move-image {
+        /* Define your animation styles here */
+        transform: translateX(100px); /* Example: move image 100px to the right */
+        transition: transform 0.5s ease; /* Smooth transition over 0.5 seconds */
+    }
 </style>
 <body>
     <%- include('navbar') %>
@@ -152,10 +157,12 @@
                         conditioned for conformity
                         , exploring themes of technology, social control .
                     </p>
-                    <a href="#" class="primary-btn text-uppercase">scroll for more</a>
+                    <a href="#" class="primary-btn text-uppercase">see more </a>
                 </div>
+                
                 <div class="col-lg-5 banner-right">
-                    <img class="img-fluid mainimg" src="/img/book2.png" alt="">
+                    
+                    <img id="main-img" class="img-fluid mainimg img-hover-effect" src="/img/book2.png" alt="" onclick="toggleImageMovement()">   
                 </div>
             </div>
         </div>
@@ -163,6 +170,7 @@
     <!-- End banner Area -->
 
 
+    
     <!-- product_list start-->
 
     <section class="product_list section_padding">
@@ -175,7 +183,7 @@
       
             <!-- category filteriing -->
             <div class="filter-section">
-                <form action="/books" method="GET">
+                <form action="/" method="GET">
                     <select name="category" onchange="this.form.submit()">
                         <option value="All" <%= selectedCategory === 'All' ? 'selected' : '' %>>All Categories</option>
                         <% productCategories.forEach(category => { %>
@@ -186,20 +194,7 @@
                 </form>
             </div>
             
-            <div class="custom-dropdown">
-                <button class="custom-button" onclick="toggleDropdown()">filter</button>
-                <div class="custom-dropdown-content" id="dropdown-content">
-                    <a href="/sortproduct/popularity">Popularity</a>
-                    <a href="/sortproduct/priceLowToHigh">Price: Low to High</a>
-                    <a href="/sortproduct/priceHighToLow">Price: High to Low</a>
-                    <!-- <a href="/sortproduct/averageRatings">Average Ratings</a> -->
-                    <!-- <a href="/sortproduct/featured">Featured</a> -->
-                    <a href="/sortproduct/newArrivals">New Arrivals</a>
-                    <a href="/sortproduct/aAZ">aA - zZ</a>
-                    <a href="/sortproduct/zZA">zZ - aA</a>
-                </div>
-            </div>
-
+   <br>
 
             <div class="row">
                 <% products.forEach((product, index)=> { %>
@@ -209,6 +204,7 @@
                 <% } %>
                     <div class="col-lg-3 col-sm-6 productlisting">
                        
+                      
                         <div class="single_product_item">
                             <a href="/display/<%= product.id %>">
                             
@@ -217,9 +213,7 @@
                                     class="product-image">
                             </a>
                             <% if (product.StockCount === 0) { %>
-                                <div style=" padding: 10px 20px; background-color: #ff4c4c62; color: white; font-size: 18px; font-weight: bold; border-radius: 5px;  text-transform: uppercase;">
-                                    Out of Stock
-                                </div>
+                                <bold>Out of Stock</bold>
                             <% } %>
                             <div class="single_product_text">
                                 <strong><%= product.productName %></strong>
@@ -238,12 +232,12 @@
                                         </h3>
                                         <% } %>
 
-                                            <h3><a href="#" class="add-to-wishlist"
+                                            <!-- <h3><a href="#" class="add-to-wishlist"
                                                     data-product-id="<%= product.id %>"><i
                                                         class="fa-regular fa-heart"></i></a></h3>
                                                         
                                             <a href="#" class="add-to-cart" data-product-id="<%= product.id %>"><i
-                                                    class="fa-solid fa-cart-shopping"> &nbsp;&nbsp;</i></a>
+                                                    class="fa-solid fa-cart-shopping"> &nbsp;&nbsp;</i></a> -->
                             </div>
                         </div>
                     </div>
@@ -257,10 +251,10 @@
 <div class="pagination-section text-center">
     <ul class="pagination">
         <% if (page > 1) { %>
-            <li><a href="/books?page=<%= page - 1 %>">Previous</a></li>
+            <li><a href="/?page=<%= page - 1 %>">Previous</a></li>
         <% } %>
         <% if (page < totalPages) { %>
-            <li><a href="/books?page=<%= page + 1 %>">Next</a></li>
+            <li><a href="/?page=<%= page + 1 %>">Next</a></li>
         <% } %>
     </ul>
 </div>
@@ -272,9 +266,30 @@
 
     <!-- product_list part start-->
 
+<br>
 
 
-
+    <!-- about us -->
+    <section id = "about" class = "py-5">
+        <div class = "container">
+            <div class = "row gy-lg-5 align-items-center">
+                <div class = "col-lg-6 order-lg-1 text-center text-lg-start">
+                    <div class = "title pt-3 pb-5">
+                        <h2 class = "position-relative d-inline-block ms-4">About Us</h2>
+                    </div>
+                    <p class = "lead text-muted">Versatile books </p>
+                    <p>When I started curating books for this store, I struggled to find a selection that combined comprehensive content, affordability, and captivating design. 
+                        Often, I would find books with engaging topics, but something was missing: the depth, the readability, the aesthetic appeal. Or sometimes the books were beautifully designed but lacked substance.
+                        Being an avid reader and book lover has taught me a lot about what makes a book truly special. 
+                        I have very particular tastes and I want readers to feel what I feel when I pick up a great book — inspired and enlightened.</p>
+                </div>
+                <div class = "col-lg-6 order-lg-0">
+                    <img src = "/img/bookm8-removebg-preview.png" alt = "" class = "img-fluid">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end of about us -->
 
 
     <!--::footer_part start::-->
@@ -319,13 +334,14 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
-        function toggleDropdown() {
-            var dropdownContent = document.getElementById("dropdown-content");
-            dropdownContent.classList.toggle("show");
+        function toggleImageMovement() {
+            var image = document.getElementById("main-img");
+            image.classList.toggle("move-image"); // Add or remove the "move-image" class
         }
     </script>
+    
 
-    <script>// Get all elements with the class "add-to-cart"
+    <!-- <script>// Get all elements with the class "add-to-cart"
         const addToCartButtons = document.querySelectorAll('.add-to-cart');
 
         // Loop through each button and attach a click event listener
@@ -471,7 +487,7 @@
                 });
             }
         });
-    </script>
+    </script> -->
     <!-- jquery plugins here-->
     <script src="js/jquery-1.12.1.min.js"></script>
     <!-- popper js -->

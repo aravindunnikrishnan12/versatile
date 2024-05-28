@@ -9,17 +9,23 @@
 
 
 }
-
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color:#f8f6f6;;
+ 
+}
 
 .navbar {
-   
+  overflow: hidden;
     background-color:#31473A;
     color: rgb(255, 255, 255);
     height: 75px;
   }
   
   .main-nav {
-   
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -103,4 +109,6 @@
     color: rgb(239, 239, 239);
 
   }
+
+
 

@@ -50,6 +50,11 @@
             
         }
         
+        .error-messages{
+    color: red;
+    margin-top: 5px;
+    font-size: 0.9em;
+}
         .container p{
             font-size: 14px;
             line-height: 20px;
@@ -107,7 +112,31 @@
             width: 100%;
             outline: none;
         }
-        
+        /* Stylish Button */
+.stylish-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #8f8888;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.stylish-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+.stylish-button:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+}
         .form-container{
             position: absolute;
             top: 0;
@@ -279,10 +308,9 @@
          
                 <h3>Sign up</h3>
                 <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <!-- <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a> -->
+                    
                 </div>
-                <span>or use your email for registration</span><br>
+                <span> use your email for registration</span><br>
                 <% if (typeof errorMessage !== 'undefined') { %>
                     <p style="color: red;"><%= errorMessage %></p>
                 <% } %>
@@ -293,10 +321,21 @@
                 
                 <input type="email" placeholder="Email" name="email" id="email">
                 <span id="email_valid" style="color: #b92b27;"></span>
-
+<br>
 
                 <input type="password" placeholder="Password" name="password" id="password">
                 <span id="pass_error"class="pass_error" style="color: #b92b27;"></span>
+<br>
+                <label>
+                  
+                    <span class="sr-only">Referral Code (if any)</span>
+                    <div id="referralError" class="error-messages"></div>
+                    <input type="text" placeholder="Referral Code (if any)" name="referralCode" id="referralInput" class="form-input">
+      
+                  
+                </label>
+                <button type="button" class="stylish-button" onclick="checkReferralCode()" style="background-color:transparent; color: rgb(223, 218, 218);">Check Referral Code</button>
+
 
                 <button class="LoginButton btn-block" name="Submit" value="Login" type="Submit">
                  Sign up
@@ -315,11 +354,11 @@
              <form action="/signin" method="post" id="Form" onsubmit="return validate()">
                 <h1>sign in</h1>
                 <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <!-- <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a> -->
                     <!-- <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
                      -->
                 </div>
-                <span>or use your email password</span>
+                <span> use your email password</span>
                 <!-- <input type="email" placeholder="Email"> -->
                 <br>
                 <% if (typeof errorMessage !== 'undefined') { %>
@@ -369,7 +408,45 @@
         </div>
     </div>
 
+    <script>
 
+        function checkReferralCode() {
+            var referralCode = document.getElementById('referralInput').value;
+    
+            // Perform client-side validation
+            if (referralCode.trim() === '') {
+                document.getElementById('referralError').innerText = 'Referral code is required.';
+                return;
+            }
+    
+            // Call the server-side logic to check the referral code
+            // Replace the URL with the actual endpoint on your server
+            fetch('/checkReferralCode', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    referralCode: referralCode,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.isValid) {
+                    document.getElementById('referralError').innerText = 'Referral code is valid.';
+                    document.getElementById('referralError').style.color = 'green';
+                } else {
+                    document.getElementById('referralError').innerText = 'Invalid referral code.';
+    
+    
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+    
     <script>
         const username = document.getElementById('username');
         const email = document.getElementById('email');
