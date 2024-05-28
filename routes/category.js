@@ -44,7 +44,7 @@ const {
 router.post("/visiblep/:id",visiblepost);
 
 router.post("/category", postAddCategory);
-router.post("/editCategory/:id",postEditCategory);
+router.post("/posteditcategory/:id",postEditCategory);
 router.post("/deleteCategory/:categoryId", deleteCategory);
 
 
