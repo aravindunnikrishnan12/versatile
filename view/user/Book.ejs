@@ -127,6 +127,36 @@
         color: #fff;
         border-color: #007bff;
     }
+
+    @media (max-width: 1200px) {
+            .banner-right {
+        
+                max-width: 400px; /* Adjust max width for smaller screens */
+            }
+        }
+
+        @media (max-width: 992px) {
+            .banner-right {
+                max-width: 300px; /* Adjust max width for even smaller screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .banner-right {
+                max-width: 200px; /* Adjust max width for small devices */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .banner-right {
+                max-width: 150px; /* Adjust max width for extra small devices */
+            }
+
+        @media (max-width: 480px) {
+            .banner-right img {
+                display: none; /* Hide the image on small screens */
+            }
+        }
 </style>
 <body>
     <%- include('navbar') %>

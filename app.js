@@ -41,16 +41,16 @@ app.use("/",profile)
 app.use("/",cart)
 app.use("/",order)
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).render(path.join(__dirname, "view/errors/error"));
-});
+// // Error handling middleware
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).render(path.join(__dirname, "view/errors/error"));
+// });
 
-// 404 error handling
-app.use((req, res) => {
-  res.status(404).render(path.join(__dirname, "view/errors/error"));
-});
+// // 404 error handling
+// app.use((req, res) => {
+//   res.status(404).render(path.join(__dirname, "view/errors/error"));
+// });
 
 const port = process.env.PORT || 4200;
 app.listen(port, () => {

@@ -264,7 +264,7 @@
   
   @media (max-width: 1199.98px) {
     .banner-area .fullscreen {
-      height: 800px !important;
+      height: 1000px !important;
     }
   }
   
@@ -326,7 +326,7 @@
   }
   
   @media (max-width: 800px) {
-    .banner-right img {
+    .bannerright img {
       width: 55%;
       margin-right: auto !important;
       margin-left: auto !important;
