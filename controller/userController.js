@@ -32,6 +32,10 @@ exports.getSignup = (req, res) => {
 
 exports.getLogin = (req, res) => {
   try {
+    console.log(req.session.user)
+    if(req.session.user){
+      return res.redirect("/books")
+    }
     res.render("userlogin");
   } catch (error) {
     console.error("Error rendering login page", error);
@@ -146,7 +150,7 @@ exports.postSignup = async (req, res) => {
     
   }
 
-  
+    
   // 
   exports.resendotp = async (req, res) => {
     try {
@@ -356,6 +360,13 @@ exports.checkReferralCode=async(req,res)=>{
 // gust 
 exports.userGuest = async(req, res) => {
   try {
+
+let user;
+    if(req.session.user){
+      user=true;
+    }else{
+      user=false;
+    }
     const { category: categoryFilter, page: currentPage = 1 } = req.query;
     const pageSize = 12;
     let productQuery;
@@ -372,7 +383,7 @@ exports.userGuest = async(req, res) => {
     const products = await productQuery.skip((currentPage - 1) * pageSize).limit(pageSize).exec();
     const selectedCategory = categoryFilter || 'All';
    
-    res.render("userguest", { products, productCategories, selectedCategory, page: currentPage, totalPages});
+    res.render("userguest", { products, productCategories, selectedCategory, page: currentPage, totalPages,user});
   } catch (error) {
     
     res.status(500).json({ error: 'Internal server error occurred' });

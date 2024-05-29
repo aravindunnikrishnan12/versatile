@@ -351,7 +351,7 @@ function updateQuantity(itemId, change) {
 
   // Ensure the new quantity is at least 1
   if (newQuantity >= 1) {
-    quantityInput.value = newQuantity;
+   
 
     // Use fetch to update the server with the new quantity
     fetch(`/updateQuantity/${itemId}`, {
@@ -369,6 +369,7 @@ function updateQuantity(itemId, change) {
           errorMessage.style.visibility = 'hidden'; // Hide the error message
           const totalPriceElement = document.getElementById('totalPrice');
           totalPriceElement.textContent = `Total Price: ₹${data.totalPrice}`;
+          quantityInput.value = newQuantity;
 
         } else {
           plusButton.disabled = true; // Disable the button

@@ -348,12 +348,27 @@ exports.updateOrderStatus = async (req, res) => {
 
     const { orderId, productId, status } = req.body;
 
+
+
     const updatedOrder = await Order.findOneAndUpdate(
       { _id: orderId, "products.productId": productId },
       { $set: { "products.$.status": status } },
       { new: true }
     );
 
+
+    const order=await Order.findById(orderId);
+  
+      for(let product of order.products){
+
+        let newProduct=await Product.findById(productId)
+        newProduct.StockCount-=product.quantity;
+        newProduct.save();
+      }
+    
+
+    
+    console.log("updatedOrder retry",updatedOrder)
     if (!updatedOrder) {
       return res
         .status(404)

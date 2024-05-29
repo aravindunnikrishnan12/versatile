@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const admincontroller =require("../middleware/adminsession")
+const noache=require("nocache")
 
 const {
   getAdminLogin,
@@ -16,7 +17,7 @@ const {
 } = require("../controller/admincontroller");
 
 //get routers
-router.get("/admin/adminlogin",getAdminLogin);
+router.get("/admin/adminlogin",noache(),getAdminLogin);
 router.get("/admin/Insite",admincontroller,getInsite);
 router.get("/admin/UserManage",admincontroller,userManage);
 router.get("/admin/couponmanageadmin",admincontroller,getcoupon);

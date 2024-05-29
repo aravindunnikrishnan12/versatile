@@ -54,7 +54,14 @@
                                     Account
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                    <a class="dropdown-item" href="/logout">Log out</a>
+
+                                    <% if(user){%>
+                                   
+                                        <a class="dropdown-item" href="/logout">Log out</a>
+                                    <%}else{%>
+                                        <a class="dropdown-item" href="/login">Log in</a>
+                                    <%}%>
+                                  
 
                                 </div>
                             </li>

@@ -625,35 +625,35 @@
 
 
 
-  <script>
-    let orderId;
-    let price = document.getElementById('price')
-    let orderprice = price.getAttribute('data-totalprice')
+<script>
+  let orderId;
+  let price = document.getElementById('price')
+  let orderprice = price.getAttribute('data-totalprice')
 
-    $(document).ready(function () {
+  $(document).ready(function () {
       console.log('here ajax');
       var settings = {
-        "url": "/create/orderId",
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "data": JSON.stringify({
-          "amount": orderprice
-        }),
+          "url": "/create/orderId",
+          "method": "POST",
+          "timeout": 0,
+          "headers": {
+              "Content-Type": "application/json"
+          },
+          "data": JSON.stringify({
+              "amount": orderprice
+          }),
       };
 
       $.ajax(settings).done(function (response) {
-        orderId = response.orderId;
-        orderprice = response.orderprice;
-        ordresignature = response.signature
-        console.log(orderId);
-        $("#razorpayBtn").show();
+          orderId = response.orderId;
+          orderprice = response.orderprice;
+          ordresignature = response.signature
+          console.log(orderId);
+          $("#razorpayBtn").show();
       });
-    });
+  });
 
-    document.querySelector('form').addEventListener('submit', function (e) {
+  document.querySelector('form').addEventListener('submit', function (e) {
       e.preventDefault();
 
       var selectedPaymentMethod = document.getElementById('paymentMethod').value;
@@ -662,101 +662,83 @@
       let orderprice = price.getAttribute('data-totalprice')
 
       if (selectedPaymentMethod === 'Razorpay') {
-        var options = {
-          "key": "rzp_test_RqFlEd2XkYKxVa",
-          "amount": orderprice * 100,
-          "currency": "INR",
-          "name": "versatile",
-          "description": "Payment",
-          "image": "",
-          "order_id": orderId,
-          "handler": function (response) {
-            if (response.error) {
+          var options = {
+              "key": "rzp_test_RqFlEd2XkYKxVa",
+              "amount": orderprice * 100,
+              "currency": "INR",
+              "name": "versatile",
+              "description": "Payment",
+              "image": "",
+              "order_id": orderId,
+              "handler": function (response) {
+                  if (response.error) {
+                      handlePaymentFailure(response.error, orderId, address, selectedPaymentMethod, orderprice);
+                  } else {
+                      var form = document.createElement('form');
+                      form.method = 'post';
+                      form.action = '/order2ForRazorPay';
 
+                      var paymentIdInput = document.createElement('input');
+                      paymentIdInput.type = 'hidden';
+                      paymentIdInput.name = 'razorpay_payment_id';
+                      paymentIdInput.value = response.razorpay_payment_id;
+                      form.appendChild(paymentIdInput);
+
+                      var addressInput = document.createElement('input');
+                      addressInput.type = 'hidden';
+                      addressInput.name = 'addressId';
+                      addressInput.value = address;
+                      form.appendChild(addressInput);
+
+                      var discountPriceInput = document.createElement('input');
+                      discountPriceInput.type = 'hidden';
+                      discountPriceInput.name = 'discountprice';
+                      discountPriceInput.value = orderprice;
+                      form.appendChild(discountPriceInput);
+
+                      document.body.appendChild(form);
+                      form.submit();
+                  }
+              }
+          };
+          var rzp1 = new Razorpay(options);
+          rzp1.on('payment.failed', function (response) {
               handlePaymentFailure(response.error, orderId, address, selectedPaymentMethod, orderprice);
-            } else {
-              var form = document.createElement('form');
-              form.method = 'post';
-              form.action = '/order2ForRazorPay';
-
-              var paymentIdInput = document.createElement('input');
-              paymentIdInput.type = 'hidden';
-              paymentIdInput.name = 'razorpay_payment_id';
-              paymentIdInput.value = response.razorpay_payment_id;
-              form.appendChild(paymentIdInput);
-
-              var addressInput = document.createElement('input');
-              addressInput.type = 'hidden';
-              addressInput.name = 'addressId';
-              addressInput.value = address;
-              form.appendChild(addressInput);
-
-              var discountPriceInput = document.createElement('input');
-              discountPriceInput.type = 'hidden';
-              discountPriceInput.name = 'discountprice';
-              discountPriceInput.value = orderprice;
-              form.appendChild(discountPriceInput);
-
-              document.body.appendChild(form);
-              form.submit();
-            }
-          }
-        };
-        var rzp1 = new Razorpay(options);
-        rzp1.on('payment.failed', function (response) {
-          alert(response.error.code);
-          alert(response.error.description);
-          // Handle payment failure here
-          handlePaymentFailure(response.error, orderId, address, selectedPaymentMethod, orderprice);
-        });
-        rzp1.open();
+          });
+          rzp1.open();
       } else {
-        this.submit();
+          this.submit();
       }
-    });
+  });
 
-    function handlePaymentFailure(error, orderId, address, selectedPaymentMethod, orderprice) {
+  function handlePaymentFailure(error, orderId, address, selectedPaymentMethod, orderprice) {
       var settings = {
-        "url": "/handleFailedPayment",
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "data": JSON.stringify({
-          "error": error,
-          "orderId": orderId,
-          "addressId": address, // Include addressId
-          "paymentMethod": selectedPaymentMethod, // Include paymentMethod
-          "discountprice": orderprice // Include discountprice
-        }),
+          "url": "/handleFailedPayment",
+          "method": "POST",
+          "timeout": 0,
+          "headers": {
+              "Content-Type": "application/json"
+          },
+          "data": JSON.stringify({
+              "error": error,
+              "orderId": orderId,
+              "addressId": address, // Include addressId
+              "paymentMethod": selectedPaymentMethod, // Include paymentMethod
+              "discountprice": orderprice // Include discountprice
+          }),
       };
 
       $.ajax(settings).done(function (response) {
-        console.log(response);
-        Swal.fire({
-          icon: 'error',
-          title: 'Payment Failed',
-          text: 'You can retry the order.',
-          confirmButtonText: 'Retry',
-          allowOutsideClick: false, // Prevent closing by clicking outside
-          allowEscapeKey: false, // Prevent closing by pressing escape key
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = '/getorders';
-          }
-        });
+          console.log(response);
+          window.location.href = '/getorders';
       }).fail(function (xhr, status, error) {
-        console.error(error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Failed to Handle Payment',
-          text: 'Please try again later.',
-        });
+          console.error(error);
+          window.location.href = '/getorders';
       });
+  }
+</script>
 
-    }
-  </script>
+
   <!-- CDN for SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

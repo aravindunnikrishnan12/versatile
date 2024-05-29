@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController=require("../middleware/sessioncntrl")
+const noache=require("nocache")
 
 
 
@@ -19,8 +20,8 @@ const {
 } = require("../controller/userController");
 
 
-router.get("/login",getLogin);
-router.get("/signup", getSignup);
+router.get("/login",noache(),getLogin);
+router.get("/signup",noache(), getSignup);
 router.get('/getOtp',getOtp);
 router.get('/logout',userController,Getlogout);
 router.get('/resendotp',resendotp);

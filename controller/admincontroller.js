@@ -332,85 +332,10 @@ exports.downloadPDF = async (req, res) => {
     const writeStream = fs.createWriteStream("sales_report.pdf");
     doc.pipe(writeStream);
 
-    doc.fontSize(16).text("Sales Report", { align: "center" });
+    // Summary section
+    doc.fontSize(16).text("Sales Report Summary", { align: "center" });
     doc.moveDown();
     doc.fontSize(12).text(`Date: ${new Date().toLocaleString()}`);
-    doc.moveDown();
-
-    const tableHeaders = [
-      "Order Number",
-      "Username",
-      "Address",
-      "Total Quantity",
-      "Total Price",
-      "Discount Price",
-      "Payment Method",
-    ];
-
-    const columnWidth = 72;
-    const columnSpacing = 0;
-    const cellHeight = 45;
-    let startX = 30;
-    let startY = doc.y + 10;
-
-    const printTableHeaders = (y) => {
-      startX = 30;
-      doc.font("Helvetica-Bold").fontSize(10);
-      tableHeaders.forEach((header) => {
-        doc.rect(startX, y, columnWidth, cellHeight).stroke();
-        doc.text(header, startX + 5, y + 5, {
-          width: columnWidth - 10,
-          align: "center",
-        });
-        startX += columnWidth + columnSpacing;
-      });
-    };
-
-    const printTableRow = (rowData, y) => {
-      startX = 30;
-      doc.font("Helvetica").fontSize(9);
-      rowData.forEach((data) => {
-        doc.rect(startX, y, columnWidth, cellHeight).stroke();
-        doc.text(data.toString(), startX + 5, y + 5, {
-          width: columnWidth - 10,
-          align: "left",
-        });
-        startX += columnWidth + columnSpacing;
-      });
-    };
-
-    printTableHeaders(startY);
-    startY += cellHeight;
-
-    orders.forEach((order) => {
-      if (startY + cellHeight > doc.page.height - doc.page.margins.bottom) {
-        doc.addPage();
-        startY = doc.page.margins.top;
-        printTableHeaders(startY);
-        startY += cellHeight;
-      }
-
-      const rowData = [
-        order.orderNumber || "",
-        order.user ? order.user.name : "User not found",
-        order.address
-          ? `${order.address.address1 || ""}, ${order.address.country || ""}, ${
-              order.address.pincode || ""
-            }`
-          : "",
-        order.totalQuantity || "",
-        order.totalPrice || "",
-        order.discountPrice ? order.discountPrice : "No Offer",
-        order.paymentMethod || "",
-      ];
-
-      printTableRow(rowData, startY);
-      startY += cellHeight;
-    });
-
-    // Summary section
-    doc.addPage();
-    doc.fontSize(14).text("Summary", { align: "center" });
     doc.moveDown();
 
     const summaryHeaders = ["Metric", "Value"];
@@ -426,7 +351,7 @@ exports.downloadPDF = async (req, res) => {
     const summaryRowHeight = 30;
 
     const printSummaryHeaders = (y) => {
-      startX = 30;
+      let startX = 30;
       doc.font("Helvetica-Bold").fontSize(10);
       summaryHeaders.forEach((header) => {
         doc.rect(startX, y, summaryColumnWidth, summaryRowHeight).stroke();
@@ -434,12 +359,12 @@ exports.downloadPDF = async (req, res) => {
           width: summaryColumnWidth - 10,
           align: "center",
         });
-        startX += summaryColumnWidth + columnSpacing;
+        startX += summaryColumnWidth;
       });
     };
 
     const printSummaryRow = (rowData, y) => {
-      startX = 30;
+      let startX = 30;
       doc.font("Helvetica").fontSize(10);
       rowData.forEach((data) => {
         doc.rect(startX, y, summaryColumnWidth, summaryRowHeight).stroke();
@@ -447,11 +372,11 @@ exports.downloadPDF = async (req, res) => {
           width: summaryColumnWidth - 10,
           align: "center",
         });
-        startX += summaryColumnWidth + columnSpacing;
+        startX += summaryColumnWidth;
       });
     };
 
-    startY = doc.y + 10;
+    let startY = doc.y + 10;
     printSummaryHeaders(startY);
     startY += summaryRowHeight;
 
@@ -483,9 +408,6 @@ exports.downloadPDF = async (req, res) => {
     });
     const topProductsSold = [...productSoldMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
 
-    doc.moveDown();
-    
-    doc.moveDown();
     doc.moveDown();
     doc.fontSize(14).text("Top Products Sold", { align: "center", indent: -50 });
     doc.moveDown();
@@ -546,6 +468,82 @@ exports.downloadPDF = async (req, res) => {
       doc.text(`${method}: ${count} orders`, 35, y + 5);
     });
 
+    // Move to detailed sales report section
+    doc.addPage();
+    doc.fontSize(16).text("Detailed Sales Report", { align: "center" });
+    doc.moveDown();
+
+    const tableHeaders = [
+      "Order Number",
+      "Username",
+      "Address",
+      "Total Quantity",
+      "Total Price",
+      "Discount Price",
+      "Payment Method",
+    ];
+
+    const columnWidth = 72;
+    const columnSpacing = 0;
+    const cellHeight = 45;
+    let startX = 30;
+    startY = doc.y + 10;
+
+    const printTableHeaders = (y) => {
+      startX = 30;
+      doc.font("Helvetica-Bold").fontSize(10);
+      tableHeaders.forEach((header) => {
+        doc.rect(startX, y, columnWidth, cellHeight).stroke();
+        doc.text(header, startX + 5, y + 5, {
+          width: columnWidth - 10,
+          align: "center",
+        });
+        startX += columnWidth + columnSpacing;
+      });
+    };
+
+    const printTableRow = (rowData, y) => {
+      startX = 30;
+      doc.font("Helvetica").fontSize(9);
+      rowData.forEach((data) => {
+        doc.rect(startX, y, columnWidth, cellHeight).stroke();
+        doc.text(data.toString(), startX + 5, y + 5, {
+          width: columnWidth - 10,
+          align: "left",
+        });
+        startX += columnWidth + columnSpacing;
+      });
+    };
+
+    printTableHeaders(startY);
+    startY += cellHeight;
+
+    orders.forEach((order) => {
+      if (startY + cellHeight > doc.page.height - doc.page.margins.bottom) {
+        doc.addPage();
+        startY = doc.page.margins.top;
+        printTableHeaders(startY);
+        startY += cellHeight;
+      }
+
+      const rowData = [
+        order.orderNumber || "",
+        order.user ? order.user.name : "User not found",
+        order.address
+          ? `${order.address.address1 || ""}, ${order.address.country || ""}, ${
+              order.address.pincode || ""
+            }`
+          : "",
+        order.totalQuantity || "",
+        order.totalPrice || "",
+        order.discountPrice ? order.discountPrice : "No Offer",
+        order.paymentMethod || "",
+      ];
+
+      printTableRow(rowData, startY);
+      startY += cellHeight;
+    });
+
     doc.end();
 
     writeStream.on("finish", () => {
@@ -569,6 +567,7 @@ exports.downloadPDF = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 };
+
 
 exports.downloadExcel = async (req, res) => {
   try {
@@ -757,7 +756,7 @@ function calculateOrderCounts(orders, interval) {
 
 function groupOrdersByInterval(orders, interval) {
   return orders.reduce((acc, order) => {
-    const key = moment(order.orderDate).startOf(interval).format("YYYY-MM-DD");
+    const key = moment(order.orderDate).startOf(interval).format(interval === "year" ? "YYYY" : interval === "month" ? "YYYY-MM" : "YYYY-MM-DD");
     acc[key] = acc[key] || [];
     acc[key].push(order);
     return acc;

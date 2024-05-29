@@ -24,7 +24,7 @@ exports.getcheckout = async (req, res) => {
     const cart = await Cart.find({ userid: userId });
 
     if (!cart || cart.length === 0) {
-      return res.status(404).json({ message: "Cart not found or empty" });
+      return res.redirect('/books')
     }
 
     const useraddress = await address.find({ userId });
@@ -237,6 +237,8 @@ exports.updateQuantity = async (req, res) => {
   try {
     const itemId = req.params.itemId;
     const { quantity: newQuantity } = req.body;
+
+    console.log("quantity",req.body)
     const userId = req.session.user;
 
     const cartItem = await Cart.findOne({ _id: itemId, userid: userId });

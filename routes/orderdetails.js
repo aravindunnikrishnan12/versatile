@@ -2,7 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const usersession = require("../middleware/sessioncntrl");
-
+const noache=require("nocache")
+const userController=require("../middleware/sessioncntrl")
 
 
 
@@ -18,10 +19,10 @@ const {
 }=require("../controller/cartmanage");
 
     
-     router.get("/cartdisplay",cartdisplay);
-     router.get("/checkout",getcheckout);
-     router.get("/ordersucces",getsuccess)
-     router.get("/orderdetails",getorderdetails)
+     router.get("/cartdisplay",noache(),userController,cartdisplay);
+     router.get("/checkout",noache(),userController,getcheckout);
+     router.get("/ordersucces",userController,getsuccess)
+     router.get("/orderdetails",userController,getorderdetails)
     //post
 
     const {
