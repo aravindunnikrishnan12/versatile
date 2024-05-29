@@ -70,7 +70,7 @@ exports.postEditCategory = async (req, res) => {
     const newCategoryName = req.body.categoryName;
 
     if (!newCategoryName || newCategoryName.trim() === '' || newCategoryName.length > 10) {
-      return res.render('editCategory', {
+      return res.render('editcategory', {
         id: categoryId,
         name: category.categoryName,
         message: 'Category name is required and should be less than 10 characters.',
@@ -78,7 +78,7 @@ exports.postEditCategory = async (req, res) => {
     }
 
     if (/^\d/.test(newCategoryName)) {
-      return res.render('editCategory', {
+      return res.render('editcategory', {
         id: categoryId,
         name: category.categoryName,
         message: 'Category name cannot start with a number.',
@@ -87,7 +87,7 @@ exports.postEditCategory = async (req, res) => {
 
     const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
     if (specialCharsRegex.test(newCategoryName)) {
-      return res.render('editCategory', {
+      return res.render('editcategory', {
         id: categoryId,
         name: category.categoryName,
         message: 'Category name cannot contain special characters.',
@@ -100,7 +100,7 @@ exports.postEditCategory = async (req, res) => {
     });
 
     if (existingCategory) {
-      return res.render('editCategory', {
+      return res.render('editcategory', {
         id: categoryId,
         name: category.categoryName,
         message: 'Category with the same name already exists.',
